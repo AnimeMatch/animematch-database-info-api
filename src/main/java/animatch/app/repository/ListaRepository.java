@@ -23,4 +23,6 @@ public interface ListaRepository extends JpaRepository<Lista,Integer> {
             from Lista l
             """)
     List<ListaInfoDTO> findAllInfo();
+
+    Lista findListaById(int id);
 }

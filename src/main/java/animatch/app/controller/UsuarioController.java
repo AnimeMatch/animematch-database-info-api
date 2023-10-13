@@ -18,6 +18,11 @@ public class UsuarioController {
 
     @Autowired
     ListaController listController;
+
+    public Usuario getUserById(int userId){
+        return repository.findUserById(userId);
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<Usuario>> getAll()
     {

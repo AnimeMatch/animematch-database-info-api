@@ -1,7 +1,6 @@
 package animatch.app.controller;
 
 import animatch.app.domain.Lista;
-import animatch.app.domain.Usuario;
 import animatch.app.dto.ListaInfoDTO;
 import animatch.app.repository.ListaRepository;
 import animatch.app.repository.UsuarioRepository;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/lists")
@@ -30,6 +28,10 @@ public class ListaController {
         listRepository.save(newList);
         return newList;
     }
+    public Lista getListsById(Integer listaId){
+        return listRepository.findListaById(listaId);
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<ListaInfoDTO>> getLists(){
         List<ListaInfoDTO> listas = listRepository.findAllInfo();
@@ -39,8 +41,8 @@ public class ListaController {
         return ResponseEntity.status(200).body(listas);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<ListaInfoDTO>> getListsById(@PathVariable Integer userId){
+    @GetMapping("/usuario/{userId}")
+    public ResponseEntity<List<ListaInfoDTO>> getListsByUserId(@PathVariable Integer userId){
         List<ListaInfoDTO> listasUser = listRepository.findAllListaInfoByUserId(usuarioRepository.findUserById(userId));
         if (listasUser.isEmpty()){
             return ResponseEntity.status(404).build();
