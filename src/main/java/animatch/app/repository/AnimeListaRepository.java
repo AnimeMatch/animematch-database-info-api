@@ -17,9 +17,11 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
 
     @Query("""
         select new animatch.app.dto.AnimeInfoDTO(a.animeId)
-        from AnimeLista a where a.listaId in :listaId
-        """)
-    List<AnimeInfoDTO> findAllAnimeInfoByListaId(Lista listaId);
+        from AnimeLista a
+        join a.listaId Lista
+        where Lista.id = :listaId
+    """)
+    List<AnimeInfoDTO> findAllAnimeInfoByListaId(int listaId);
     @Query("""
         select new animatch.app.dto.AnimeInfoDTO(a.animeId)
         from AnimeLista a

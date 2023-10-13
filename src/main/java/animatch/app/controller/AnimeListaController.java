@@ -2,6 +2,7 @@ package animatch.app.controller;
 
 import animatch.app.domain.Anime;
 import animatch.app.domain.AnimeLista;
+import animatch.app.domain.Lista;
 import animatch.app.dto.AnimeInfoDTO;
 import animatch.app.repository.AnimeListaRepository;
 import animatch.app.repository.AnimeRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,15 +25,23 @@ public class AnimeListaController {
     ListaRepository listaRepository;
 
     @GetMapping("/")
-    public ResponseEntity<List<AnimeInfoDTO>> getAnimes(){
+    public ResponseEntity<List<Anime>> getAnimes(){
         List<AnimeInfoDTO> animes = animeListaRepository.findAllInfo();
-        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
+        List<Anime> list = new ArrayList<>();
+        for (int i = 0; i < animes.size(); i++) {
+            list.add(animes.get(i).getAnime());
+        }
+        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(list);
     }
 
     @GetMapping("/{listaId}")
-    public ResponseEntity<List<AnimeInfoDTO>> getAnimeListaRepository(@PathVariable int listaId) {
-        List<AnimeInfoDTO> animes = animeListaRepository.findAllAnimeInfoByListaId(listaRepository.findListaById(listaId));
-        return animes.isEmpty() ? ResponseEntity.status(404).build() : ResponseEntity.status(200).body(animes);
+    public ResponseEntity<List<Anime>> getAnimeListaRepository(@PathVariable int listaId) {
+        List<AnimeInfoDTO> animes = animeListaRepository.findAllAnimeInfoByListaId(listaId);
+        List<Anime> list = new ArrayList<>();
+        for (int i = 0; i < animes.size(); i++) {
+            list.add(animes.get(i).getAnime());
+        }
+        return animes.isEmpty() ? ResponseEntity.status(404).build() : ResponseEntity.status(200).body(list);
     }
 
     @PostMapping("/")
