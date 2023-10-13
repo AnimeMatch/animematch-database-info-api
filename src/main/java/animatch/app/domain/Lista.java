@@ -18,8 +18,6 @@ public class Lista {
     @NotNull
     @ManyToOne
     private Usuario userId;
-    @NotBlank
-    @NotNull
     private String name;
 
     public Lista() {

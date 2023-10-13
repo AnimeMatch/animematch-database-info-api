@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Validated
 @Entity
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

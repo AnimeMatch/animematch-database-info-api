@@ -15,14 +15,14 @@ public class Anime {
     private int idApi;
     private double notaMedia;
 
-    public Anime() {
-    }
-
-    public Anime(int id, int idApi, double notaMedia) {
-        this.id = id;
-        this.idApi = idApi;
-        this.notaMedia = notaMedia;
-    }
+//    public Anime() {
+//    }
+//
+//    public Anime(int id, int idApi, double notaMedia) {
+//        this.id = id;
+//        this.idApi = idApi;
+//        this.notaMedia = notaMedia;
+//    }
 
     public int getId() {
         return id;
