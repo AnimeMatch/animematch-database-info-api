@@ -41,5 +41,4 @@ public class Lista {
     public String getName() {
         return name;
     }
-
 }
