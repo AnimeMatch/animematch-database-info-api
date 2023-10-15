@@ -1,6 +1,6 @@
 package animatch.app.repository;
 
-import animatch.app.domain.Usuario;
+import animatch.app.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {

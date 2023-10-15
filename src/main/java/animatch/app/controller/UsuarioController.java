@@ -1,6 +1,6 @@
 package animatch.app.controller;
 
-import animatch.app.domain.Usuario;
+import animatch.app.model.Usuario;
 import animatch.app.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

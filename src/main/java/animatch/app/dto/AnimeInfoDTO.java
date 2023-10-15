@@ -1,6 +1,6 @@
 package animatch.app.dto;
 
-import animatch.app.domain.Anime;
+import animatch.app.model.Anime;
 
 public class AnimeInfoDTO {
     private Anime anime;

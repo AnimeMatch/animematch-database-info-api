@@ -1,8 +1,6 @@
 package animatch.app.repository;
 
-import animatch.app.domain.Anime;
-import animatch.app.domain.AnimeLista;
-import animatch.app.domain.Lista;
+import animatch.app.model.AnimeLista;
 import animatch.app.dto.AnimeInfoDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
