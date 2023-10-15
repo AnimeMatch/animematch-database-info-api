@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
     public boolean existsByEmail(String email);
 //
-//    public boolean existsByPassword(String password);
+    public boolean existsByPassword(String password);
 
     @Query("""
             select u

@@ -1,6 +1,6 @@
 package animatch.app.dto;
 
-import animatch.app.domain.Usuario;
+import animatch.app.model.Usuario;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
