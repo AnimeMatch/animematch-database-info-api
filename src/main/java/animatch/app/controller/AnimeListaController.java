@@ -1,12 +1,10 @@
 package animatch.app.controller;
 
-import animatch.app.domain.Anime;
-import animatch.app.domain.AnimeLista;
-import animatch.app.domain.Lista;
+import animatch.app.model.Anime;
+import animatch.app.model.AnimeLista;
 import animatch.app.dto.AnimeInfoDTO;
 import animatch.app.dto.AnimeListaInfoDTO;
 import animatch.app.repository.AnimeListaRepository;
-import animatch.app.repository.AnimeRepository;
 import animatch.app.repository.ListaRepository;
 import animatch.app.repository.UsuarioRepository;
 import animatch.app.utils.ListaObj;
@@ -14,7 +12,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;

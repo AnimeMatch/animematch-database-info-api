@@ -3,7 +3,6 @@ package animatch.app.repository;
 import animatch.app.domain.Anime;
 import animatch.app.domain.AnimeLista;
 import animatch.app.domain.Lista;
-import animatch.app.domain.Usuario;
 import animatch.app.dto.AnimeInfoDTO;
 import animatch.app.dto.AnimeListaInfoDTO;
 import jakarta.transaction.Transactional;

@@ -1,13 +1,10 @@
-package animatch.app.domain;
+package animatch.app.model;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.Optional;
 
 @Entity
 public class Lista {
