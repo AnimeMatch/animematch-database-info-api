@@ -1,7 +1,8 @@
 package animatch.app.controller;
 
-import animatch.app.model.Anime;
-import animatch.app.model.AnimeLista;
+import animatch.app.domain.Anime;
+import animatch.app.domain.AnimeLista;
+import animatch.app.domain.Usuario;
 import animatch.app.dto.AnimeInfoDTO;
 import animatch.app.dto.AnimeListaInfoDTO;
 import animatch.app.repository.AnimeListaRepository;
@@ -15,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController

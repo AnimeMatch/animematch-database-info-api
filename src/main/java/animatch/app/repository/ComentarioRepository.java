@@ -1,6 +1,6 @@
 package animatch.app.repository;
 
-import animatch.app.model.Comentario;
+import animatch.app.domain.Comentario;
 import animatch.app.dto.ComentarioCompletoDTO;
 import animatch.app.dto.ComentarioSimplesDTO;
 import org.springframework.data.jpa.repository.JpaRepository;

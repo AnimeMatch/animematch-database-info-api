@@ -1,4 +1,4 @@
-package animatch.app.model;
+package animatch.app.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
