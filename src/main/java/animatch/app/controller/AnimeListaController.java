@@ -31,9 +31,9 @@ public class AnimeListaController {
         }
     }
 
-    @PostMapping("/{listaId}")
-    public ResponseEntity AdicionarAnimeLista(@RequestBody @Valid AnimeLista animeLista, @PathVariable int listaId) {
-
-    }
+//    @PostMapping("/{listaId}")
+//    public ResponseEntity AdicionarAnimeLista(@RequestBody @Valid AnimeLista animeLista, @PathVariable int listaId) {
+//
+//    }
 
 }
