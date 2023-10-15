@@ -1,6 +1,7 @@
 package animatch.app.controller;
 
 import animatch.app.domain.Usuario;
+import animatch.app.dto.UsuarioDTO;
 import animatch.app.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> getAll()
     {
         List<Usuario> users = repository.findAll();
-//        System.out.println(users);
         return users.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(users);
     }
 
@@ -43,11 +43,31 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> login(@RequestBody @Valid Usuario u )
-    {
-        if (repository.existsByEmail(u.getEmail()) && repository.existsByPassword(u.getPassword())){
-            return ResponseEntity.status(200).body(u);
+    public ResponseEntity<Usuario> login(@RequestBody UsuarioDTO u){
+        Usuario user = repository.findUserByEmailPasword(u.getEmail(), u.getPassword());
+        if (user != null){
+            return ResponseEntity.status(200).body(user);
         }
         return ResponseEntity.status(403).build();
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario user){
+        if (repository.existsById(user.getId())) {
+            repository.save(user);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(400).build();
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity deleteUsuario(@PathVariable int userId){
+        if (repository.existsById(userId)){
+            Usuario user = this.getUserById(userId);
+            user.setStatus(false);
+            repository.save(user);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(400).build();
     }
 }

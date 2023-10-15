@@ -14,15 +14,16 @@ public class Anime {
     @NotNull
     private int idApi;
     private double notaMedia;
+    private String imagem;
 
-//    public Anime() {
-//    }
-//
-//    public Anime(int id, int idApi, double notaMedia) {
-//        this.id = id;
-//        this.idApi = idApi;
-//        this.notaMedia = notaMedia;
-//    }
+    public Anime() {
+    }
+
+    public Anime(int id, int idApi, double notaMedia) {
+        this.id = id;
+        this.idApi = idApi;
+        this.notaMedia = notaMedia;
+    }
 
     public int getId() {
         return id;
@@ -34,5 +35,9 @@ public class Anime {
 
     public double getNotaMedia() {
         return notaMedia;
+    }
+
+    public String getImagem() {
+        return imagem;
     }
 }

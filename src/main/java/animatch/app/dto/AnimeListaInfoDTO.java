@@ -5,12 +5,12 @@ import animatch.app.domain.Lista;
 
 public class AnimeListaInfoDTO {
     private Anime animeId;
-    private Lista listaId;
+    private ListaInfoDTO listaId;
 
     public AnimeListaInfoDTO() {
     }
 
-    public AnimeListaInfoDTO(Anime animeId, Lista listaId) {
+    public AnimeListaInfoDTO(Anime animeId, ListaInfoDTO listaId) {
         this.animeId = animeId;
         this.listaId = listaId;
     }
@@ -19,7 +19,7 @@ public class AnimeListaInfoDTO {
         return animeId;
     }
 
-    public Lista getListaId() {
+    public ListaInfoDTO getListaId() {
         return listaId;
     }
 }

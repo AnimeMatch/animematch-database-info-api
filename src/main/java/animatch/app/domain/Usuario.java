@@ -14,15 +14,19 @@ public class Usuario {
     private int id;
     private String name;
     @Email
-    //    @Pattern(
-//            regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$"
-//    )
+    @Pattern(
+        regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$"
+    )
     private String email;
     private String password;
     private String profileImage;
     private String coverImage;
     @Past
     private LocalDate nascimento;
+    private boolean status = true;
+
+    public Usuario() {
+    }
 
     public int getId() {
         return id;
@@ -50,5 +54,13 @@ public class Usuario {
 
     public LocalDate getNascimento() {
         return nascimento;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

@@ -27,5 +27,14 @@ public class AnimeController {
         animeRepository.save(anime);
         return ResponseEntity.status(200).build();
     }
+
+    @DeleteMapping("/{animeId}")
+    public ResponseEntity deleteAnime(@PathVariable int animeId){
+        if (animeRepository.existsById(animeId)) {
+            animeRepository.deleteById(animeId);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(400).build();
+    }
 }
 

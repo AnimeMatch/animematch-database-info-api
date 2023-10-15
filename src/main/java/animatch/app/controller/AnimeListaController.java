@@ -33,9 +33,9 @@ public class AnimeListaController {
     UsuarioRepository usuarioRepository;
 
     @GetMapping("/")
-    public ResponseEntity<Object> getAnimes(){
+    public ResponseEntity<Anime[]> getAnimes(){
         List<AnimeInfoDTO> animes = animeListaRepository.findAllInfo();
-        ListaObj lista = new ListaObj(animes.size());
+        ListaObj<Anime> lista = new ListaObj<Anime>(animes.size());
         for (int i = 0; i < animes.size(); i++) {
             lista.adiciona(animes.get(i).getAnime());
         }
@@ -56,9 +56,9 @@ public class AnimeListaController {
     }
 
     @GetMapping("/{listaId}")
-    public ResponseEntity<Object> getAnimeLista(@PathVariable int listaId) {
+    public ResponseEntity<Anime[]> getAnimeLista(@PathVariable int listaId) {
         List<AnimeInfoDTO> animes = animeListaRepository.findAllAnimeInfoByListaId(listaId);
-        ListaObj lista = new ListaObj(animes.size());
+        ListaObj<Anime> lista = new ListaObj(animes.size());
         for (int i = 0; i < animes.size(); i++) {
             lista.adiciona(animes.get(i).getAnime());
         }
@@ -66,10 +66,10 @@ public class AnimeListaController {
     }
 
     @GetMapping("/{listaId}/{paginacao}")
-    public ResponseEntity<Object> getAnimeListaPaginacao(@PathVariable int listaId, @PathVariable int paginacao) {
+    public ResponseEntity<Anime[]> getAnimeListaPaginacao(@PathVariable int listaId, @PathVariable int paginacao) {
         Pageable pageable = PageRequest.of(0, paginacao);
         List<AnimeInfoDTO> animes = animeListaRepository.findAllAnimePaginadoInfoByListaId(listaId, pageable);
-        ListaObj lista = new ListaObj(animes.size());
+        ListaObj<Anime> lista = new ListaObj(animes.size());
         for (int i = 0; i < animes.size(); i++) {
             lista.adiciona(animes.get(i).getAnime());
         }
@@ -80,5 +80,17 @@ public class AnimeListaController {
     public ResponseEntity AdicionarAnimeLista(@RequestBody @Valid AnimeLista animeLista) {
         animeListaRepository.save(animeLista);
         return ResponseEntity.status(201).build();
+    }
+
+//    @PutMapping("/")
+//    public ResponseEntity<>
+
+    @DeleteMapping("/{animeListaId}")
+    public ResponseEntity deleteAnimeLista(@PathVariable int animeListaId){
+        if (animeListaRepository.existsById(animeListaId)) {
+            animeListaRepository.deleteById(animeListaId);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(400).build();
     }
 }

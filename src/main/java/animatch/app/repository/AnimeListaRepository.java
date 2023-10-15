@@ -6,7 +6,9 @@ import animatch.app.domain.Lista;
 import animatch.app.domain.Usuario;
 import animatch.app.dto.AnimeInfoDTO;
 import animatch.app.dto.AnimeListaInfoDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.domain.Pageable;
@@ -63,4 +65,9 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
         where Lista.id = :listaId
     """)
     List<AnimeInfoDTO> findAllAnimePaginadoInfoByListaId(int listaId, Pageable pageable);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM AnimeLista a WHERE a.listaId = :listaId")
+    void deleteAllByListaId(int listaId);
 }
