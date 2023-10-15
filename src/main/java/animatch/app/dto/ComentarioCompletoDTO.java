@@ -1,7 +1,7 @@
 package animatch.app.dto;
 
-import animatch.app.domain.Comentario;
-import animatch.app.domain.Topico;
+import animatch.app.model.Comentario;
+import animatch.app.model.Topico;
 
 public class ComentarioCompletoDTO {
     private int id;

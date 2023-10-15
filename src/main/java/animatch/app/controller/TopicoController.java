@@ -1,6 +1,6 @@
 package animatch.app.controller;
 
-import animatch.app.domain.Topico;
+import animatch.app.model.Topico;
 import animatch.app.repository.TopicoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

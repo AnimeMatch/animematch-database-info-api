@@ -1,8 +1,7 @@
 package animatch.app.controller;
 
-import animatch.app.domain.Anime;
-import animatch.app.domain.AnimeLista;
-import animatch.app.domain.Usuario;
+import animatch.app.model.Anime;
+import animatch.app.model.AnimeLista;
 import animatch.app.dto.AnimeInfoDTO;
 import animatch.app.dto.AnimeListaInfoDTO;
 import animatch.app.repository.AnimeListaRepository;

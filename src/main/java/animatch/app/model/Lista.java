@@ -1,4 +1,4 @@
-package animatch.app.domain;
+package animatch.app.model;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.*;

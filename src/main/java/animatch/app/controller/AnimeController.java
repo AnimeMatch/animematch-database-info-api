@@ -1,6 +1,6 @@
 package animatch.app.controller;
 
-import animatch.app.domain.Anime;
+import animatch.app.model.Anime;
 import animatch.app.repository.AnimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
