@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import animatch.app.domain.Lista;
 import org.springframework.data.jpa.repository.Query;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface ListaRepository extends JpaRepository<Lista,Integer> {
@@ -14,7 +15,7 @@ public interface ListaRepository extends JpaRepository<Lista,Integer> {
 
     @Query("""
             select new animatch.app.dto.ListaInfoDTO(l.id, l.name)
-            from Lista l
+            from Lista l where l.userId in :userId
             """)
     List<ListaInfoDTO> findAllListaInfoByUserId(Usuario userId);
 

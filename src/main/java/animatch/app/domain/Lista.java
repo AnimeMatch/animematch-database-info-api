@@ -18,8 +18,6 @@ public class Lista {
     @NotNull
     @ManyToOne
     private Usuario userId;
-    @NotBlank
-    @NotNull
     private String name;
 
     public Lista() {
@@ -43,5 +41,4 @@ public class Lista {
     public String getName() {
         return name;
     }
-
 }

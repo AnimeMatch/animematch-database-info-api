@@ -14,6 +14,15 @@ public class AnimeLista {
     @ManyToOne
     private Lista listaId;
 
+    public AnimeLista() {
+    }
+
+    public AnimeLista(int animeListaId, Anime animeId, Lista listaId) {
+        AnimeListaId = animeListaId;
+        this.animeId = animeId;
+        this.listaId = listaId;
+    }
+
     public int getAnimeListaId() {
         return AnimeListaId;
     }

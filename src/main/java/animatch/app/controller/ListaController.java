@@ -2,6 +2,7 @@ package animatch.app.controller;
 
 import animatch.app.domain.Lista;
 import animatch.app.dto.ListaInfoDTO;
+import animatch.app.repository.AnimeListaRepository;
 import animatch.app.repository.ListaRepository;
 import animatch.app.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -18,9 +19,10 @@ public class ListaController {
 
     @Autowired
     ListaRepository listRepository;
-
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    AnimeListaRepository animeListaRepository;
 
     public Lista addList(int aniUserId, String name){
         Lista newList = new Lista(name);
@@ -62,5 +64,15 @@ public class ListaController {
     public  ResponseEntity newList(@RequestBody @Valid Lista listReceived){
         var response = addList(listReceived.getUserId().getId(),listReceived.getName());
         return ResponseEntity.status(200).build();
+    }
+
+    @DeleteMapping("/{listaId}")
+    public ResponseEntity deleteList(@PathVariable int listaId){
+        if (listRepository.existsById(listaId)){
+            animeListaRepository.deleteAllByListaId(listaId);
+            listRepository.deleteById(listaId);
+            return ResponseEntity.status(200).build();
+        }
+        return ResponseEntity.status(400).build();
     }
 }

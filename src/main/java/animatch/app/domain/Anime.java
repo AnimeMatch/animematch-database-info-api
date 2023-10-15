@@ -14,6 +14,7 @@ public class Anime {
     @NotNull
     private int idApi;
     private double notaMedia;
+    private String imagem;
 
     public Anime() {
     }
@@ -34,5 +35,9 @@ public class Anime {
 
     public double getNotaMedia() {
         return notaMedia;
+    }
+
+    public String getImagem() {
+        return imagem;
     }
 }
