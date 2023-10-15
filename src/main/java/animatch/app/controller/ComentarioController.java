@@ -1,7 +1,7 @@
 package animatch.app.controller;
 
-import animatch.app.model.Comentario;
-import animatch.app.model.Topico;
+import animatch.app.domain.Comentario;
+import animatch.app.domain.Topico;
 import animatch.app.dto.ComentarioSimplesDTO;
 import animatch.app.repository.ComentarioRepository;
 import animatch.app.repository.TopicoRepository;
