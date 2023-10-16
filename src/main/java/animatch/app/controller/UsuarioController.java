@@ -1,6 +1,7 @@
 package animatch.app.controller;
 
-import animatch.app.model.Usuario;
+import animatch.app.dto.UsuarioDTO;
+import animatch.app.dto.UserTesteDTO;
 import animatch.app.model.Usuario;
 import animatch.app.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -43,11 +44,22 @@ public class UsuarioController {
         return ResponseEntity.status(201).body(u);
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<UserTesteDTO> login(@RequestBody @Valid UsuarioDTO u){
+//        Usuario user = repository.findUserByEmailPasword(u.getEmail(), u.getPassword());
+//        if (user != null){
+//            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzQGdtYWlsLmNvbSIsInNlbmhhIjoicGFzc3dvcmQifQ.BRG2BLSKPdBpAHjkCvxQVALZlNcjOmGdbj9m-gd5kH8";
+//            UserTesteDTO usuario = new UserTesteDTO(token, user.getName());
+//            return ResponseEntity.status(200).header("custom-header", "Access-Control-Allow-Origin").body(usuario);
+//        }
+//        return ResponseEntity.status(403).build();
+//    }
+
     @PostMapping("/login")
-    public ResponseEntity<Usuario> login(@RequestBody @Valid Usuario u )
-    {
-        if (repository.existsByEmail(u.getEmail()) && repository.existsByPassword(u.getPassword())){
-            return ResponseEntity.status(200).body(u);
+    public ResponseEntity<Usuario> login(@RequestBody UsuarioDTO u){
+        Usuario user = repository.findUserByEmailPasword(u.getEmail(), u.getPassword());
+        if (user != null){
+            return ResponseEntity.status(200).body(user);
         }
         return ResponseEntity.status(403).build();
     }

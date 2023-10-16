@@ -12,7 +12,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
     @Query("""
             select u
             from Usuario u
-            where u.email = :email and u.password = :password and u.status = true
+            where u.email = ?1 and u.password = ?2 and u.status = true
             """)
     Usuario findUserByEmailPasword(String email, String password);
 
