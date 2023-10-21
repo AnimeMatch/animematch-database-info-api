@@ -27,8 +27,6 @@ public class Usuario {
     private LocalDate nascimento;
     private boolean status = true;
     private String genero;
-    @Autowired
-    UsuarioRepository usuarioRepository;
 
     public Usuario() {
     }
@@ -75,8 +73,5 @@ public class Usuario {
 
     public void setGenero(String genero) {
         this.genero = genero;
-    }
-    public Integer getQtdLista(){
-        return usuarioRepository.countListaByUsuarioId(this.getId());
     }
 }

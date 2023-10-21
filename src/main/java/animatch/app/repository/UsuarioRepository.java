@@ -17,11 +17,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
     Usuario findUserByEmailPasword(String email, String password);
 
     Usuario findUserById(int id);
-
     @Query("""
-            select count()
+            select count(l.id)
             from Lista l
             where l.userId = ?1
             """)
-    Integer countListaByUsuarioId(int usuarioId);
+    Integer countByUsuarioId(int usuarioId);
 }

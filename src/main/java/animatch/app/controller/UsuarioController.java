@@ -4,6 +4,8 @@ import animatch.app.dto.UsuarioDTO;
 import animatch.app.dto.UserTesteDTO;
 import animatch.app.model.Usuario;
 import animatch.app.repository.UsuarioRepository;
+import animatch.app.utils.GerenciadorDeArquivo;
+import animatch.app.utils.ListaObj;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +27,28 @@ public class UsuarioController {
         return repository.findUserById(userId);
     }
 
+    public List<Usuario> getAllUsers(){
+        List<Usuario> users = repository.findAll();
+        return users;
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<Usuario>> getAll()
     {
         List<Usuario> users = repository.findAll();
-//        System.out.println(users);
         return users.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(users);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity enviarCsv(@RequestParam int usuarioId){
+        List<Usuario> users = this.getAllUsers();
+        ListaObj<Usuario> listaObj= new ListaObj<>(users.size());
+
+        for (int i = 0; i < users.size(); i++) {
+            listaObj.adiciona(users.get(i));
+        }
+        GerenciadorDeArquivo.gravaArquivoCsv(listaObj, "arquivoDeUsuarios");
+        return ResponseEntity.status(200).build();
     }
 
     @PostMapping("/")

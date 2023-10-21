@@ -37,7 +37,7 @@ public class GerenciadorDeArquivo {
 
                 //Recupere um elemento da lista e formate aqui:
                 Usuario usuario = lista.getElemento(i);
-                saida.format("%d;%s;%s;%s;%s;%s;%s;%b;%d\n",
+                saida.format("%d;%s;%s;%s;%s;%s;%s;%b\n",
                         usuario.getId(),
                         usuario.getName(),
                         usuario.getEmail(),
@@ -45,8 +45,7 @@ public class GerenciadorDeArquivo {
                         usuario.getNascimento(),
                         usuario.getProfileImage(),
                         usuario.getCoverImage(),
-                        usuario.isStatus(),
-                        usuario.getQtdLista());
+                        usuario.isStatus());
             }
         } catch (FormatterClosedException erro) {
             System.out.println("Erro ao gravar o arquivo");
@@ -84,7 +83,7 @@ public class GerenciadorDeArquivo {
         // Bloco try-catch para ler o arquivo
         try {
             // Print Cabeçalho:
-            System.out.printf("%-5S %-40S %-40S %-12S %-25S %23S %23S %10S %S30\n",
+            System.out.printf("%-5S %-40S %-40S %-12S %-25S %23S %23S %10S\n",
                     "id",
                     "nome",
                     "email",
@@ -92,8 +91,7 @@ public class GerenciadorDeArquivo {
                     "data de nascimento",
                     "imagem de perfil",
                     "imagem de capa",
-                    "status",
-                    "quantidade de listas");
+                    "status");
 
             while (entrada.hasNext()) {
                 //Print Corpo:
@@ -105,9 +103,9 @@ public class GerenciadorDeArquivo {
                 String imgCapa = entrada.next();
                 LocalDate dataNasc = LocalDate.parse(entrada.next());// irei arrumar aqui ainda
                 boolean status = entrada.nextBoolean();
-                int qtdListas = entrada.nextInt();
 
-                System.out.printf("%05d %-40s %-40s -12s %-25s %23s %23s %10s %030d\n",
+
+                System.out.printf("%05d %-40s %-40s -12s %-25s %23s %23s %10s\n",
                         id,
                         nome,
                         email,
@@ -115,8 +113,7 @@ public class GerenciadorDeArquivo {
                         dataNasc,
                         imgPerfil,
                         imgCapa,
-                        status ? "Ativo" : "Não ativo",
-                        qtdListas);
+                        status ? "Ativo" : "Não ativo");
             }
         } catch (NoSuchElementException erro) {
             System.out.println("Arquivo com problemas");
