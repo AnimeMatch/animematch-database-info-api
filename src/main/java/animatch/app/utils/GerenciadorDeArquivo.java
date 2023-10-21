@@ -1,6 +1,8 @@
 package animatch.app.utils;
 
 import animatch.app.model.Usuario;
+import animatch.app.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -35,14 +37,16 @@ public class GerenciadorDeArquivo {
 
                 //Recupere um elemento da lista e formate aqui:
                 Usuario usuario = lista.getElemento(i);
-                saida.format("%d;%s;%s;%s;%s;%s;%b\n",
+                saida.format("%d;%s;%s;%s;%s;%s;%s;%b;%d\n",
                         usuario.getId(),
                         usuario.getName(),
                         usuario.getEmail(),
+                        usuario.getGenero(),
                         usuario.getNascimento(),
                         usuario.getProfileImage(),
                         usuario.getCoverImage(),
-                        usuario.isStatus());
+                        usuario.isStatus(),
+                        usuario.getQtdLista());
             }
         } catch (FormatterClosedException erro) {
             System.out.println("Erro ao gravar o arquivo");
@@ -80,34 +84,39 @@ public class GerenciadorDeArquivo {
         // Bloco try-catch para ler o arquivo
         try {
             // Print Cabeçalho:
-            System.out.printf("%-6S %-30S %-26S %-25S %23S %23S %10S\n",
+            System.out.printf("%-5S %-40S %-40S %-12S %-25S %23S %23S %10S %S30\n",
                     "id",
                     "nome",
                     "email",
+                    "gênero",
                     "data de nascimento",
                     "imagem de perfil",
                     "imagem de capa",
-                    "status");
+                    "status",
+                    "quantidade de listas");
 
             while (entrada.hasNext()) {
                 //Print Corpo:
                 int id = entrada.nextInt();
                 String nome = entrada.next();
                 String email = entrada.next();
+                String genero = entrada.next();
                 String imgPerfil = entrada.next();
                 String imgCapa = entrada.next();
                 LocalDate dataNasc = LocalDate.parse(entrada.next());// irei arrumar aqui ainda
                 boolean status = entrada.nextBoolean();
+                int qtdListas = entrada.nextInt();
 
-                System.out.printf("%06d %-30s %-26s %-25s %23s %23s %10s\n",
+                System.out.printf("%05d %-40s %-40s -12s %-25s %23s %23s %10s %030d\n",
                         id,
                         nome,
                         email,
+                        genero,
                         dataNasc,
                         imgPerfil,
                         imgCapa,
-                        status ? "Ativo" : "Não ativo");
-
+                        status ? "Ativo" : "Não ativo",
+                        qtdListas);
             }
         } catch (NoSuchElementException erro) {
             System.out.println("Arquivo com problemas");

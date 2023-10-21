@@ -17,4 +17,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
     Usuario findUserByEmailPasword(String email, String password);
 
     Usuario findUserById(int id);
+
+    @Query("""
+            select count()
+            from Lista l
+            where l.userId = ?1
+            """)
+    Integer countListaByUsuarioId(int usuarioId);
 }

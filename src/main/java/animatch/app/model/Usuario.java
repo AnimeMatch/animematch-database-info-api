@@ -1,7 +1,9 @@
 package animatch.app.model;
 
+import animatch.app.repository.UsuarioRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
@@ -24,6 +26,9 @@ public class Usuario {
     @Past
     private LocalDate nascimento;
     private boolean status = true;
+    private String genero;
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     public Usuario() {
     }
@@ -62,5 +67,16 @@ public class Usuario {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+    public Integer getQtdLista(){
+        return usuarioRepository.countListaByUsuarioId(this.getId());
     }
 }
