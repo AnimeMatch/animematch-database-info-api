@@ -1,9 +1,5 @@
 package animatch.app.dto;
 
-import animatch.app.model.Usuario;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
-
 public class ListaComQtdDTO {
     private int id;
     private String name;
