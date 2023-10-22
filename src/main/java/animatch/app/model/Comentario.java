@@ -2,6 +2,7 @@ package animatch.app.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Comentario {
@@ -9,6 +10,7 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank
+    @Size(min = 5,max = 250)
     private String texto;
     @ManyToOne
     private Topico topico;
