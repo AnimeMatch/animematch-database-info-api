@@ -1,8 +1,10 @@
 package animatch.app.domain.usuario;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
@@ -32,6 +34,7 @@ public class Usuario {
     @Past
     private LocalDate nascimento;
     private boolean status = true;
+    private String genero;
 
     public Usuario() {
     }
@@ -98,5 +101,14 @@ public class Usuario {
 
     public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
+    }
+
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 }

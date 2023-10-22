@@ -1,10 +1,13 @@
 package animatch.app.api.controller;
 
+import animatch.app.api.controller.ListaController;
 import animatch.app.service.usuario.UsuarioService;
 import animatch.app.service.usuario.dto.UsuarioCadastrarDTO;
 import animatch.app.service.usuario.dto.UsuarioLoginDTO;
 import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
+import animatch.app.utils.GerenciadorDeArquivo;
+import animatch.app.utils.ListaObj;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +31,29 @@ public class UsuarioController {
         return repository.findUserById(userId);
     }
 
+    public List<Usuario> getAllUsers(){
+        List<Usuario> users = repository.findAll();
+        return users;
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<Usuario>> getAll()
     {
         List<Usuario> users = repository.findAll();
+//        System.out.println(users);
         return users.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(users);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity enviarCsv(@RequestParam int usuarioId){
+        List<Usuario> users = this.getAllUsers();
+        ListaObj<Usuario> listaObj= new ListaObj<>(users.size());
+
+        for (int i = 0; i < users.size(); i++) {
+            listaObj.adiciona(users.get(i));
+        }
+        GerenciadorDeArquivo.gravaArquivoCsv(listaObj, "arquivoDeUsuarios");
+        return ResponseEntity.status(200).build();
     }
 
     @PostMapping("/")
