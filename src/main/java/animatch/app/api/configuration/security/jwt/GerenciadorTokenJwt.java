@@ -32,15 +32,6 @@ public class GerenciadorTokenJwt {
         return getClaimForToken(token, Claims::getExpiration);
     }
 
-//    public String generateToken(final Authentication authentication) {
-//        // Para verificacoes de permissões;
-//        final String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.joining(","));
-//        return Jwts.builder().setSubject(authentication.getName())
-//                .signWith(parseSecret()).setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis() + jwtTokenValidity * 1_000)).compact();
-//    }
-
     public String generateToken(final Authentication authentication) {
         final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
