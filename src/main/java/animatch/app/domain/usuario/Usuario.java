@@ -26,14 +26,16 @@ public class Usuario {
     private String email;
     @Schema(description = "Senha do usuario", example = "senhasecreta")
     private String password;
-    @Schema(description = "Link para imagem de perfil", example = "")
+    @Schema(description = "Link para imagem de perfil", example = "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pEFseh.jpg")
     private String profileImage;
-    @Schema(description = "Link para imagem de capa do perfil", example = "")
+    @Schema(description = "Link para imagem de capa do perfil", example = "https://s4.anilist.co/file/anilistcdn/media/anime/banner/113415-jQBSkxWAAk83.jpg")
     private String coverImage;
-    @Schema(description = "Data de nascimento", example = "2000-01-01")
+    @Schema(description = "Data de criação da conta", example = "2000-01-01")
     @Past
-    private LocalDate nascimento;
+    private LocalDate criacao;
+    @Schema(description = "Status de conta ativa 'true' ou 'false'", example = "true")
     private boolean status = true;
+    @Schema(description = "Genero de orintação sexual", example = "masculino")
     private String genero;
 
     public Usuario() {
@@ -63,8 +65,8 @@ public class Usuario {
         return coverImage;
     }
 
-    public LocalDate getNascimento() {
-        return nascimento;
+    public LocalDate getCriacao() {
+        return criacao;
     }
 
     public boolean isStatus() {
@@ -99,8 +101,8 @@ public class Usuario {
         this.coverImage = coverImage;
     }
 
-    public void setNascimento(LocalDate nascimento) {
-        this.nascimento = nascimento;
+    public void setCriacao(LocalDate nascimento) {
+        this.criacao = nascimento;
     }
 
 

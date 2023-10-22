@@ -39,7 +39,7 @@ private static final AntPathRequestMatcher ORIGENS_PERMITIDAS = new AntPathReque
     private AutenticacaoEntryPoint autenticacaoEntryPoint;
 //    /anime-match
     private static final AntPathRequestMatcher[] URLS_PERMITIDAS = {
-            new AntPathRequestMatcher("/swagger-ui/"),
+            new AntPathRequestMatcher("/swagger-ui/**"),
             new AntPathRequestMatcher("/swagger-ui.html"),
             new AntPathRequestMatcher("/swagger-resources"),
             new AntPathRequestMatcher("/swagger-resources/**"),
@@ -47,7 +47,7 @@ private static final AntPathRequestMatcher ORIGENS_PERMITIDAS = new AntPathReque
             new AntPathRequestMatcher("/configuration/security"),
             new AntPathRequestMatcher("/api/public/authenticate"),
             new AntPathRequestMatcher("/webjars/**"),
-            new AntPathRequestMatcher("/v3/api-docs"),
+            new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/actuator/"),
             new AntPathRequestMatcher("/users/login/**"),
             new AntPathRequestMatcher("/h2-console/**"),

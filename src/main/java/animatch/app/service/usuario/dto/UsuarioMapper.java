@@ -12,7 +12,7 @@ public class UsuarioMapper {
         usuario.setPassword(usuarioDTO.getPassword());
         usuario.setCoverImage(usuarioDTO.getCoverImage());
         usuario.setProfileImage(usuarioDTO.getProfileImage());
-        usuario.setNascimento(usuarioDTO.getNascimento());
+        usuario.setCriacao(usuarioDTO.getNascimento());
 
         return usuario;
     }
