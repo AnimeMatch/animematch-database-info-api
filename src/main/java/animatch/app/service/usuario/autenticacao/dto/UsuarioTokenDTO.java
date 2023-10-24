@@ -2,14 +2,16 @@ package animatch.app.service.usuario.autenticacao.dto;
 
 public class UsuarioTokenDTO {
     private int userId;
+    private String name;
     private String email;
     private String token;
 
     public UsuarioTokenDTO() {
     }
 
-    public UsuarioTokenDTO(int userId, String email, String token) {
+    public UsuarioTokenDTO(int userId, String name, String email, String token) {
         this.userId = userId;
+        this.name = name;
         this.email = email;
         this.token = token;
     }
@@ -20,6 +22,14 @@ public class UsuarioTokenDTO {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

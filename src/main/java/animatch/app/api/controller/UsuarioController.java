@@ -8,6 +8,7 @@ import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.utils.GerenciadorDeArquivo;
 import animatch.app.utils.ListaObj;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,6 @@ public class UsuarioController {
 //        System.out.println(users);
         return users.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(users);
     }
-
     @GetMapping("/info")
     public ResponseEntity enviarCsv(@RequestParam int usuarioId){
         List<Usuario> users = this.getAllUsers();
@@ -109,7 +109,7 @@ public class UsuarioController {
             repository.save(user);
             return ResponseEntity.status(200).build();
         }
-        return ResponseEntity.status(400).build();
+        return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/{userId}")
@@ -120,6 +120,6 @@ public class UsuarioController {
             repository.save(user);
             return ResponseEntity.status(200).build();
         }
-        return ResponseEntity.status(400).build();
+        return ResponseEntity.status(404).build();
     }
 }
