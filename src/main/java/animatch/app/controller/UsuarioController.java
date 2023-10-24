@@ -51,6 +51,13 @@ public class UsuarioController {
         return ResponseEntity.status(200).build();
     }
 
+    @GetMapping("/lerArquivoCsv")
+    public ResponseEntity lerCsv(){
+        GerenciadorDeArquivo.leArquivoCsv("arquivoDeUsuarios");
+
+        return ResponseEntity.status(200).build();
+    }
+
     @PostMapping("/")
     public ResponseEntity<Usuario> register(@RequestBody @Valid Usuario u)
     {

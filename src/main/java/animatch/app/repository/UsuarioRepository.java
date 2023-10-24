@@ -23,4 +23,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
             where l.userId = ?1
             """)
     Integer countByUsuarioId(int usuarioId);
+
+
 }

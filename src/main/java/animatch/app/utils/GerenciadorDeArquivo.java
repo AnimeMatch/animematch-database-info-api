@@ -1,8 +1,6 @@
 package animatch.app.utils;
 
 import animatch.app.model.Usuario;
-import animatch.app.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -64,7 +62,7 @@ public class GerenciadorDeArquivo {
         }
     }
 
-    public static void leArquivoCsv(String nomeArq) {
+    public static String leArquivoCsv(String nomeArq) {
         FileReader arq = null;
         Scanner entrada = null;
         Boolean deuRuim = false;
@@ -133,5 +131,6 @@ public class GerenciadorDeArquivo {
                 System.exit(1);
             }
         }
+        return nomeArq;
     }
 }
