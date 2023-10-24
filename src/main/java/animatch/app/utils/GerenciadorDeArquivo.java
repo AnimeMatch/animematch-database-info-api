@@ -1,6 +1,6 @@
 package animatch.app.utils;
 
-import animatch.app.model.Usuario;
+import animatch.app.domain.usuario.Usuario;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -40,7 +40,7 @@ public class GerenciadorDeArquivo {
                         usuario.getName(),
                         usuario.getEmail(),
                         usuario.getGenero(),
-                        usuario.getNascimento(),
+                        usuario.getCriacao(),
                         usuario.getProfileImage(),
                         usuario.getCoverImage(),
                         usuario.isStatus());
@@ -86,7 +86,7 @@ public class GerenciadorDeArquivo {
                     "nome",
                     "email",
                     "gênero",
-                    "data de nascimento",
+                    "data de criação",
                     "imagem de perfil",
                     "imagem de capa",
                     "status");
