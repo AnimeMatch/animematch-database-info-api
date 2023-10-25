@@ -1,7 +1,6 @@
 package animatch.app.dto;
 
-import animatch.app.domain.Anime;
-import animatch.app.domain.Lista;
+import animatch.app.domain.anime.Anime;
 
 public class AnimeListaInfoDTO {
     private Anime animeId;
