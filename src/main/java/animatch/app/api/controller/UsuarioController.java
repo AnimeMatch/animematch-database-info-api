@@ -1,6 +1,7 @@
 package animatch.app.api.controller;
 
 import animatch.app.api.controller.ListaController;
+import animatch.app.dto.UsuarioCsvDTO;
 import animatch.app.service.usuario.UsuarioService;
 import animatch.app.service.usuario.dto.UsuarioCadastrarDTO;
 import animatch.app.service.usuario.dto.UsuarioLoginDTO;
@@ -8,12 +9,14 @@ import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.utils.GerenciadorDeArquivo;
 import animatch.app.utils.ListaObj;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,15 +47,20 @@ public class UsuarioController {
         return users.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(users);
     }
 
+    @Operation(summary = "Descrição teste")
     @GetMapping("/info")
-    public ResponseEntity enviarCsv(@RequestParam int usuarioId){
-        List<Usuario> users = this.getAllUsers();
+    public ResponseEntity enviarCsv(){
+        List<Usuario> users = repository.findAll();
+        List<Integer> qtds = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            Integer quantidade = repository.countQuantiadeListas(users.get(i).getId());
+            qtds.add(quantidade);
+        }
         ListaObj<Usuario> listaObj= new ListaObj<>(users.size());
-
         for (int i = 0; i < users.size(); i++) {
             listaObj.adiciona(users.get(i));
         }
-        GerenciadorDeArquivo.gravaArquivoCsv(listaObj, "arquivoDeUsuarios");
+        GerenciadorDeArquivo.gravaArquivoCsv(listaObj, "arquivoDeUsuarios", qtds);
         return ResponseEntity.status(200).build();
     }
 

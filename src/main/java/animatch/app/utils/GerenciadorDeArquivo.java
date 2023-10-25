@@ -1,19 +1,17 @@
 package animatch.app.utils;
 
 import animatch.app.domain.usuario.Usuario;
+import animatch.app.dto.UsuarioCsvDTO;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Formatter;
-import java.util.FormatterClosedException;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 public class GerenciadorDeArquivo {
-    public static void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq) {
+    public static void gravaArquivoCsv(ListaObj<Usuario> lista, String nomeArq, List<Integer> qtds) {
         FileWriter arq = null;
         Formatter saida = null;
         Boolean deuRuim = false;
@@ -28,14 +26,15 @@ public class GerenciadorDeArquivo {
             System.out.println("Erro ao abrir o arquivo");
             System.exit(1);
         }
-
+        List<Integer> quantidades = qtds;
         // Bloco try-catch para gravar o arquivo
         try {
             for (int i = 0; i < lista.getTamanho(); i++) {
 
+                Integer qtd = quantidades.get(i);
                 //Recupere um elemento da lista e formate aqui:
                 Usuario usuario = lista.getElemento(i);
-                saida.format("%d;%s;%s;%s;%s;%s;%s;%b\n",
+                saida.format("%d;%s;%s;%s;%s;%s;%s;%b;%d\n",
                         usuario.getId(),
                         usuario.getName(),
                         usuario.getEmail(),
@@ -43,7 +42,8 @@ public class GerenciadorDeArquivo {
                         usuario.getCriacao(),
                         usuario.getProfileImage(),
                         usuario.getCoverImage(),
-                        usuario.isStatus());
+                        usuario.isStatus(),
+                        qtd);
             }
         } catch (FormatterClosedException erro) {
             System.out.println("Erro ao gravar o arquivo");
@@ -62,7 +62,7 @@ public class GerenciadorDeArquivo {
         }
     }
 
-    public static String leArquivoCsv(String nomeArq) {
+    public static void leArquivoCsv(String nomeArq) {
         FileReader arq = null;
         Scanner entrada = null;
         Boolean deuRuim = false;
@@ -81,7 +81,7 @@ public class GerenciadorDeArquivo {
         // Bloco try-catch para ler o arquivo
         try {
             // Print Cabeçalho:
-            System.out.printf("%-5S %-40S %-40S %-12S %-25S %23S %23S %10S\n",
+            System.out.printf("%-5S %-40S %-40S %-12S %-25S %23S %23S %10S %10s\n",
                     "id",
                     "nome",
                     "email",
@@ -89,7 +89,8 @@ public class GerenciadorDeArquivo {
                     "data de criação",
                     "imagem de perfil",
                     "imagem de capa",
-                    "status");
+                    "status",
+                    "quantidade");
 
             while (entrada.hasNext()) {
                 //Print Corpo:
@@ -99,19 +100,21 @@ public class GerenciadorDeArquivo {
                 String genero = entrada.next();
                 String imgPerfil = entrada.next();
                 String imgCapa = entrada.next();
-                LocalDate dataNasc = LocalDate.parse(entrada.next());// irei arrumar aqui ainda
+                LocalDate criacao = LocalDate.parse(entrada.next());// irei arrumar aqui ainda
                 boolean status = entrada.nextBoolean();
+                Integer quantidade = entrada.nextInt();
 
 
-                System.out.printf("%05d %-40s %-40s -12s %-25s %23s %23s %10s\n",
+                System.out.printf("%05d %-40s %-40s -12s %-25s %23s %23s %10s %10d\n",
                         id,
                         nome,
                         email,
                         genero,
-                        dataNasc,
+                        criacao,
                         imgPerfil,
                         imgCapa,
-                        status ? "Ativo" : "Não ativo");
+                        status ? "Ativo" : "Não ativo",
+                        quantidade);
             }
         } catch (NoSuchElementException erro) {
             System.out.println("Arquivo com problemas");
@@ -131,6 +134,5 @@ public class GerenciadorDeArquivo {
                 System.exit(1);
             }
         }
-        return nomeArq;
     }
 }
