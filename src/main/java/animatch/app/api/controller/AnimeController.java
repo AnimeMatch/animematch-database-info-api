@@ -21,6 +21,24 @@ public class AnimeController {
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
+    @GetMapping("/ordenados")
+    public ResponseEntity<List<Anime>> getOrdenadosPelaNota() {
+        List<Anime> animes = animeRepository.findAll();
+        if (animes.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        for (int i = 0; i < animes.size() - 1; i++) {
+            for (int j = 0; j < animes.size() - 1; j++) {
+                if (animes.get(j).getNotaMedia() > animes.get(j+1).getNotaMedia()) {
+                    var aux = animes.get(j);
+                    animes.set(j,animes.get(j+1));
+                    animes.set(j+1,aux);
+                }
+            }
+        }
+        return ResponseEntity.status(200).body(animes);
+    }
+
     @PostMapping("/")
     public ResponseEntity postAnimes(@RequestBody Anime anime) {
         animeRepository.save(anime);

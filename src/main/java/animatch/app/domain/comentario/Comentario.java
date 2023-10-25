@@ -4,6 +4,7 @@ import animatch.app.domain.topico.Topico;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Comentario {
@@ -12,6 +13,7 @@ public class Comentario {
     @Schema(description = "Identificador único", example = "1")
     private int id;
     @NotBlank
+    @Size(min = 5,max = 250)
     @Schema(description = "Conteúdo do comentário", example = "Melhor episódio que eu vi!")
     private String texto;
     @ManyToOne
