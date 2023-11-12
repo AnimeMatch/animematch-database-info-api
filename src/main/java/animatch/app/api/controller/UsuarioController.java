@@ -3,6 +3,7 @@ package animatch.app.api.controller;
 import animatch.app.api.controller.ListaController;
 import animatch.app.dto.UsuarioCsvDTO;
 import animatch.app.service.usuario.UsuarioService;
+import animatch.app.service.usuario.dto.UsuarioAtualizarDto;
 import animatch.app.service.usuario.dto.UsuarioCadastrarDTO;
 import animatch.app.service.usuario.dto.UsuarioLoginDTO;
 import animatch.app.domain.usuario.Usuario;
@@ -34,20 +35,21 @@ public class UsuarioController {
         return repository.findUserById(userId);
     }
 
-    public List<Usuario> getAllUsers(){
-        List<Usuario> users = repository.findAll();
-        return users;
-    }
-
+    @Operation(summary = "Recebe todos os usuários cadastrados")
     @GetMapping("/")
-    public ResponseEntity<List<Usuario>> getAll()
-    {
+    public ResponseEntity<List<Usuario>> getAll(){
         List<Usuario> users = repository.findAll();
-//        System.out.println(users);
         return users.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(users);
     }
 
-    @Operation(summary = "Descrição teste")
+    @Operation(summary = "Busca um usuário pelo id")
+    @GetMapping("/user")
+    public ResponseEntity<Usuario> fingUserById(@RequestParam int id){
+        Usuario user = repository.findUserById(id);
+        return user != null ? ResponseEntity.status(200).body(user) : ResponseEntity.status(404).build();
+    }
+
+    @Operation(summary = "Informações em arquivo .csv")
     @GetMapping("/info")
     public ResponseEntity enviarCsv(){
         List<Usuario> users = repository.findAll();
@@ -64,6 +66,7 @@ public class UsuarioController {
         return ResponseEntity.status(200).build();
     }
 
+    @Operation(summary = "Leitura de arquivos .csv")
     @GetMapping("/lerArquivoCsv")
     public ResponseEntity lerCsv(){
         GerenciadorDeArquivo.leArquivoCsv("arquivoDeUsuarios");
@@ -71,6 +74,7 @@ public class UsuarioController {
         return ResponseEntity.status(200).build();
     }
 
+    @Operation(summary = "Cadastro de novos usuários")
     @PostMapping("/")
     @SecurityRequirement(name= "Bearer")
     public ResponseEntity registrarUsuario(@RequestBody @Valid UsuarioCadastrarDTO usuarioCadastrarDTO){
@@ -82,36 +86,6 @@ public class UsuarioController {
         }
     }
 
-//    @PostMapping("/")
-//    public ResponseEntity<Usuario> register(@RequestBody @Valid Usuario u)
-//    {
-//        if(repository.existsByEmail(u.getEmail())){
-//            return ResponseEntity.status(409).build();
-//        }
-//        repository.save(u);
-//        listController.defaultList(u.getId());
-//        return ResponseEntity.status(201).body(u);
-//    }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<UserTesteDTO> login(@RequestBody @Valid UsuarioDTO u){
-//        Usuario user = repository.findUserByEmailPasword(u.getEmail(), u.getPassword());
-//        if (user != null){
-//            String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2FzQGdtYWlsLmNvbSIsInNlbmhhIjoicGFzc3dvcmQifQ.BRG2BLSKPdBpAHjkCvxQVALZlNcjOmGdbj9m-gd5kH8";
-//            UserTesteDTO usuario = new UserTesteDTO(token, user.getName());
-//            return ResponseEntity.status(200).header("custom-header", "Access-Control-Allow-Origin").body(usuario);
-//        }
-//        return ResponseEntity.status(403).build();
-//    }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<Usuario> login(@RequestBody UsuarioLoginDTO u){
-//        Usuario user = repository.findUserByEmailPasword(u.getEmail(), u.getPassword());
-//        if (user != null){
-//            return ResponseEntity.status(200).body(user);
-//        }
-//        return ResponseEntity.status(403).build();
-//    }
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UsuarioLoginDTO u){
         ResponseEntity resposta = usuarioService.autenticar(u);
@@ -119,12 +93,13 @@ public class UsuarioController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario user){
-        if (repository.existsById(user.getId())) {
-            repository.save(user);
-            return ResponseEntity.status(200).build();
-        }
-        return ResponseEntity.status(400).build();
+    public ResponseEntity updateUsuario(@RequestBody UsuarioAtualizarDto user){
+//        if (repository.existsById(user.getId())) {
+//            repository.save(user);
+//            return ResponseEntity.status(200).build();
+//        }
+        ResponseEntity response = usuarioService.atualizar(user);
+        return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
 
     @DeleteMapping("/{userId}")

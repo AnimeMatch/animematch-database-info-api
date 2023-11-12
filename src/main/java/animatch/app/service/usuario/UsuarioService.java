@@ -4,18 +4,25 @@ import animatch.app.api.configuration.security.jwt.GerenciadorTokenJwt;
 import animatch.app.api.controller.ListaController;
 import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
+import animatch.app.service.usuario.autenticacao.AutenticacaoService;
 import animatch.app.service.usuario.autenticacao.dto.UsuarioTokenDTO;
+import animatch.app.service.usuario.dto.UsuarioAtualizarDto;
 import animatch.app.service.usuario.dto.UsuarioCadastrarDTO;
 import animatch.app.service.usuario.dto.UsuarioLoginDTO;
 import animatch.app.service.usuario.dto.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -30,6 +37,8 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private ListaController listController;
+    @Autowired
+    private AutenticacaoService usuarioAutorizacaoService;
 
     public ResponseEntity<Usuario> criar(UsuarioCadastrarDTO usuarioCadastrarDTO){
         final Usuario novoUsuario = UsuarioMapper.of(usuarioCadastrarDTO);
@@ -44,15 +53,6 @@ public class UsuarioService {
         listController.defaultList(novoUsuario.getId());
         return ResponseEntity.status(201).body(novoUsuario);
     }
-
-//    public ResponseEntity<Usuario> login(UsuarioLoginDTO usuarioLoginDTO){
-////        final UsuarioLoginDTO login = UsuarioLoginMapper.of(usuarioLoginDTO);
-//        Usuario user = usuarioRepository.findUserByEmailPasword(usuarioLoginDTO.getEmail(), usuarioLoginDTO.getPassword());
-//        if (user != null){
-//            return ResponseEntity.status(200).body(user);
-//        }
-//        return ResponseEntity.status(403).build();
-//    }
 
     public ResponseEntity<UsuarioTokenDTO> autenticar(UsuarioLoginDTO login) {
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
@@ -72,4 +72,73 @@ public class UsuarioService {
 //        return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioAutenticado, token));
         return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioAutenticado, token));
     }
+
+
+    public ResponseEntity<UsuarioTokenDTO> atualizar(UsuarioAtualizarDto usuarioAtualizar){
+        Usuario user = usuarioRepository.findUserById(usuarioAtualizar.getId());
+
+        if (user == null) {
+            return ResponseEntity.status(404).build();
+        }
+        Usuario usuarioMapeado = UsuarioMapper.usuarioAtualizar(usuarioAtualizar, user);
+        if (usuarioAtualizar.getPassword() != null){
+            UserDetails userDetails = usuarioAutorizacaoService.loadUserByUsername(user.getEmail());
+            final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
+                    user.getEmail(), userDetails.getPassword());
+            try {
+                this.authenticationManager.authenticate(credentials);
+            } catch (AuthenticationException e) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "%s".formatted(e));
+            }
+            usuarioMapeado.setPassword(usuarioAtualizar.getPassword());
+            String senhaCriptografada = passwordEncoder.encode(usuarioMapeado.getPassword());
+            usuarioMapeado.setPassword(senhaCriptografada);
+            usuarioRepository.save(usuarioMapeado);
+
+            final UsernamePasswordAuthenticationToken newCredentials = new UsernamePasswordAuthenticationToken(
+                    usuarioMapeado.getEmail(), usuarioMapeado.getPassword());
+            final Authentication newAuthentication = this.authenticationManager.authenticate(newCredentials);
+
+            final String newToken = gerenciadorTokenJwt.generateToken(newAuthentication);
+            listController.defaultList(usuarioAtualizar.getId());
+            return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioMapeado, newToken));
+
+        } else {
+            usuarioRepository.save(usuarioMapeado);
+            return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioMapeado));
+        }
+    }
+//    public ResponseEntity<UsuarioTokenDTO> atualizar(UsuarioAtualizarDto usuarioAtualizar) {
+//        Usuario user = usuarioRepository.findUserById(usuarioAtualizar.getId());
+//        if (user == null) {
+//            return ResponseEntity.status(404).build();
+//        }
+//        Usuario usuarioMapeado = UsuarioMapper.usuarioAtualizar(usuarioAtualizar, user);
+//        if (usuarioAtualizar.getPassword() != null) {
+//            UserDetails userDetails = usuarioAutorizacaoService.loadUserByUsername(user.getEmail());
+//            final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
+//                    user.getEmail(), userDetails.getPassword());
+//            try {
+//                this.authenticationManager.authenticate(credentials);
+//            } catch (AuthenticationException e) {
+//                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "%s".formatted(e));
+//            }
+//
+//            // Atualizar a senha no objeto usuário antes de criptografar
+//            usuarioMapeado.setPassword(usuarioAtualizar.getPassword());
+//
+//            // Criptografar a nova senha
+//            String senhaCriptografada = passwordEncoder.encode(usuarioMapeado.getPassword());
+//            usuarioMapeado.setPassword(senhaCriptografada);
+//        }
+//        usuarioRepository.save(usuarioMapeado);
+//
+//        final UsernamePasswordAuthenticationToken newCredentials = new UsernamePasswordAuthenticationToken(
+//                usuarioMapeado.getEmail(), usuarioMapeado.getPassword());
+//        final Authentication newAuthentication = this.authenticationManager.authenticate(newCredentials);
+//
+//        final String newToken = gerenciadorTokenJwt.generateToken(newAuthentication);
+//        listController.defaultList(usuarioAtualizar.getId());
+//        return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioMapeado, newToken));
+//    }
 }
