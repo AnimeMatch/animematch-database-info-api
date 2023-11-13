@@ -3,6 +3,7 @@ package animatch.app.api.controller;
 import animatch.app.api.controller.ListaController;
 import animatch.app.dto.UsuarioCsvDTO;
 import animatch.app.service.usuario.UsuarioService;
+import animatch.app.service.usuario.autenticacao.dto.UsuarioTokenDTO;
 import animatch.app.service.usuario.dto.UsuarioAtualizarDto;
 import animatch.app.service.usuario.dto.UsuarioCadastrarDTO;
 import animatch.app.service.usuario.dto.UsuarioLoginDTO;
@@ -78,6 +79,12 @@ public class UsuarioController {
         return ResponseEntity.status(200).build();
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Leitura bem-sucedida"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @Operation(summary = "Leitura de arquivos .csv")
     @GetMapping("/lerArquivoCsv")
     public ResponseEntity lerCsv(){
@@ -86,6 +93,13 @@ public class UsuarioController {
         return ResponseEntity.status(200).build();
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Criação de usuário bem-sucedida",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @Operation(summary = "Cadastro de novos usuários")
     @PostMapping("/")
     @SecurityRequirement(name= "Bearer")
@@ -98,19 +112,14 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Atualização bem-sucedida",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
+            @ApiResponse(responseCode = "200", description = "Login bem-sucedido",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioTokenDTO.class))),
             @ApiResponse(responseCode = "400", description = "Requisição inválida"),
             @ApiResponse(responseCode = "401", description = "Não autorizado"),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    public ResponseEntity updateUsuario(@RequestBody UsuarioAtualizarDto user){
-        ResponseEntity response = usuarioService.atualizar(user);
-        return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-    }
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UsuarioLoginDTO u){
         ResponseEntity resposta = usuarioService.autenticar(u);
@@ -131,7 +140,13 @@ public class UsuarioController {
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
 
-
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Deleção bem-sucedida"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUsuario(@PathVariable int userId){
         if (repository.existsById(userId)){
