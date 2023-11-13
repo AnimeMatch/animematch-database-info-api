@@ -20,6 +20,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 @RequestMapping("/users")
 public class UsuarioController {
@@ -86,6 +98,19 @@ public class UsuarioController {
         }
     }
 
+    @PutMapping("/")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Atualização bem-sucedida",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    public ResponseEntity updateUsuario(@RequestBody UsuarioAtualizarDto user){
+        ResponseEntity response = usuarioService.atualizar(user);
+        return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+    }
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody UsuarioLoginDTO u){
         ResponseEntity resposta = usuarioService.autenticar(u);
@@ -93,14 +118,19 @@ public class UsuarioController {
     }
 
     @PutMapping("/")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Atualização bem-sucedida",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "401", description = "Não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
     public ResponseEntity updateUsuario(@RequestBody UsuarioAtualizarDto user){
-//        if (repository.existsById(user.getId())) {
-//            repository.save(user);
-//            return ResponseEntity.status(200).build();
-//        }
         ResponseEntity response = usuarioService.atualizar(user);
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
+
 
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUsuario(@PathVariable int userId){
