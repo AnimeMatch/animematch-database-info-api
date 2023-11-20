@@ -16,14 +16,17 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
     private int id;
+    @Size(min=0, max=60)
     @Schema(description = "Nome do usuário", example = "fulano de tal")
     private String name;
     @Email
+    @Pattern(regexp = "/^[a-z0-9.]+@[a-z0-9]+\\.[a-z]+\\.([a-z]+)?$/i")
+    @Schema(description = "E-mail do usuário", example = "usuario@email.com")
+    private String email;
 //    @Pattern(
 //        regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$"
 //    )
-    @Schema(description = "E-mail do usuário", example = "usuario@email.com")
-    private String email;
+    @Size(min=1, max=45)
     @Schema(description = "Senha do usuario", example = "senhasecreta")
     private String password;
     @Schema(description = "Link para imagem de perfil", example = "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pEFseh.jpg")
@@ -35,6 +38,7 @@ public class Usuario {
     private LocalDate criacao;
     @Schema(description = "Status de conta ativa 'true' ou 'false'", example = "true")
     private boolean status = true;
+    @Size(min=1, max=45)
     @Schema(description = "Genero de orintação sexual", example = "masculino")
     private String genero;
 

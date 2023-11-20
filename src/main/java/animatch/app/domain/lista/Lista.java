@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Lista {
@@ -19,6 +20,7 @@ public class Lista {
     @ManyToOne
     @Schema(description = "Id do usuário criador da lista", example = "1")
     private Usuario userId;
+    @Size(min=0, max=45)
     @Schema(description = "Nome da lista", example = "Favoritos")
     private String name;
 

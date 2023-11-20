@@ -1,8 +1,8 @@
 package animatch.app.domain.animelista.repository;
 
 import animatch.app.domain.animelista.AnimeLista;
-import animatch.app.dto.AnimeInfoDTO;
-import animatch.app.dto.AnimeListaInfoDTO;
+import animatch.app.service.Anime.dto.AnimeInfoDTO;
+import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
 import animatch.app.domain.usuario.Usuario;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,7 +33,7 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
     List<AnimeInfoDTO> findAllInfo();
 
 //    @Query("""
-//        select new animatch.app.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
+//        select new animatch.app.service.Anime.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
 //        from AnimeLista a
 //        join a.listaId Lista
 //        where Lista.userId = :userId
@@ -44,7 +44,7 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
         select new animatch.app.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
         from AnimeLista a
         join a.listaId Lista
-        where Lista.userId = :userId
+        where Lista.userId = ?1
     """)
     List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserId(Usuario userId);
 

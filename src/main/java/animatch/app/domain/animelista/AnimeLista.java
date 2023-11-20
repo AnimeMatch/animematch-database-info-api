@@ -4,6 +4,9 @@ import animatch.app.domain.lista.Lista;
 import animatch.app.domain.anime.Anime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class AnimeLista {
@@ -11,9 +14,11 @@ public class AnimeLista {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
     private int AnimeListaId;
+    @NotNull
     @ManyToOne
     @Schema(description = "Anime cadastrado no banco", example = "1")
     private Anime animeId;
+    @NotNull
     @ManyToOne
     @Schema(description = "Lista na qual anime passará a pertencer", example = "1")
     private Lista listaId;

@@ -2,8 +2,8 @@ package animatch.app.api.controller;
 
 import animatch.app.domain.anime.Anime;
 import animatch.app.domain.animelista.AnimeLista;
-import animatch.app.dto.AnimeInfoDTO;
-import animatch.app.dto.AnimeListaInfoDTO;
+import animatch.app.service.Anime.dto.AnimeInfoDTO;
+import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
 import animatch.app.domain.animelista.repository.AnimeListaRepository;
 import animatch.app.domain.lista.repository.ListaRepository;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
@@ -78,9 +78,6 @@ public class AnimeListaController {
         animeListaRepository.save(animeLista);
         return ResponseEntity.status(201).build();
     }
-
-//    @PutMapping("/")
-//    public ResponseEntity<>
 
     @DeleteMapping("/{animeListaId}")
     public ResponseEntity deleteAnimeLista(@PathVariable int animeListaId){
