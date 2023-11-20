@@ -18,10 +18,10 @@ import java.util.List;
 @RequestMapping("/anime")
 public class AnimeController {
     @Autowired
-    AnimeRepository repository;
+    private AnimeRepository repository;
 
     @Autowired
-    AnimeService service;
+    private AnimeService service;
 
     @GetMapping("/")
     public ResponseEntity<List<Anime>> getInstance() {
@@ -31,20 +31,8 @@ public class AnimeController {
 
     @GetMapping("/ordenados")
     public ResponseEntity<List<Anime>> getOrdenadosPelaNota() {
-        List<Anime> animes = repository.findAll();
-        if (animes.isEmpty()){
-            return ResponseEntity.status(204).build();
-        }
-        for (int i = 0; i < animes.size() - 1; i++) {
-            for (int j = 0; j < animes.size() - 1; j++) {
-                if (animes.get(j).getNotaMedia() > animes.get(j+1).getNotaMedia()) {
-                    var aux = animes.get(j);
-                    animes.set(j,animes.get(j+1));
-                    animes.set(j+1,aux);
-                }
-            }
-        }
-        return ResponseEntity.status(200).body(animes);
+        List<Anime> animes = service.ordenarPelaNota();
+        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
     @GetMapping("/mais-likes")
@@ -55,25 +43,8 @@ public class AnimeController {
 
     @GetMapping("/dados-complementares")
     public  ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestParam int id){
-        try{
-            Integer like = repository.qtdDeslikesAnime(id);
-            Integer deslike = repository.qtdLikesAnime(id);
-            Integer assistido = repository.qtdAssistido(id);
-            AnimeDadosComplementaresDto retorno = new AnimeDadosComplementaresDto(
-                    like,
-                    deslike,
-                    assistido);
-            return ResponseEntity.status(200).body(retorno);
-        } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "%s".formatted(e));
-        }
+        return ResponseEntity.status(200).body(service.dadosComplementares(id));
     }
-
-//    @PostMapping("/")
-//    public ResponseEntity postAnimes(@RequestBody Anime anime) {
-//        repository.save(anime);
-//        return ResponseEntity.status(200).build();
-//    }
 
     @PostMapping("/")
     public ResponseEntity postAnimes(@RequestParam int idApi) {

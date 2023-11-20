@@ -2,6 +2,7 @@ package animatch.app.domain.animelista;
 
 import animatch.app.domain.lista.Lista;
 import animatch.app.domain.anime.Anime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -20,6 +21,7 @@ public class AnimeLista {
     private Anime animeId;
     @NotNull
     @ManyToOne
+    @JsonIgnore // Caso haja recursividade infinita
     @Schema(description = "Lista na qual anime passará a pertencer", example = "1")
     private Lista listaId;
 

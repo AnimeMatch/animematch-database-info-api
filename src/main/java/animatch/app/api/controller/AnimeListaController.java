@@ -1,78 +1,51 @@
 package animatch.app.api.controller;
 
 import animatch.app.domain.anime.Anime;
-import animatch.app.domain.animelista.AnimeLista;
-import animatch.app.service.Anime.dto.AnimeInfoDTO;
-import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
 import animatch.app.domain.animelista.repository.AnimeListaRepository;
-import animatch.app.domain.lista.repository.ListaRepository;
-import animatch.app.domain.usuario.repository.UsuarioRepository;
+import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
 import animatch.app.service.AnimeLista.AnimeListaService;
-import animatch.app.utils.ListaObj;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.data.domain.Pageable;
-
+import animatch.app.utils.ListaObj;
 import java.util.List;
 
 @RestController
 @RequestMapping("/anime-lista")
 public class AnimeListaController {
     @Autowired
-    AnimeListaRepository repository;
-
+    private AnimeListaRepository repository;
     @Autowired
-    UsuarioRepository usuarioRepository;
-
-    @Autowired
-    AnimeListaService service;
+    private AnimeListaService service;
 
     @GetMapping("/")
     public ResponseEntity<Anime[]> getAnimes(){
-        List<AnimeInfoDTO> animes = repository.findAllInfo();
-        ListaObj<Anime> lista = new ListaObj<Anime>(animes.size());
-        for (int i = 0; i < animes.size(); i++) {
-            lista.adiciona(animes.get(i).getAnime());
-        }
-        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
+        ListaObj<Anime> lista = service.vetorDeAnimes();
+        return lista.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
     }
 
-    @GetMapping("/animes-e-lista/{userId}")
-    public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesLista(@PathVariable int userId){
-        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserId(usuarioRepository.findUserById(userId));
+    @GetMapping("/animes-e-listas-do-usuario")
+    public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesLista(@RequestParam int userId){
+        List<AnimeListaInfoDTO> animes = service.animeListaPorUsuario(userId);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
-    @GetMapping("/animes-e-lista/{userId}/{paginacao}")
-    public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesListaPaginacao(@PathVariable int userId, @PathVariable int paginacao){
-        Pageable pageable = PageRequest.of(0, paginacao);
-        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserIdPaginacao(usuarioRepository.findUserById(userId), pageable);
+    @GetMapping("/animes-e-listas-do-usuario-paginado")
+    public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesListaPaginacao(@RequestParam int userId, @RequestParam int paginacao){
+        List<AnimeListaInfoDTO> animes = service.animeListaPorUsuarioPaginado(userId, paginacao);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
-    @GetMapping("/{listaId}")
-    public ResponseEntity<Anime[]> getAnimeLista(@PathVariable int listaId) {
-        List<AnimeInfoDTO> animes = repository.findAllAnimeInfoByListaId(listaId);
-        ListaObj<Anime> lista = new ListaObj(animes.size());
-        for (int i = 0; i < animes.size(); i++) {
-            lista.adiciona(animes.get(i).getAnime());
-        }
-        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
+    @GetMapping("/animes-da-lista")
+    public ResponseEntity<Anime[]> getAnimeLista(@RequestParam int listaId) {
+        ListaObj<Anime> animes = service.receberAnimesDeUmaLista(listaId);
+        return animes.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes.getLista());
     }
 
-    @GetMapping("/{listaId}/{paginacao}")
-    public ResponseEntity<Anime[]> getAnimeListaPaginacao(@PathVariable int listaId, @PathVariable int paginacao) {
-        Pageable pageable = PageRequest.of(0, paginacao);
-        List<AnimeInfoDTO> animes = repository.findAllAnimePaginadoInfoByListaId(listaId, pageable);
-        ListaObj<Anime> lista = new ListaObj(animes.size());
-        for (int i = 0; i < animes.size(); i++) {
-            lista.adiciona(animes.get(i).getAnime());
-        }
-        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
+    @GetMapping("/animes-da-lista-paginado")
+    public ResponseEntity<Anime[]> getAnimeListaPaginacao(@RequestParam int listaId, @RequestParam int paginacao) {
+        ListaObj<Anime> animes = service.receberAnimesDeUmaListaPaginado(listaId, paginacao);
+        return animes.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes.getLista());
     }
 
     @PostMapping("/")

@@ -1,7 +1,7 @@
 package animatch.app.domain.lista.repository;
 
 import animatch.app.domain.usuario.Usuario;
-import animatch.app.dto.ListaInfoDTO;
+import animatch.app.service.lista.dto.ListaInfoDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import animatch.app.domain.lista.Lista;
 import org.springframework.data.jpa.repository.Query;

@@ -1,15 +1,18 @@
 package animatch.app.service.usuario;
 
 import animatch.app.api.configuration.security.jwt.GerenciadorTokenJwt;
-import animatch.app.api.controller.ListaController;
+import animatch.app.domain.lista.repository.ListaRepository;
 import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
+import animatch.app.service.lista.ListaService;
 import animatch.app.service.usuario.autenticacao.AutenticacaoService;
 import animatch.app.service.usuario.autenticacao.dto.UsuarioTokenDTO;
 import animatch.app.service.usuario.dto.UsuarioAtualizarDto;
 import animatch.app.service.usuario.dto.UsuarioCadastrarDTO;
 import animatch.app.service.usuario.dto.UsuarioLoginDTO;
 import animatch.app.service.usuario.dto.UsuarioMapper;
+import animatch.app.utils.GerenciadorDeArquivo;
+import animatch.app.utils.ListaObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UsuarioService {
     @Autowired
@@ -32,23 +38,31 @@ public class UsuarioService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository repository;
     @Autowired
-    private ListaController listController;
+    private ListaRepository listaRepository;
+    @Autowired
+    private ListaService listaService;
     @Autowired
     private AutenticacaoService usuarioAutorizacaoService;
 
+    public void verificarUsuarioExiste(int userId){
+        if (!repository.existsById(userId)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+    }
+
     public ResponseEntity<Usuario> criar(UsuarioCadastrarDTO usuarioCadastrarDTO){
         final Usuario novoUsuario = UsuarioMapper.of(usuarioCadastrarDTO);
-        if(this.usuarioRepository.existsByEmail(novoUsuario.getEmail())){
+        if(this.repository.existsByEmail(novoUsuario.getEmail())){
             return ResponseEntity.status(409).build();
         }
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getPassword());
         novoUsuario.setPassword(senhaCriptografada);
 
-        usuarioRepository.save(novoUsuario);
-        listController.defaultList(novoUsuario.getId());
+        repository.save(novoUsuario);
+        listaService.adicionarListasDefault(novoUsuario.getId());
         return ResponseEntity.status(201).body(novoUsuario);
     }
 
@@ -58,7 +72,7 @@ public class UsuarioService {
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
         Usuario usuarioAutenticado =
-                usuarioRepository.findByEmail(login.getEmail());
+                repository.findByEmail(login.getEmail());
 
         if(usuarioAutenticado == null){
             return ResponseEntity.status(403).build();
@@ -71,7 +85,7 @@ public class UsuarioService {
 
 
     public ResponseEntity<UsuarioTokenDTO> atualizar(UsuarioAtualizarDto usuarioAtualizar){
-        Usuario user = usuarioRepository.findUserById(usuarioAtualizar.getId());
+        Usuario user = repository.findUserById(usuarioAtualizar.getId());
 
         if (user == null) {
             return ResponseEntity.status(404).build();
@@ -89,19 +103,34 @@ public class UsuarioService {
             usuarioMapeado.setPassword(usuarioAtualizar.getPassword());
             String senhaCriptografada = passwordEncoder.encode(usuarioMapeado.getPassword());
             usuarioMapeado.setPassword(senhaCriptografada);
-            usuarioRepository.save(usuarioMapeado);
+            repository.save(usuarioMapeado);
 
             final UsernamePasswordAuthenticationToken newCredentials = new UsernamePasswordAuthenticationToken(
                     usuarioMapeado.getEmail(), usuarioMapeado.getPassword());
             final Authentication newAuthentication = this.authenticationManager.authenticate(newCredentials);
 
             final String newToken = gerenciadorTokenJwt.generateToken(newAuthentication);
-            listController.defaultList(usuarioAtualizar.getId());
+            listaService.adicionarListasDefault(usuarioAtualizar.getId());
             return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioMapeado, newToken));
 
         } else {
-            usuarioRepository.save(usuarioMapeado);
+            repository.save(usuarioMapeado);
             return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioMapeado));
         }
     }
+    
+    public void gravarCsv(){
+        List<Usuario> users = repository.findAll();
+        List<Integer> qtds = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            Integer quantidade = repository.countQuantiadeListas(users.get(i).getId());
+            qtds.add(quantidade);
+        }
+        ListaObj<Usuario> listaObj= new ListaObj<>(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            listaObj.adiciona(users.get(i));
+        }
+        GerenciadorDeArquivo.gravaArquivoCsv(listaObj, "arquivoDeUsuarios", qtds);
+    }
+
 }
