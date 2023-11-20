@@ -19,7 +19,7 @@ public class AnimeService {
     public HttpStatus darLike(int idApi){
         Anime animeToChange = repository.findByIdApi(idApi);
         if (animeToChange == null) {
-            Anime anime = salvarAnime(idApi);
+            Anime anime = construirAnime(idApi);
             anime.somarLikes();
             return HttpStatus.OK;
         }
@@ -38,11 +38,11 @@ public class AnimeService {
                     idApi
             );
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime de id %d não encontrado".formatted(idApi));
         }
     }
 
-    public Anime salvarAnime(int idApi){
+    public Anime construirAnime(int idApi){
         try {
             AnimeParaSalvarDto animeRequested = buscarAnime(idApi);
             Anime anime = new Anime(
@@ -52,7 +52,12 @@ public class AnimeService {
             );
             return anime;
         } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao contruir anime recebido pela API");
         }
+    }
+
+    public void salvarAnime(int idApi){
+        Anime animeToSave = construirAnime(idApi);
+        repository.save(animeToSave);
     }
 }

@@ -26,8 +26,7 @@ public class AnimeLista {
     public AnimeLista() {
     }
 
-    public AnimeLista(int animeListaId, Anime animeId, Lista listaId) {
-        AnimeListaId = animeListaId;
+    public AnimeLista(Anime animeId, Lista listaId) {
         this.animeId = animeId;
         this.listaId = listaId;
     }

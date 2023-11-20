@@ -53,12 +53,12 @@ public class AnimeController {
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
-    @PostMapping("/dados-complementares")
-    public  ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestBody AnimeIdDto id){
+    @GetMapping("/dados-complementares")
+    public  ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestParam int id){
         try{
-            Integer like = repository.qtdDeslikesAnime(id.getId());
-            Integer deslike = repository.qtdLikesAnime(id.getId());
-            Integer assistido = repository.qtdAssistido(id.getId());
+            Integer like = repository.qtdDeslikesAnime(id);
+            Integer deslike = repository.qtdLikesAnime(id);
+            Integer assistido = repository.qtdAssistido(id);
             AnimeDadosComplementaresDto retorno = new AnimeDadosComplementaresDto(
                     like,
                     deslike,
@@ -69,9 +69,15 @@ public class AnimeController {
         }
     }
 
+//    @PostMapping("/")
+//    public ResponseEntity postAnimes(@RequestBody Anime anime) {
+//        repository.save(anime);
+//        return ResponseEntity.status(200).build();
+//    }
+
     @PostMapping("/")
-    public ResponseEntity postAnimes(@RequestBody Anime anime) {
-        repository.save(anime);
+    public ResponseEntity postAnimes(@RequestParam int idApi) {
+        service.salvarAnime(idApi);
         return ResponseEntity.status(200).build();
     }
 

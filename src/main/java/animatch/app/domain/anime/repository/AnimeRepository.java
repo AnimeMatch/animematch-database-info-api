@@ -9,6 +9,8 @@ import java.util.List;
 public interface AnimeRepository extends JpaRepository<Anime,Integer> {
     Anime findByIdApi(int idApi);
 
+    Boolean existsByIdApi(int idApi);
+
     @Query("""
         SELECT COUNT(al)
         FROM AnimeLista al

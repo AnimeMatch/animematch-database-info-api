@@ -7,6 +7,7 @@ import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
 import animatch.app.domain.animelista.repository.AnimeListaRepository;
 import animatch.app.domain.lista.repository.ListaRepository;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
+import animatch.app.service.AnimeLista.AnimeListaService;
 import animatch.app.utils.ListaObj;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,17 @@ import java.util.List;
 @RequestMapping("/anime-lista")
 public class AnimeListaController {
     @Autowired
-    AnimeListaRepository animeListaRepository;
-    @Autowired
-    ListaRepository listaRepository;
+    AnimeListaRepository repository;
 
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    AnimeListaService service;
+
     @GetMapping("/")
     public ResponseEntity<Anime[]> getAnimes(){
-        List<AnimeInfoDTO> animes = animeListaRepository.findAllInfo();
+        List<AnimeInfoDTO> animes = repository.findAllInfo();
         ListaObj<Anime> lista = new ListaObj<Anime>(animes.size());
         for (int i = 0; i < animes.size(); i++) {
             lista.adiciona(animes.get(i).getAnime());
@@ -41,20 +43,20 @@ public class AnimeListaController {
 
     @GetMapping("/animes-e-lista/{userId}")
     public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesLista(@PathVariable int userId){
-        List<AnimeListaInfoDTO> animes = animeListaRepository.findAllAnimeListaInfoByUserId(usuarioRepository.findUserById(userId));
+        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserId(usuarioRepository.findUserById(userId));
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
     @GetMapping("/animes-e-lista/{userId}/{paginacao}")
     public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesListaPaginacao(@PathVariable int userId, @PathVariable int paginacao){
         Pageable pageable = PageRequest.of(0, paginacao);
-        List<AnimeListaInfoDTO> animes = animeListaRepository.findAllAnimeListaInfoByUserIdPaginacao(usuarioRepository.findUserById(userId), pageable);
+        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserIdPaginacao(usuarioRepository.findUserById(userId), pageable);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
     @GetMapping("/{listaId}")
     public ResponseEntity<Anime[]> getAnimeLista(@PathVariable int listaId) {
-        List<AnimeInfoDTO> animes = animeListaRepository.findAllAnimeInfoByListaId(listaId);
+        List<AnimeInfoDTO> animes = repository.findAllAnimeInfoByListaId(listaId);
         ListaObj<Anime> lista = new ListaObj(animes.size());
         for (int i = 0; i < animes.size(); i++) {
             lista.adiciona(animes.get(i).getAnime());
@@ -65,7 +67,7 @@ public class AnimeListaController {
     @GetMapping("/{listaId}/{paginacao}")
     public ResponseEntity<Anime[]> getAnimeListaPaginacao(@PathVariable int listaId, @PathVariable int paginacao) {
         Pageable pageable = PageRequest.of(0, paginacao);
-        List<AnimeInfoDTO> animes = animeListaRepository.findAllAnimePaginadoInfoByListaId(listaId, pageable);
+        List<AnimeInfoDTO> animes = repository.findAllAnimePaginadoInfoByListaId(listaId, pageable);
         ListaObj<Anime> lista = new ListaObj(animes.size());
         for (int i = 0; i < animes.size(); i++) {
             lista.adiciona(animes.get(i).getAnime());
@@ -74,15 +76,15 @@ public class AnimeListaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity AdicionarAnimeLista(@RequestBody @Valid AnimeLista animeLista) {
-        animeListaRepository.save(animeLista);
+    public ResponseEntity AdicionarAnimeLista(@RequestParam int idApi, @RequestParam int idLista) {
+        service.salvarAnimeLista(idApi, idLista);
         return ResponseEntity.status(201).build();
     }
 
     @DeleteMapping("/{animeListaId}")
     public ResponseEntity deleteAnimeLista(@PathVariable int animeListaId){
-        if (animeListaRepository.existsById(animeListaId)) {
-            animeListaRepository.deleteById(animeListaId);
+        if (repository.existsById(animeListaId)) {
+            repository.deleteById(animeListaId);
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(400).build();
