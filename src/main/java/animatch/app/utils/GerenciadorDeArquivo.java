@@ -169,7 +169,7 @@ public class GerenciadorDeArquivo {
         gravaRegistro(header, nomeArq);
 
         // Grava os registros de dados (ou registros de corpo)
-        for (Usuario usuario : lista) {
+        for (Usuario usuario : lista) { //#todo
             String corpo = "02";
             corpo += String.format("%05d", usuario.getId()); //Completar de acordo com documento
             corpo += String.format("%-40S", usuario.getName());
@@ -274,9 +274,10 @@ public class GerenciadorDeArquivo {
                             quantidade);
 
                     // Se estivesse conectado a um banco de dados,
-//                    alunoRepository.save(aluno);
+//                    alunoRepository.save(aluno); #todo salvar usuario no repositorio
                     // como não estamos conectados a um BD, vamos adicionar na lista
                     listaLida.add(usuario);
+
                 }
                 else {
                     System.out.println("Registro inválido");
@@ -297,6 +298,6 @@ public class GerenciadorDeArquivo {
             System.out.println(usuario);
         }
         // Aqui tb seria possível salvar a lista no BD
-        // repository.saveAll(lista);
+        // repository.saveAll(lista); #todo
     }
 }

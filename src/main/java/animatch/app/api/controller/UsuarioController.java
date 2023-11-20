@@ -71,6 +71,29 @@ public class UsuarioController {
         return ResponseEntity.status(200).build();
     }
 
+    @GetMapping("/infoTxt")
+    public ResponseEntity criarTxt(){
+        List<Usuario> users = repository.findAll();
+        List<Integer> qtds = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            Integer quantidade = repository.countQuantiadeListas(users.get(i).getId());
+            qtds.add(quantidade);
+        }
+        ListaObj<Usuario> listaObj= new ListaObj<>(users.size());
+        for (int i = 0; i < users.size(); i++) {
+            listaObj.adiciona(users.get(i));
+        }
+        GerenciadorDeArquivo.gravaArquivoTxt(listaObj, "arquivoDeUsuarios", qtds);
+        return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/lerArquivoTxt")
+    public ResponseEntity lerTxt(){
+        GerenciadorDeArquivo.leArquivoTxt("arquivoDeUsuariosTxt");
+
+        return ResponseEntity.status(200).build();
+    }
+
     @PostMapping("/")
     @SecurityRequirement(name= "Bearer")
     public ResponseEntity registrarUsuario(@RequestBody @Valid UsuarioCadastrarDTO usuarioCadastrarDTO){
