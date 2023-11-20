@@ -66,6 +66,12 @@ public class ListaController {
         return ResponseEntity.status(200).build();
     }
 
+    @PostMapping("/new-list")
+    public  ResponseEntity newList2(@RequestBody @Valid Lista listReceived){
+        listRepository.save(listReceived);
+        return ResponseEntity.status(200).build();
+    }
+
     @DeleteMapping("/{listaId}")
     public ResponseEntity deleteList(@PathVariable int listaId){
         if (listRepository.existsById(listaId)){

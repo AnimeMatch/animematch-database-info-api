@@ -22,7 +22,7 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
     List<ComentarioSimplesDTO> findBySimplesComentarioPaiId(int idComentario);
 
     @Query("""
-        select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto)
+        select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario)
         from Comentario c
         where c.topico.id = :idTopico and c.comentarioPai = null
     """)
