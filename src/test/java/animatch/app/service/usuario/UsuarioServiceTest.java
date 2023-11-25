@@ -48,19 +48,15 @@ class UsuarioServiceTest {
 
     @Test
     void testCriarNovoUsuario() {
-        // Mock dados de entrada
         UsuarioCadastrarDTO usuarioCadastrarDTO = new UsuarioCadastrarDTO();
         usuarioCadastrarDTO.setEmail("test@example.com");
         usuarioCadastrarDTO.setPassword("password");
 
-        // Configurar o comportamento do mock
         when(repository.existsByEmail(any())).thenReturn(false);
         when(passwordEncoder.encode(any())).thenReturn("hashedPassword");
 
-        // Executar o método a ser testado
         ResponseEntity<Usuario> responseEntity = service.criar(usuarioCadastrarDTO);
 
-        // Verificar se o usuário foi salvo corretamente
         assertEquals(201, responseEntity.getStatusCodeValue());
         assertEquals("test@example.com", responseEntity.getBody().getEmail());
         assertEquals("hashedPassword", responseEntity.getBody().getPassword());
@@ -73,15 +69,11 @@ class UsuarioServiceTest {
         usuarioCadastrarDTO.setEmail("existingUser@example.com");
         usuarioCadastrarDTO.setPassword("password");
 
-        // Configurar o comportamento do mock para indicar que o usuário já existe
         when(repository.existsByEmail(Mockito.anyString())).thenReturn(true);
 
-        // Executar o método a ser testado
         ResponseEntity<Usuario> responseEntity = service.criar(usuarioCadastrarDTO);
 
-        // Verificar se o código de status 409 foi retornado, indicando conflito (usuário já existe)
         assertEquals(409, responseEntity.getStatusCodeValue());
-        // Verificar se o corpo da resposta está vazio
         assertNull(responseEntity.getBody());
     }
 
