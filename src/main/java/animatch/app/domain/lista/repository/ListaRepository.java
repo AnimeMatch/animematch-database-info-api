@@ -13,13 +13,14 @@ public interface ListaRepository extends JpaRepository<Lista,Integer> {
     List<Lista> findAllByUserId(Usuario userId);
 
     @Query("""
-            select new animatch.app.dto.ListaInfoDTO(l.id, l.name)
-            from Lista l where l.userId in :userId
+            select new animatch.app.service.lista.dto.ListaInfoDTO(l.id, l.name)
+            from Lista l
+            where l.userId.id = ?1
             """)
-    List<ListaInfoDTO> findAllListaInfoByUserId(Usuario userId);
+    List<ListaInfoDTO> findAllListaInfoByUserId(int userId);
 
     @Query("""
-            select new animatch.app.dto.ListaInfoDTO(l.id, l.name)
+            select new animatch.app.service.lista.dto.ListaInfoDTO(l.id, l.name)
             from Lista l
             """)
     List<ListaInfoDTO> findAllInfo();

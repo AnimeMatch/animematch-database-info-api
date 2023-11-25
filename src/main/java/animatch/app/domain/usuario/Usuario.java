@@ -26,7 +26,7 @@ public class Usuario {
 //    @Pattern(
 //        regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$"
 //    )
-    @Size(min=1, max=45)
+    @Size(min=1, max=100)
     @Schema(description = "Senha do usuario", example = "senhasecreta")
     private String password;
     @Schema(description = "Link para imagem de perfil", example = "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pEFseh.jpg")

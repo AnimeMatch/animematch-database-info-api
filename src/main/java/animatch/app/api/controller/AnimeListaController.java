@@ -1,8 +1,9 @@
 package animatch.app.api.controller;
 
 import animatch.app.domain.anime.Anime;
+import animatch.app.domain.animelista.AnimeLista;
 import animatch.app.domain.animelista.repository.AnimeListaRepository;
-import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
+import animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO;
 import animatch.app.service.AnimeLista.AnimeListaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,14 @@ public class AnimeListaController {
     }
 
     @GetMapping("/animes-e-listas-do-usuario")
-    public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesLista(@RequestParam int userId){
-        List<AnimeListaInfoDTO> animes = service.animeListaPorUsuario(userId);
+    public ResponseEntity<List<AnimeLista>> getAnimesLista(@RequestParam int userId){
+        List<AnimeLista> animes = service.animeListaPorUsuario(userId);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
     @GetMapping("/animes-e-listas-do-usuario-paginado")
-    public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesListaPaginacao(@RequestParam int userId, @RequestParam int paginacao){
-        List<AnimeListaInfoDTO> animes = service.animeListaPorUsuarioPaginado(userId, paginacao);
+    public ResponseEntity<List<AnimeLista>> getAnimesListaPaginacao(@RequestParam int userId, @RequestParam int paginacao){
+        List<AnimeLista> animes = service.animeListaPorUsuarioPaginado(userId, paginacao);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 

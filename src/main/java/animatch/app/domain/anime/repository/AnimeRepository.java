@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface AnimeRepository extends JpaRepository<Anime,Integer> {
     Anime findByIdApi(int idApi);
+    Anime findById(int id);
 
     Boolean existsByIdApi(int idApi);
 
@@ -36,5 +37,5 @@ public interface AnimeRepository extends JpaRepository<Anime,Integer> {
             """)
     Integer qtdAssistido(Integer id);
 
-    List<Anime> findAllOrderByLikes();
+    List<Anime> findAllByOrderByLikesDesc();
 }

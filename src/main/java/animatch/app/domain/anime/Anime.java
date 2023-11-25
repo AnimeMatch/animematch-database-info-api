@@ -6,7 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Entity
 public class Anime {
     @Id
@@ -17,8 +19,9 @@ public class Anime {
     @Positive
     @Schema(description = "Id do anime na API anilist", example = "253")
     private int idApi;
+    private String nome;
     @DecimalMin("0.0")
-    @DecimalMax("10.0")
+    @DecimalMax("100.0")
     @Schema(description = "Nota média do anime provida pela API", example = "56.7")
     private double notaMedia;
     @Schema(description = "Link para imagem do anime",
@@ -31,8 +34,9 @@ public class Anime {
     public Anime() {
     }
 
-    public Anime(int idApi, double notaMedia, String imagem) {
+    public Anime(int idApi, String nome, double notaMedia, String imagem) {
         this.idApi = idApi;
+        this.nome = nome;
         this.notaMedia = notaMedia;
         this.imagem = imagem;
         this.likes = 0;
@@ -72,6 +76,18 @@ public class Anime {
 
     public int getLikes() {
         return likes;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     public void somarLikes(){

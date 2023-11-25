@@ -8,8 +8,8 @@ import animatch.app.domain.lista.repository.ListaRepository;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.service.Anime.AnimeService;
 import animatch.app.service.Anime.dto.AnimeInfoDTO;
-import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
-import animatch.app.service.Anime.dto.AnimeParaSalvarDto;
+import animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO;
+import animatch.app.service.AnimeLista.dto.AnimeListaInfoDadosBrutosDto;
 import animatch.app.service.usuario.UsuarioService;
 import animatch.app.utils.ListaObj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,36 +72,46 @@ public class AnimeListaService {
     }
 
     public ListaObj<Anime> vetorDeAnimes(){
-        List<AnimeInfoDTO> animes = repository.findAllInfo();
+        List<Anime> animes = repository.findAllInfo();
         ListaObj<Anime> lista = new ListaObj<Anime>(animes.size());
         for (int i = 0; i < animes.size(); i++) {
-            lista.adiciona(animes.get(i).getAnime());
+            lista.adiciona(animes.get(i));
         }
         return lista;
     }
 
-    public List<AnimeListaInfoDTO> animeListaPorUsuario(int userId){
+    public List<AnimeLista> animeListaPorUsuario(int userId){
         usuarioService.verificarUsuarioExiste(userId);
-        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserId(
-                usuarioRepository.findUserById(
-                        userId));
-        return animes;
+        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserId(userId);
+        List<AnimeLista> dados = new ArrayList<>();
+        for (AnimeListaInfoDTO a: animes) {
+            AnimeLista anime = new AnimeLista(a.getAnimeId(), a.getListaId());
+            dados.add(anime);
+        }
+
+        return dados;
     }
 
-    public List<AnimeListaInfoDTO> animeListaPorUsuarioPaginado(int userId, int paginacao){
+    public List<AnimeLista> animeListaPorUsuarioPaginado(int userId, int paginacao){
         usuarioService.verificarUsuarioExiste(userId);
         Pageable pageable = PageRequest.of(0, paginacao);
-        return repository.findAllAnimeListaInfoByUserIdPaginacao(
-                        usuarioRepository.findUserById(userId),
-                        pageable);
+        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserIdPaginacao(
+                usuarioRepository.findUserById(userId),
+                pageable);
+        List<AnimeLista> dados = new ArrayList<>();
+        for (AnimeListaInfoDTO a: animes) {
+            AnimeLista anime = new AnimeLista(a.getAnimeId(), a.getListaId());
+            dados.add(anime);
+        }
+        return dados;
     }
 
     public ListaObj<Anime> receberAnimesDeUmaLista(int listaId){
         this.verificarListaExiste(listaId);
-        List<AnimeInfoDTO> animes = repository.findAllAnimeInfoByListaId(listaId);
+        List<Anime> animes = repository.findAllAnimeInfoByListaId(listaId);
         ListaObj<Anime> lista = new ListaObj(animes.size());
         for (int i = 0; i < animes.size(); i++) {
-            lista.adiciona(animes.get(i).getAnime());
+            lista.adiciona(animes.get(i));
         }
         return lista;
     }
@@ -108,10 +119,10 @@ public class AnimeListaService {
     public ListaObj<Anime> receberAnimesDeUmaListaPaginado(int listaId, int paginacao){
         verificarListaExiste(listaId);
         Pageable pageable = PageRequest.of(0, paginacao);
-        List<AnimeInfoDTO> animes = repository.findAllAnimePaginadoInfoByListaId(listaId, pageable);
+        List<Anime> animes = repository.findAllAnimePaginadoInfoByListaId(listaId, pageable);
         ListaObj<Anime> lista = new ListaObj(animes.size());
         for (int i = 0; i < animes.size(); i++) {
-            lista.adiciona(animes.get(i).getAnime());
+            lista.adiciona(animes.get(i));
         }
         return lista;
     }

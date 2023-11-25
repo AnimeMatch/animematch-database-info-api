@@ -51,6 +51,7 @@ public class AnimeService {
             AnimeParaSalvarDto animeRequested = buscarAnime(idApi);
             Anime anime = new Anime(
                     animeRequested.getIdApi(),
+                    animeRequested.getNome(),
                     animeRequested.getNotaMedia(),
                     animeRequested.getImagem()
             );

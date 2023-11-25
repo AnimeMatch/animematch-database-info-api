@@ -6,7 +6,9 @@ import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.service.lista.dto.ListaInfoDTO;
 import animatch.app.service.usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,8 +16,6 @@ import java.util.List;
 public class ListaService {
     @Autowired
     ListaRepository repository;
-    @Autowired
-    UsuarioService usuarioService;
     @Autowired
     UsuarioRepository usuarioRepository;
 
@@ -33,8 +33,13 @@ public class ListaService {
         addList(idUsuario, "on going");        
     }
     public List<ListaInfoDTO> listasPorUsuario(int usuarioId){
-        usuarioService.verificarUsuarioExiste(usuarioId);
-        return repository.findAllListaInfoByUserId(
-                        usuarioRepository.findUserById(usuarioId));
+        this.verificarUsuarioExiste(usuarioId);
+        return repository.findAllListaInfoByUserId(usuarioId);
+    }
+
+    public void verificarUsuarioExiste(int userId){
+        if (!usuarioRepository.existsById(userId)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
     }
 }

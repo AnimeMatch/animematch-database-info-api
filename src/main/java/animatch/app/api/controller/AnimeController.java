@@ -37,7 +37,7 @@ public class AnimeController {
 
     @GetMapping("/mais-likes")
     public ResponseEntity<List<Anime>> getMaisLikes() {
-        List<Anime> animes = repository.findAllOrderByLikes();
+        List<Anime> animes = repository.findAllByOrderByLikesDesc();
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 

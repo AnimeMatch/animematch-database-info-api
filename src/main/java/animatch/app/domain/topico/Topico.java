@@ -3,7 +3,9 @@ package animatch.app.domain.topico;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Entity
 public class Topico {
     @Id

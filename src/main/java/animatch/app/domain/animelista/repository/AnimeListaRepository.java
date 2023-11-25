@@ -1,10 +1,13 @@
 package animatch.app.domain.animelista.repository;
 
+import animatch.app.domain.anime.Anime;
 import animatch.app.domain.animelista.AnimeLista;
 import animatch.app.service.Anime.dto.AnimeInfoDTO;
-import animatch.app.service.Anime.dto.AnimeListaInfoDTO;
+import animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO;
 import animatch.app.domain.usuario.Usuario;
+import animatch.app.service.AnimeLista.dto.AnimeListaInfoDadosBrutosDto;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,49 +23,53 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
 //    List<Lista> findAllById(int animeId, int listaId);
 
     @Query("""
-        select new animatch.app.dto.AnimeInfoDTO(a.animeId)
-        from AnimeLista a
-        join a.listaId Lista
-        where Lista.id = :listaId
-    """)
-    List<AnimeInfoDTO> findAllAnimeInfoByListaId(int listaId);
-    @Query("""
-        select new animatch.app.dto.AnimeInfoDTO(a.animeId)
+        select a.animeId
         from AnimeLista a
         """)
-    List<AnimeInfoDTO> findAllInfo();
+    List<Anime> findAllInfo();
+    @Query("""
+        select a.animeId
+        from AnimeLista a
+        where a.listaId.id = ?1
+    """)
+    List<Anime> findAllAnimeInfoByListaId(int listaId);
+
+    @Query("""
+        select a.animeId
+        from AnimeLista a
+        where a.listaId.id = ?1
+    """)
+    List<Anime> findAllAnimePaginadoInfoByListaId(int listaId, Pageable pageable);
+
+    @Query("""
+        select new animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
+        from AnimeLista a
+        join a.listaId Lista
+        where Lista.userId.id = :userId
+    """)
+    List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserId(int userId);
 
 //    @Query("""
-//        select new animatch.app.service.Anime.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
+//        select new animatch.app.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
 //        from AnimeLista a
 //        join a.listaId Lista
-//        where Lista.userId = :userId
+//        where Lista.userId = ?1
 //    """)
 //    List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserId(int userId);
 
+//    @Query("""
+//        select new animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
+//        from AnimeLista a
+//        where a.listaId.userId.id = ?1
+//    """)
+//    List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserId(int userId);
+//
     @Query("""
-        select new animatch.app.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
+        select new animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
         from AnimeLista a
-        join a.listaId Lista
-        where Lista.userId = ?1
-    """)
-    List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserId(Usuario userId);
-
-    @Query("""
-        select new animatch.app.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
-        from AnimeLista a
-        join a.listaId Lista
-        where Lista.userId = :userId
+        where a.listaId.userId.id = ?1
     """)
     List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserIdPaginacao(Usuario userId, Pageable paginacao);
-
-    @Query("""
-        select new animatch.app.dto.AnimeInfoDTO(a.animeId)
-        from AnimeLista a
-        join a.listaId Lista
-        where Lista.id = :listaId
-    """)
-    List<AnimeInfoDTO> findAllAnimePaginadoInfoByListaId(int listaId, Pageable pageable);
 
     @Modifying
     @Transactional
