@@ -1,4 +1,4 @@
-package animatch.app.dto;
+package animatch.app.service.lista.dto;
 
 public class ListaInfoDTO {
     private int id;

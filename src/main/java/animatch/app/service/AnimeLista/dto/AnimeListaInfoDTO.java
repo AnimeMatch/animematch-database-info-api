@@ -1,15 +1,17 @@
-package animatch.app.dto;
+package animatch.app.service.AnimeLista.dto;
 
 import animatch.app.domain.anime.Anime;
+import animatch.app.domain.lista.Lista;
+import animatch.app.service.lista.dto.ListaInfoDTO;
 
 public class AnimeListaInfoDTO {
     private Anime animeId;
-    private ListaInfoDTO listaId;
+    private Lista listaId;
 
     public AnimeListaInfoDTO() {
     }
 
-    public AnimeListaInfoDTO(Anime animeId, ListaInfoDTO listaId) {
+    public AnimeListaInfoDTO(Anime animeId, Lista listaId) {
         this.animeId = animeId;
         this.listaId = listaId;
     }
@@ -18,7 +20,7 @@ public class AnimeListaInfoDTO {
         return animeId;
     }
 
-    public ListaInfoDTO getListaId() {
+    public Lista getListaId() {
         return listaId;
     }
 }
