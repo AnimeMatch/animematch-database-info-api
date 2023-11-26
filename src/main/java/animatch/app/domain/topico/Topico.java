@@ -1,7 +1,10 @@
 package animatch.app.domain.topico;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 
@@ -15,6 +18,8 @@ public class Topico {
     @NotBlank
     @Schema(description = "Titulo do tópico", example = "Meu anime favorito")
     private String titulo;
+    @NotBlank
+    private String idAnime;
 
     public int getId() {
         return id;
@@ -30,5 +35,13 @@ public class Topico {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getIdAnime() {
+        return idAnime;
+    }
+
+    public void setIdAnime(String idAnime) {
+        this.idAnime = idAnime;
     }
 }

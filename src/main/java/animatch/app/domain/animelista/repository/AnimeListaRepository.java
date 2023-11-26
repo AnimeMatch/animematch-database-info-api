@@ -2,6 +2,7 @@ package animatch.app.domain.animelista.repository;
 
 import animatch.app.domain.anime.Anime;
 import animatch.app.domain.animelista.AnimeLista;
+import animatch.app.domain.lista.Lista;
 import animatch.app.service.Anime.dto.AnimeInfoDTO;
 import animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO;
 import animatch.app.domain.usuario.Usuario;
@@ -21,6 +22,7 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
 //            from Lista l
 //            """)
 //    List<Lista> findAllById(int animeId, int listaId);
+List<AnimeLista> findByListaId(Lista listaId);
 
     List<AnimeLista> findAll();
     @Query("""

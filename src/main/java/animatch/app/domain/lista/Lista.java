@@ -18,7 +18,6 @@ public class Lista {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
     private int id;
-    @NotNull
     @ManyToOne
     @JsonIgnore
     @Schema(description = "Id do usuário criador da lista", example = "1")
