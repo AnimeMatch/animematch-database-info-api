@@ -9,6 +9,7 @@ import animatch.app.dto.AnimeInfoDTO;
 import animatch.app.dto.AnimeListaInfoDTO;
 import animatch.app.utils.FilaObj;
 import animatch.app.utils.ListaObj;
+import animatch.app.utils.PilhaObj;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +33,8 @@ public class AnimeListaController {
     UsuarioRepository usuarioRepository;
 
     FilaObj<AnimeLista> filaObj = new FilaObj<>(10);
+
+    PilhaObj<AnimeLista> pilhaObj = new PilhaObj<>(10);
 
 //    @GetMapping("/")
 //    public ResponseEntity<Anime[]> getAnimes() {
@@ -95,12 +98,20 @@ public class AnimeListaController {
     @PostMapping("/esvaziar-fila-de-espera")
     public ResponseEntity esvaziarFila() {
         while (!filaObj.isEmpty()){
-            animeListaRepository.save(filaObj.poll());
+           var obj = animeListaRepository.save(filaObj.poll());
+            pilhaObj.push(obj);
         }
-
         return ResponseEntity.status(201).build();
     }
 
+    @GetMapping("/exibir-anime-pilha")
+    public ResponseEntity<AnimeLista> exibirAnimePilha() {
+        if (pilhaObj.isEmpty()){
+            return ResponseEntity.status(204).build();
+        }
+        var animePilhaTopo = pilhaObj.pop();
+        return ResponseEntity.status(200).body(animePilhaTopo);
+    }
 //    @PutMapping("/")
 //    public ResponseEntity<>
 

@@ -12,6 +12,7 @@ insert into anime(id_api,nota_media) values (198,5.5);
 insert into anime(id_api,nota_media) values (909,5.5);
 
 insert into topico(titulo,id_anime,usuario_id) values ('Spy fmaily season 2','158927',1);
+insert into comentario(texto,topico_id,data_comentario,id_usuario,id_anime_api) values ('Anime top de maiss!',1,'2023-11-27',1,123);
 insert into comentario(texto,topico_id,data_comentario,id_usuario,id_anime_api) values ('Anime top de maiss!',1,'2023-11-27',1,158927);
 insert into comentario(texto,topico_id,data_comentario,id_usuario,id_anime_api) values ('Anime top de maiss!',1,'2023-11-27',1,909);
 insert into comentario(texto,topico_id,data_comentario,id_usuario,id_anime_api) values ('Gostei muitoo!',1,'2023-11-27',1,909);
