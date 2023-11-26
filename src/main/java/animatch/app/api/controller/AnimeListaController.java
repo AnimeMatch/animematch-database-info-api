@@ -42,9 +42,9 @@ public class AnimeListaController {
 //    }
     @GetMapping("/")
     public ResponseEntity<List<AnimeLista>> getAnimes(){
-//        ListaObj<Anime> lista = service.vetorDeAnimes();
+    //        ListaObj<Anime> lista = service.vetorDeAnimes();
         List<AnimeLista> lista = service.receberAnimes();
-//        return lista.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
+    //        return lista.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
         return lista.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista);
     }
 
@@ -54,10 +54,9 @@ public class AnimeListaController {
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
-    @GetMapping("/animes-e-lista/{userId}/{paginacao}")
-    public ResponseEntity<List<AnimeListaInfoDTO>> getAnimesListaPaginacao(@PathVariable int userId, @PathVariable int paginacao){
-        Pageable pageable = PageRequest.of(0, paginacao);
-        List<AnimeListaInfoDTO> animes = animeListaRepository.findAllAnimeListaInfoByUserIdPaginacao(usuarioRepository.findUserById(userId), pageable);
+    @GetMapping("/animes-e-listas-do-usuario-paginado")
+    public ResponseEntity<List<AnimeLista>> getAnimesListaPaginacao(@RequestParam int userId, @RequestParam int paginacao){
+        List<AnimeLista> animes = service.animeListaPorUsuarioPaginado(userId, paginacao);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
@@ -95,7 +94,7 @@ public class AnimeListaController {
     @PostMapping("/esvaziar-fila-de-espera")
     public ResponseEntity esvaziarFila() {
         while (!filaObj.isEmpty()){
-            animeListaRepository.save(filaObj.poll());
+            repository.save(filaObj.poll());
         }
 
         return ResponseEntity.status(201).build();
