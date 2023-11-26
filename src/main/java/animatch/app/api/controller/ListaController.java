@@ -3,9 +3,12 @@ package animatch.app.api.controller;
 import animatch.app.domain.lista.Lista;
 import animatch.app.domain.animelista.repository.AnimeListaRepository;
 import animatch.app.domain.lista.repository.ListaRepository;
+import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.service.lista.dto.ListaInfoDTO;
 import animatch.app.service.lista.ListaService;
+import animatch.app.service.lista.dto.UserViews;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +42,10 @@ public class ListaController {
         List<ListaInfoDTO> listas =  service.listasPorUsuario(userId);
         return listas.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(listas);
     }
+
     @PostMapping("/new")
-    public  ResponseEntity newList(@RequestBody @Valid Lista listReceived){
-        service.addList(listReceived.getUserId().getId(),listReceived.getName());
+    public  ResponseEntity newList(@RequestParam int userId, @RequestParam String name){
+        service.addList(userId, name);
         return ResponseEntity.status(201).build();
     }
 

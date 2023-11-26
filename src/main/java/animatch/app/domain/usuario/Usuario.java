@@ -20,7 +20,7 @@ public class Usuario {
     @Schema(description = "Nome do usuário", example = "fulano de tal")
     private String name;
     @Email
-    @Pattern(regexp = "/^[a-z0-9.]+@[a-z0-9]+\\.[a-z]+\\.([a-z]+)?$/i")
+//    @Pattern(regexp = "/^[a-z0-9.]+@[a-z0-9]+\\.[a-z]+\\.([a-z]+)?$/i")
     @Schema(description = "E-mail do usuário", example = "usuario@email.com")
     private String email;
 //    @Pattern(
@@ -34,7 +34,6 @@ public class Usuario {
     @Schema(description = "Link para imagem de capa do perfil", example = "https://s4.anilist.co/file/anilistcdn/media/anime/banner/113415-jQBSkxWAAk83.jpg")
     private String coverImage;
     @Schema(description = "Data de criação da conta", example = "2000-01-01")
-    @Past
     private LocalDate criacao;
     @Schema(description = "Status de conta ativa 'true' ou 'false'", example = "true")
     private boolean status = true;

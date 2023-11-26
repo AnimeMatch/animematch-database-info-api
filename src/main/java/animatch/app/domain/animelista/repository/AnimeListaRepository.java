@@ -22,6 +22,7 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
 //            """)
 //    List<Lista> findAllById(int animeId, int listaId);
 
+    List<AnimeLista> findAll();
     @Query("""
         select a.animeId
         from AnimeLista a
@@ -39,7 +40,7 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
         from AnimeLista a
         where a.listaId.id = ?1
     """)
-    List<Anime> findAllAnimePaginadoInfoByListaId(int listaId, Pageable pageable);
+    List<Anime> findAllAnimePaginadoInfoByListaId(int listaId, Pageable paginacao);
 
     @Query("""
         select new animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
@@ -69,10 +70,17 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
         from AnimeLista a
         where a.listaId.userId.id = ?1
     """)
-    List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserIdPaginacao(Usuario userId, Pageable paginacao);
+    List<AnimeListaInfoDTO> findAllAnimeListaInfoByUserIdPaginacao(int userId, Pageable paginacao);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM AnimeLista a WHERE a.listaId = :listaId")
+    @Query("DELETE FROM AnimeLista a WHERE a.listaId.id = ?1")
     void deleteAllByListaId(int listaId);
+
+    @Modifying
+    @Transactional
+    @Query("""
+            DELETE FROM AnimeLista a WHERE a.animeId.id = ?1
+            """)
+    void deleteAllByAnimeId(int animeId);
 }

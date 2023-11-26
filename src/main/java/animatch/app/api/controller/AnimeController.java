@@ -29,7 +29,7 @@ public class AnimeController {
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
-    @GetMapping("/ordenados")
+    @GetMapping("/ordenados-pela-nota")
     public ResponseEntity<List<Anime>> getOrdenadosPelaNota() {
         List<Anime> animes = service.ordenarPelaNota();
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
@@ -61,10 +61,10 @@ public class AnimeController {
     @DeleteMapping("/{animeId}")
     public ResponseEntity deleteAnime(@PathVariable int animeId){
         if (repository.existsById(animeId)) {
-            repository.deleteById(animeId);
+            service.deleteAnime(animeId);
             return ResponseEntity.status(200).build();
         }
-        return ResponseEntity.status(400).build();
+        return ResponseEntity.status(404).build();
     }
 }
 

@@ -22,7 +22,7 @@ public interface AnimeRepository extends JpaRepository<Anime,Integer> {
     Integer qtdDeslikesAnime(Integer id);
 
     @Query("""
-    select animatch.app.dto.AnimeLikesDto(a.likes)
+    SELECT SUM(a.likes)
     from Anime a
     where a.id = ?1
             """)
@@ -38,4 +38,6 @@ public interface AnimeRepository extends JpaRepository<Anime,Integer> {
     Integer qtdAssistido(Integer id);
 
     List<Anime> findAllByOrderByLikesDesc();
+
+    List<Anime> findAllByOrderByNotaMediaDesc();
 }

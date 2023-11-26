@@ -27,11 +27,12 @@ public class ListaService {
     }
 
     public void adicionarListasDefault(int idUsuario){
-        addList(idUsuario, "favorites");
-        addList(idUsuario, "dropped");
-        addList(idUsuario, "watched");
-        addList(idUsuario, "on going");        
+        addList(idUsuario, "Favoritos");
+        addList(idUsuario, "Dropados");
+        addList(idUsuario, "Assistidos");
+        addList(idUsuario, "Em andamento");
     }
+
     public List<ListaInfoDTO> listasPorUsuario(int usuarioId){
         this.verificarUsuarioExiste(usuarioId);
         return repository.findAllListaInfoByUserId(usuarioId);

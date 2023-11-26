@@ -71,6 +71,10 @@ public class AnimeListaService {
         }
     }
 
+    public List<AnimeLista> receberAnimes(){
+//        return repository.findAllInfo();
+        return repository.findAll();
+    }
     public ListaObj<Anime> vetorDeAnimes(){
         List<Anime> animes = repository.findAllInfo();
         ListaObj<Anime> lista = new ListaObj<Anime>(animes.size());
@@ -96,7 +100,7 @@ public class AnimeListaService {
         usuarioService.verificarUsuarioExiste(userId);
         Pageable pageable = PageRequest.of(0, paginacao);
         List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserIdPaginacao(
-                usuarioRepository.findUserById(userId),
+                userId,
                 pageable);
         List<AnimeLista> dados = new ArrayList<>();
         for (AnimeListaInfoDTO a: animes) {
@@ -106,7 +110,11 @@ public class AnimeListaService {
         return dados;
     }
 
-    public ListaObj<Anime> receberAnimesDeUmaLista(int listaId){
+    public List<Anime> receberAnimesDeUmaLista(int listaId){
+        return repository.findAllAnimeInfoByListaId(listaId);
+    }
+
+    public ListaObj<Anime> receberAnimesDeUmaListaVetor(int listaId){
         this.verificarListaExiste(listaId);
         List<Anime> animes = repository.findAllAnimeInfoByListaId(listaId);
         ListaObj<Anime> lista = new ListaObj(animes.size());
@@ -116,7 +124,12 @@ public class AnimeListaService {
         return lista;
     }
 
-    public ListaObj<Anime> receberAnimesDeUmaListaPaginado(int listaId, int paginacao){
+    public List<Anime> recebreAnimesDeUmaListaPaginado(int listaId, int paginacao){
+        Pageable pageable = PageRequest.of(0, paginacao);
+        return repository.findAllAnimePaginadoInfoByListaId(listaId, pageable);
+    }
+
+    public ListaObj<Anime> receberAnimesDeUmaListaPaginadoVetor(int listaId, int paginacao){
         verificarListaExiste(listaId);
         Pageable pageable = PageRequest.of(0, paginacao);
         List<Anime> animes = repository.findAllAnimePaginadoInfoByListaId(listaId, pageable);

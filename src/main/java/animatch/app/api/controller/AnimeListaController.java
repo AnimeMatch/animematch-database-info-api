@@ -20,9 +20,11 @@ public class AnimeListaController {
     private AnimeListaService service;
 
     @GetMapping("/")
-    public ResponseEntity<Anime[]> getAnimes(){
-        ListaObj<Anime> lista = service.vetorDeAnimes();
-        return lista.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
+    public ResponseEntity<List<AnimeLista>> getAnimes(){
+//        ListaObj<Anime> lista = service.vetorDeAnimes();
+        List<AnimeLista> lista = service.receberAnimes();
+//        return lista.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista.getLista());
+        return lista.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(lista);
     }
 
     @GetMapping("/animes-e-listas-do-usuario")
@@ -38,15 +40,19 @@ public class AnimeListaController {
     }
 
     @GetMapping("/animes-da-lista")
-    public ResponseEntity<Anime[]> getAnimeLista(@RequestParam int listaId) {
-        ListaObj<Anime> animes = service.receberAnimesDeUmaLista(listaId);
-        return animes.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes.getLista());
+    public ResponseEntity<List<Anime>> getAnimeLista(@RequestParam int listaId) {
+        List<Anime> animes = service.receberAnimesDeUmaLista(listaId);
+        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
+//    public ResponseEntity<Anime[]> getAnimeLista(@RequestParam int listaId) {
+//        ListaObj<Anime> animes = service.receberAnimesDeUmaLista(listaId);
+//        return animes.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes.getLista());
+//    }
 
     @GetMapping("/animes-da-lista-paginado")
-    public ResponseEntity<Anime[]> getAnimeListaPaginacao(@RequestParam int listaId, @RequestParam int paginacao) {
-        ListaObj<Anime> animes = service.receberAnimesDeUmaListaPaginado(listaId, paginacao);
-        return animes.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes.getLista());
+    public ResponseEntity<List<Anime>> getAnimeListaPaginacao(@RequestParam int listaId, @RequestParam int paginacao) {
+        List<Anime> animes = service.recebreAnimesDeUmaListaPaginado(listaId, paginacao);
+        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
     @PostMapping("/")
@@ -55,8 +61,8 @@ public class AnimeListaController {
         return ResponseEntity.status(201).build();
     }
 
-    @DeleteMapping("/{animeListaId}")
-    public ResponseEntity deleteAnimeLista(@PathVariable int animeListaId){
+    @DeleteMapping("/")
+    public ResponseEntity deleteAnimeLista(@RequestParam int animeListaId){
         if (repository.existsById(animeListaId)) {
             repository.deleteById(animeListaId);
             return ResponseEntity.status(200).build();

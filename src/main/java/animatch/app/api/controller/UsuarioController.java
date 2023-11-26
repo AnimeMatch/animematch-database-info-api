@@ -91,10 +91,10 @@ public class UsuarioController {
     })
     @Operation(summary = "Cadastro de novos usuários")
     @PostMapping("/")
-    @SecurityRequirement(name= "Bearer")
+//    @SecurityRequirement(name= "Bearer")
     public ResponseEntity registrarUsuario(@RequestBody @Valid UsuarioCadastrarDTO usuarioCadastrarDTO){
         try {
-            ResponseEntity resposta = this.service.criar(usuarioCadastrarDTO);
+            ResponseEntity resposta = service.criar(usuarioCadastrarDTO);
             return ResponseEntity.status(resposta.getStatusCode()).body(resposta.getBody());
         }catch (Exception e){
             return ResponseEntity.status(500).body(e);

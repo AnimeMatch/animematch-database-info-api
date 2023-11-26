@@ -23,7 +23,7 @@ public class AnimeLista {
     private Anime animeId;
     @NotNull
     @ManyToOne
-    @JsonIgnore // Caso haja recursividade infinita
+    // @JsonIgnore // Caso haja recursividade infinita
     @Schema(description = "Lista na qual anime passará a pertencer", example = "1")
     private Lista listaId;
 
