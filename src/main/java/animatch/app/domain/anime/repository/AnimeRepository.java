@@ -4,4 +4,6 @@ import animatch.app.domain.anime.Anime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnimeRepository extends JpaRepository<Anime,Integer> {
+
+    boolean existsByIdApi(Integer integer);
 }

@@ -1,9 +1,15 @@
 package animatch.app.domain.comentario;
 
 import animatch.app.domain.topico.Topico;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 @Entity
 public class Comentario {
@@ -12,14 +18,25 @@ public class Comentario {
     @Schema(description = "Identificador único", example = "1")
     private int id;
     @NotBlank
+    @Size(min = 5, max = 250)
     @Schema(description = "Conteúdo do comentário", example = "Melhor episódio que eu vi!")
     private String texto;
+
     @ManyToOne
     @Schema(description = "Tópico ao qual o anime pertence", example = "1")
     private Topico topico;
     @ManyToOne
+    @JsonIgnore
     @Schema(description = "Comentário pai", example = "1")
     private Comentario comentarioPai;
+
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate dataComentario = LocalDate.now();
+
+    @NotNull
+    private int idUsuario;
+
+    private int idAnimeApi;
 
     public int getId() {
         return id;
@@ -53,4 +70,43 @@ public class Comentario {
         this.comentarioPai = comentario;
     }
 
+    public Comentario getComentarioPai() {
+        return comentarioPai;
+    }
+
+    public void setComentarioPai(Comentario comentarioPai) {
+        this.comentarioPai = comentarioPai;
+    }
+
+    public LocalDate getDateComentario() {
+        return dataComentario;
+    }
+
+    public void setDateComentario(LocalDate dateComentario) {
+        this.dataComentario = dateComentario;
+    }
+
+    public LocalDate getDataComentario() {
+        return dataComentario;
+    }
+
+    public void setDataComentario(LocalDate dataComentario) {
+        this.dataComentario = dataComentario;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public int getIdAnimeApi() {
+        return idAnimeApi;
+    }
+
+    public void setIdAnimeApi(int idAnimeApi) {
+        this.idAnimeApi = idAnimeApi;
+    }
 }

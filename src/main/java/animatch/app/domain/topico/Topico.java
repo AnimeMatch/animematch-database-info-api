@@ -1,8 +1,10 @@
 package animatch.app.domain.topico;
 
+import animatch.app.domain.usuario.Usuario;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Topico {
@@ -13,6 +15,11 @@ public class Topico {
     @NotBlank
     @Schema(description = "Titulo do tópico", example = "Meu anime favorito")
     private String titulo;
+    @NotBlank
+    private String idAnime;
+    @ManyToOne
+    @NotNull
+    private Usuario usuario;
 
     public int getId() {
         return id;
@@ -28,5 +35,21 @@ public class Topico {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getIdAnime() {
+        return idAnime;
+    }
+
+    public void setIdAnime(String idAnime) {
+        this.idAnime = idAnime;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

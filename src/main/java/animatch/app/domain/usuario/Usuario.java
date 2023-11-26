@@ -41,6 +41,18 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(int id, String name, String email, String password, String profileImage, String coverImage, LocalDate criacao, boolean status, String genero) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.profileImage = profileImage;
+        this.coverImage = coverImage;
+        this.criacao = criacao;
+        this.status = status;
+        this.genero = genero;
+    }
+
     public int getId() {
         return id;
     }

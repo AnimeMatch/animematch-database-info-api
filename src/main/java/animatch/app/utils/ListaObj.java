@@ -1,6 +1,6 @@
 package animatch.app.utils;
 
-public class ListaObj <T> {
+public class ListaObj<T> {
     private T[] vetor;
     private int nroElem;
 
@@ -9,15 +9,14 @@ public class ListaObj <T> {
         nroElem = 0;
     }
 
-    public T[] getLista(){
+    public T[] getLista() {
         return vetor;
     }
 
     public void adiciona(T elemento) {
         if (nroElem >= vetor.length) {
             System.out.println("Lista está cheia");
-        }
-        else {
+        } else {
             vetor[nroElem++] = elemento;
         }
     }
@@ -25,8 +24,7 @@ public class ListaObj <T> {
     public void exibe() {
         if (nroElem == 0) {
             System.out.println("\nA lista está vazia.");
-        }
-        else {
+        } else {
             System.out.println("\nElementos da lista:");
             for (int i = 0; i < nroElem; i++) {
                 System.out.println(vetor[i]);
@@ -43,13 +41,13 @@ public class ListaObj <T> {
         return -1;                               // nao encontrou, retorna -1
     }
 
-    public boolean removePeloIndice (int indice) {
+    public boolean removePeloIndice(int indice) {
         if (indice < 0 || indice >= nroElem) {
             System.out.println("\nIndice invalido!");
             return false;
         }
-        for (int i = indice; i < nroElem-1; i++) {
-            vetor[i] = vetor[i+1];
+        for (int i = indice; i < nroElem - 1; i++) {
+            vetor[i] = vetor[i + 1];
         }
         nroElem--;
         return true;
@@ -66,8 +64,7 @@ public class ListaObj <T> {
     public T getElemento(int indice) {
         if (indice < 0 || indice >= nroElem) {
             return null;
-        }
-        else {
+        } else {
             return vetor[indice];
         }
     }
