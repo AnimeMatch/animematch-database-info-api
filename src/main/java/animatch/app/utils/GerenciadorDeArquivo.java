@@ -220,8 +220,6 @@ public class GerenciadorDeArquivo {
                 // 1o argumento do substring é o indice do que se quer obter, iniciando de zero
                 // 2o argumento do substring é o indice final do que se deseja, MAIS UM
 
-                // 012345
-                // 00NOTA
                 tipoRegistro = registro.substring(0,2);
                 if (tipoRegistro.equals("00")) {
                     System.out.println("É um registro de header");
@@ -242,8 +240,8 @@ public class GerenciadorDeArquivo {
                     String genero = registro.substring(47, 56).trim();
                     String email = registro.substring(56, 96).trim();
                     String criacao = registro.substring(96, 101).trim();
-                    Integer imgPerfil = Integer.valueOf(registro.substring(101, 125).trim());
-                    Integer imgCapa = Integer.valueOf(registro.substring(125, 150).trim());
+                    String imgPerfil = registro.substring(101, 125).trim();
+                    String imgCapa = registro.substring(125, 150).trim();
                     boolean status = Boolean.parseBoolean(registro.substring(150, 155).trim());
                     Integer quantidade = Integer.valueOf(registro.substring(155, 157).trim());
                     //Depois de guardar em varável, exiba:
