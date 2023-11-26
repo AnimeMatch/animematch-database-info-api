@@ -4,6 +4,7 @@ import animatch.app.api.configuration.security.jwt.GerenciadorTokenJwt;
 import animatch.app.domain.lista.repository.ListaRepository;
 import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
+import animatch.app.dto.UsuarioImportacaoDTO;
 import animatch.app.service.lista.ListaService;
 import animatch.app.service.usuario.autenticacao.AutenticacaoService;
 import animatch.app.service.usuario.autenticacao.dto.UsuarioTokenDTO;
@@ -11,6 +12,8 @@ import animatch.app.service.usuario.dto.UsuarioAtualizarDto;
 import animatch.app.service.usuario.dto.UsuarioCadastrarDTO;
 import animatch.app.service.usuario.dto.UsuarioLoginDTO;
 import animatch.app.service.usuario.dto.UsuarioMapper;
+import animatch.app.service.usuario.mapper.UsuarioRelatorioMapper;
+import animatch.app.utils.GerenciadorArquivoTxt;
 import animatch.app.utils.GerenciadorDeArquivo;
 import animatch.app.utils.ListaObj;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,15 +49,15 @@ public class UsuarioService {
     @Autowired
     private AutenticacaoService usuarioAutorizacaoService;
 
-    public void verificarUsuarioExiste(int userId){
-        if (!repository.existsById(userId)){
+    public void verificarUsuarioExiste(int userId) {
+        if (!repository.existsById(userId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
         }
     }
 
-    public ResponseEntity<Usuario> criar(UsuarioCadastrarDTO usuarioCadastrarDTO){
+    public ResponseEntity<Usuario> criar(UsuarioCadastrarDTO usuarioCadastrarDTO) {
         final Usuario novoUsuario = UsuarioMapper.of(usuarioCadastrarDTO);
-        if(this.repository.existsByEmail(novoUsuario.getEmail())){
+        if (this.repository.existsByEmail(novoUsuario.getEmail())) {
             return ResponseEntity.status(409).build();
         }
 
@@ -75,7 +77,7 @@ public class UsuarioService {
         Usuario usuarioAutenticado =
                 repository.findByEmail(login.getEmail());
 
-        if(usuarioAutenticado == null){
+        if (usuarioAutenticado == null) {
             return ResponseEntity.status(403).build();
         }
 
@@ -85,14 +87,14 @@ public class UsuarioService {
     }
 
 
-    public ResponseEntity<UsuarioTokenDTO> atualizar(UsuarioAtualizarDto usuarioAtualizar){
+    public ResponseEntity<UsuarioTokenDTO> atualizar(UsuarioAtualizarDto usuarioAtualizar) {
         Usuario user = repository.findUserById(usuarioAtualizar.getId());
 
         if (user == null) {
             return ResponseEntity.status(404).build();
         }
         Usuario usuarioMapeado = UsuarioMapper.usuarioAtualizar(usuarioAtualizar, user);
-        if (usuarioAtualizar.getPassword() != null){
+        if (usuarioAtualizar.getPassword() != null) {
             UserDetails userDetails = usuarioAutorizacaoService.loadUserByUsername(user.getEmail());
             final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
                     user.getEmail(), userDetails.getPassword());
@@ -119,19 +121,34 @@ public class UsuarioService {
             return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioMapeado));
         }
     }
-    
-    public void gravarCsv(){
+
+    public void gravarCsv() {
         List<Usuario> users = repository.findAll();
         List<Integer> qtds = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             Integer quantidade = repository.countQuantiadeListas(users.get(i).getId());
             qtds.add(quantidade);
         }
-        ListaObj<Usuario> listaObj= new ListaObj<>(users.size());
+        ListaObj<Usuario> listaObj = new ListaObj<>(users.size());
         for (int i = 0; i < users.size(); i++) {
             listaObj.adiciona(users.get(i));
         }
         GerenciadorDeArquivo.gravaArquivoCsv(listaObj, "arquivoDeUsuarios", qtds);
+    }
+
+    public void gravarTxt() {
+        List<Usuario> users = repository.findAll();
+        if (users.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+        List<UsuarioImportacaoDTO> usersDto = new ArrayList<>();
+        UsuarioRelatorioMapper usuarioRelatorioMapper = new UsuarioRelatorioMapper();
+        for (int i = 0; i < users.size(); i++) {
+            usersDto.add(usuarioRelatorioMapper.paraDTO(users.get(i)));
+            Integer quantidade = repository.countQuantiadeListas(users.get(i).getId());
+            usersDto.get(i).setQuantidade(quantidade);
+        }
+        GerenciadorArquivoTxt.gravaArquivoTxt(usersDto, "usuarios");
     }
 
 }

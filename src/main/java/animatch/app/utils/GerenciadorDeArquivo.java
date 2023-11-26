@@ -1,7 +1,6 @@
 package animatch.app.utils;
 
 import animatch.app.domain.usuario.Usuario;
-import animatch.app.dto.UsuarioCsvDTO;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

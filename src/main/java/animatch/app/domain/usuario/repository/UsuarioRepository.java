@@ -1,7 +1,6 @@
 package animatch.app.domain.usuario.repository;
 
 import animatch.app.domain.usuario.Usuario;
-import animatch.app.dto.UsuarioCsvDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
