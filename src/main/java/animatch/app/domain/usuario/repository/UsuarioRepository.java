@@ -27,31 +27,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
             """)
     Integer countByUsuarioId(int usuarioId);
     Usuario findByEmail(String email);
-//    @Query("""
-//        SELECT COUNT(l)
-//        from Usuario u
-//        join Lista l
-//        where l.userId = ?1
-//        """)
-//    Integer countListaUsuario(int userId);
-//
-//    @Query("""
-//        SELECT animatch.app.dto.UsuarioCsvDTO(u.*)
-//        from Usuario u
-//        """)
-//    List<UsuarioCsvDTO> findAllUserCsvDto();
 
     @Query("""
             select count(l) from Lista l
             where l.userId.id = ?1
             """)
     Integer countQuantiadeListas(Integer userId);
-
-//    @Query("""
-//        select new animatch.app.dto.UsuarioCsvDTO(u.id, u.name, u.password, u.profileImage, u.coverImage, u.criacao, u.status, u.genero), count(l)
-//        from Usuario u
-//        join Lista l
-//        where l.userId = u.id
-//            """)
-//    List<UsuarioCsvDTO> findAllusuarioQuantidade();
+    List<Usuario> findAll();
+    Usuario findById(int id);
 }

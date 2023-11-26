@@ -2,27 +2,35 @@ package animatch.app.domain.animelista;
 
 import animatch.app.domain.lista.Lista;
 import animatch.app.domain.anime.Anime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Entity
 public class AnimeLista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
     private int AnimeListaId;
+    @NotNull
     @ManyToOne
     @Schema(description = "Anime cadastrado no banco", example = "1")
     private Anime animeId;
+    @NotNull
     @ManyToOne
+    // @JsonIgnore // Caso haja recursividade infinita
     @Schema(description = "Lista na qual anime passará a pertencer", example = "1")
     private Lista listaId;
 
     public AnimeLista() {
     }
 
-    public AnimeLista(int animeListaId, Anime animeId, Lista listaId) {
-        AnimeListaId = animeListaId;
+    public AnimeLista(Anime animeId, Lista listaId) {
         this.animeId = animeId;
         this.listaId = listaId;
     }

@@ -1,38 +1,32 @@
 package animatch.app.api.controller;
 
 import animatch.app.domain.lista.Lista;
-import animatch.app.dto.ListaInfoDTO;
 import animatch.app.domain.animelista.repository.AnimeListaRepository;
 import animatch.app.domain.lista.repository.ListaRepository;
+import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
-import jakarta.validation.Valid;
+import animatch.app.service.lista.dto.ListaInfoDTO;
+import animatch.app.service.lista.ListaService;
+import animatch.app.service.lista.dto.UserViews;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
 import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/lists")
 public class ListaController {
 
     @Autowired
-    ListaRepository listRepository;
+    private ListaRepository listRepository;
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private ListaService service;
     @Autowired
-    AnimeListaRepository animeListaRepository;
-
-    public Lista addList(int aniUserId, String name){
-        Lista newList = new Lista(name);
-        newList.setUserId(usuarioRepository.findUserById(aniUserId));
-        listRepository.save(newList);
-        return newList;
-    }
-    public Lista getListsById(Integer listaId){
-        return listRepository.findListaById(listaId);
-    }
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private AnimeListaRepository animeListaRepository;
 
     @GetMapping("/")
     public ResponseEntity<List<ListaInfoDTO>> getLists(){
@@ -43,31 +37,20 @@ public class ListaController {
         return ResponseEntity.status(200).body(listas);
     }
 
-    @GetMapping("/usuario/{userId}")
-    public ResponseEntity<List<ListaInfoDTO>> getListsByUserId(@PathVariable Integer userId){
-        List<ListaInfoDTO> listasUser = listRepository.findAllListaInfoByUserId(usuarioRepository.findUserById(userId));
-        if (listasUser.isEmpty()){
-            return ResponseEntity.status(404).build();
-        }
-        return ResponseEntity.status(200).body(listasUser);
+    @GetMapping("/listas-usuario")
+    public ResponseEntity<List<ListaInfoDTO>> getListsByUserId(@RequestParam Integer userId){
+        List<ListaInfoDTO> listas =  service.listasPorUsuario(userId);
+        return listas.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(listas);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<List<Lista>> defaultList(int aniUserId){
-        addList(aniUserId, "favorites");
-        addList(aniUserId, "dropped");
-        addList(aniUserId, "watched");
-        addList(aniUserId, "on going");
-        return ResponseEntity.status(200).body(listRepository.findAllById(Collections.singleton(aniUserId)));
-    }
     @PostMapping("/new")
-    public  ResponseEntity newList(@RequestBody @Valid Lista listReceived){
-        var response = addList(listReceived.getUserId().getId(),listReceived.getName());
-        return ResponseEntity.status(200).build();
+    public  ResponseEntity newList(@RequestParam int userId, @RequestParam String name){
+        service.addList(userId, name);
+        return ResponseEntity.status(201).build();
     }
 
-    @DeleteMapping("/{listaId}")
-    public ResponseEntity deleteList(@PathVariable int listaId){
+    @DeleteMapping("/")
+    public ResponseEntity deleteList(@RequestParam int listaId){
         if (listRepository.existsById(listaId)){
             animeListaRepository.deleteAllByListaId(listaId);
             listRepository.deleteById(listaId);
