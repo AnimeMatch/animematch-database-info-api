@@ -17,14 +17,14 @@ public interface AnimeRepository extends JpaRepository<Anime,Integer> {
         FROM AnimeLista al
         JOIN al.animeId a
         JOIN al.listaId l
-        WHERE a.id = ?1 AND l.id = 2
+        WHERE a.idApi = ?1 AND l.id = 2
             """)
     Integer qtdDeslikesAnime(Integer id);
 
     @Query("""
     SELECT SUM(a.likes)
     from Anime a
-    where a.id = ?1
+    where a.idApi = ?1
             """)
     Integer qtdLikesAnime(Integer id);
 
@@ -33,7 +33,7 @@ public interface AnimeRepository extends JpaRepository<Anime,Integer> {
         FROM AnimeLista al
         JOIN al.animeId a
         JOIN al.listaId l
-        WHERE a.id = ?1 AND l.id = 3
+        WHERE a.idApi = ?1 AND l.id = 3
             """)
     Integer qtdAssistido(Integer id);
 

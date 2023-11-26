@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.ClientInfoStatus;
 import java.util.List;
 
 @Service
@@ -42,5 +43,23 @@ public class ListaService {
         if (!usuarioRepository.existsById(userId)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
         }
+    }
+
+    public void updateNomeLista(int listaId, String nomeLista){
+        if (nomeLista == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você não pode atualizar para um valor null");
+        }
+        Lista lista = repository.findById(listaId);
+        lista.setName(nomeLista);
+        repository.save(lista);
+    }
+
+    public void updateDescricaoLista(int listaId, String descricao){
+        if (descricao == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você não pode atualizar para um valor null");
+        }
+        Lista lista = repository.findById(listaId);
+        lista.setDescricao(descricao);
+        repository.save(lista);
     }
 }

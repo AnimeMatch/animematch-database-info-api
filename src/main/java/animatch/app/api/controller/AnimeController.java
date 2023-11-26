@@ -42,8 +42,8 @@ public class AnimeController {
     }
 
     @GetMapping("/dados-complementares")
-    public  ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestParam int id){
-        return ResponseEntity.status(200).body(service.dadosComplementares(id));
+    public  ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestParam int idApi){
+        return ResponseEntity.status(200).body(service.dadosComplementares(idApi));
     }
 
     @PostMapping("/")

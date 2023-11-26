@@ -32,6 +32,7 @@ public class AnimeService {
         if (animeToChange == null) {
             Anime anime = construirAnime(idApi);
             anime.somarLikes();
+            repository.save(anime);
             return HttpStatus.OK;
         }
         animeToChange.somarLikes();
@@ -81,15 +82,15 @@ public class AnimeService {
         repository.save(animeToSave);
     }
 
-    public AnimeDadosComplementaresDto dadosComplementares(int id){
-        if (!repository.existsById(id)) {
+    public AnimeDadosComplementaresDto dadosComplementares(int idApi){
+        if (!repository.existsByIdApi(idApi)) {
             return new AnimeDadosComplementaresDto(0,0,0);
 //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime de id %d não encontrado".formatted(id));
         }
         try{
-            Integer like = repository.qtdLikesAnime(id);
-            Integer deslike = repository.qtdDeslikesAnime(id);
-            Integer assistido = repository.qtdAssistido(id);
+            Integer like = repository.qtdLikesAnime(idApi);
+            Integer deslike = repository.qtdDeslikesAnime(idApi);
+            Integer assistido = repository.qtdAssistido(idApi);
             return new AnimeDadosComplementaresDto(
                     like,
                     deslike,
@@ -97,7 +98,7 @@ public class AnimeService {
 
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ("houve um erro ao carregar dados de likes," +
-                    " deslike e vezes assistido para o anime de id %d").formatted(id));
+                    " deslike e vezes assistido para o anime de id %d").formatted(idApi));
         }
     }
 
@@ -126,11 +127,9 @@ public class AnimeService {
                 } catch (Exception exception){
                     throw exception;
                 }
-//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "%s".formatted(e));
             } catch (Exception e){
                 throw e;
             }
-//            return ResponseEntity.status(200).build();
         }
     }
 }

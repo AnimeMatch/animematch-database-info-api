@@ -27,6 +27,8 @@ public class Lista {
     @Schema(description = "Nome da lista", example = "Favoritos")
     private String name;
 
+    private String descricao;
+
     public Lista() {
     }
     public Lista(String name) {
@@ -47,5 +49,21 @@ public class Lista {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

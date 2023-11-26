@@ -10,10 +10,12 @@ import animatch.app.service.lista.ListaService;
 import animatch.app.service.lista.dto.UserViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import jakarta.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/lists")
@@ -44,9 +46,21 @@ public class ListaController {
     }
 
     @PostMapping("/new")
-    public  ResponseEntity newList(@RequestParam int userId, @RequestParam String name){
+    public ResponseEntity newList(@RequestParam int userId, @RequestParam String name){
         service.addList(userId, name);
         return ResponseEntity.status(201).build();
+    }
+
+    @PutMapping("/nome")
+    public ResponseEntity updateNomeLista(@RequestParam int listaId, @RequestParam String nomeLista){
+        service.updateNomeLista(listaId, nomeLista);
+        return ResponseEntity.status(200).build();
+    }
+
+    @PutMapping("/descricao")
+    public ResponseEntity updateDescricaoLista(@RequestParam int listaId, @RequestParam String descricaoLista){
+        service.updateDescricaoLista(listaId, descricaoLista);
+        return ResponseEntity.status(200).build();
     }
 
     @DeleteMapping("/")
