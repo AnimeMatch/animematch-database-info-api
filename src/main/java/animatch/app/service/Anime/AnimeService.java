@@ -6,11 +6,8 @@ import animatch.app.domain.animelista.repository.AnimeListaRepository;
 import animatch.app.service.Anime.dto.AnimeDadosComplementaresDto;
 import animatch.app.service.Anime.dto.AnimeParaSalvarDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +23,7 @@ public class AnimeService {
     private AnimeRepository repository;
     @Autowired
     private AnimeListaRepository animeListaRepository;
-    public HttpStatus darLike(int idApi){
+    public HttpStatus darLike(int idApi) {
         Anime animeToChange = repository.findByIdApi(idApi);
         if (animeToChange == null) {
             Anime anime = construirAnime(idApi);
@@ -39,7 +35,7 @@ public class AnimeService {
         return HttpStatus.OK;
     }
 
-    public AnimeParaSalvarDto buscarAnime(int idApi){
+    public AnimeParaSalvarDto buscarAnime(int idApi) {
         try {
 //            System.setProperty("javax.net.debug", "ssl");
             String encodedIdApi = UriUtils.encodePath(String.valueOf(idApi), StandardCharsets.UTF_8);
@@ -61,7 +57,7 @@ public class AnimeService {
         }
     }
 
-    public Anime construirAnime(int idApi){
+    public Anime construirAnime(int idApi) {
         try {
             AnimeParaSalvarDto animeRequested = buscarAnime(idApi);
             Anime anime = new Anime(
@@ -71,22 +67,22 @@ public class AnimeService {
                     animeRequested.getImagem()
             );
             return anime;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao contruir anime recebido pela API\n[Erro]: %s".formatted(e));
         }
     }
 
-    public void salvarAnime(int idApi){
+    public void salvarAnime(int idApi) {
         Anime animeToSave = construirAnime(idApi);
         repository.save(animeToSave);
     }
 
-    public AnimeDadosComplementaresDto dadosComplementares(int id){
+    public AnimeDadosComplementaresDto dadosComplementares(int id) {
         if (!repository.existsById(id)) {
-            return new AnimeDadosComplementaresDto(0,0,0);
+            return new AnimeDadosComplementaresDto(0, 0, 0);
 //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime de id %d não encontrado".formatted(id));
         }
-        try{
+        try {
             Integer like = repository.qtdLikesAnime(id);
             Integer deslike = repository.qtdDeslikesAnime(id);
             Integer assistido = repository.qtdAssistido(id);
@@ -95,13 +91,13 @@ public class AnimeService {
                     deslike,
                     assistido);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, ("houve um erro ao carregar dados de likes," +
                     " deslike e vezes assistido para o anime de id %d").formatted(id));
         }
     }
 
-    public List<Anime> ordenarPelaNota(){
+    public List<Anime> ordenarPelaNota() {
         List<Anime> animes = repository.findAllByOrderByNotaMediaDesc();
 //        for (int i = 0; i < animes.size() - 1; i++) {
 //            for (int j = 0; j < animes.size() - 1; j++) {
@@ -119,15 +115,15 @@ public class AnimeService {
         if (repository.existsById(animeId)) {
             try {
                 repository.deleteById(animeId);
-            } catch (DataIntegrityViolationException e){
+            } catch (DataIntegrityViolationException e) {
                 try {
                     animeListaRepository.deleteAllByAnimeId(animeId);
                     repository.deleteById(animeId);
-                } catch (Exception exception){
+                } catch (Exception exception) {
                     throw exception;
                 }
 //                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "%s".formatted(e));
-            } catch (Exception e){
+            } catch (Exception e) {
                 throw e;
             }
 //            return ResponseEntity.status(200).build();
