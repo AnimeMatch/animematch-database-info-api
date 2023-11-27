@@ -26,6 +26,14 @@ public class ListaService {
         return newList;
     }
 
+    public Lista adicionarObjLista(Lista lista){
+        if (lista == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A lista não pode ser null");
+        }
+        repository.save(lista);
+        return lista;
+    }
+
     public void adicionarListasDefault(int idUsuario){
         addList(idUsuario, "Favoritos");
         addList(idUsuario, "Dropados");
@@ -42,5 +50,23 @@ public class ListaService {
         if (!usuarioRepository.existsById(userId)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
         }
+    }
+
+    public void updateNomeLista(int listaId, String nomeLista){
+        if (nomeLista == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você não pode atualizar para um valor null");
+        }
+        Lista lista = repository.findById(listaId);
+        lista.setName(nomeLista);
+        repository.save(lista);
+    }
+
+    public void updateDescricaoLista(int listaId, String descricao){
+        if (descricao == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Você não pode atualizar para um valor null");
+        }
+        Lista lista = repository.findById(listaId);
+        lista.setDescricao(descricao);
+        repository.save(lista);
     }
 }

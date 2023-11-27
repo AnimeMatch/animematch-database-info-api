@@ -27,10 +27,19 @@ public class Lista {
     @Schema(description = "Nome da lista", example = "Favoritos")
     private String name;
 
+    @NotNull
+    @Size(min=1, max=250)
+    @Schema(description = "Nome da lista", example = "Favoritos")
+    private String descricao;
+
     public Lista() {
     }
-    public Lista(String name) {
+    public Lista(String name, String descricao) {
         this.name = name;
+        this.descricao = descricao;
+    }
+
+    public Lista(String name) {
     }
 
     public int getId() {
@@ -47,5 +56,21 @@ public class Lista {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }
