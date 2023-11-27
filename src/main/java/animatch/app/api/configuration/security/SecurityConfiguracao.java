@@ -59,7 +59,7 @@ private static final AntPathRequestMatcher ORIGENS_PERMITIDAS = new AntPathReque
         http
             .cors(Customizer.withDefaults())
             .csrf(CsrfConfigurer<HttpSecurity>::disable)
-            .authorizeHttpRequests(authorize -> authorize.requestMatchers(URLS_PERMITIDAS)
+            .authorizeHttpRequests(authorize -> authorize.requestMatchers(ORIGENS_PERMITIDAS)
                     .permitAll()
                     .anyRequest()
                     .authenticated()
