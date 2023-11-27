@@ -23,8 +23,8 @@ public class UsuarioCadastrarDTO {
     private String profileImage;
     @Schema(description = "Link para imagem de capa do perfil", example = "")
     private String coverImage;
-    @Schema(description = "Data de nascimento", example = "2000-01-01")
-    private LocalDate nascimento;
+    @Schema(description = "Data de criação da conta", example = "2023-01-01")
+    private LocalDate criacao;
     private boolean status = true;
 
     public UsuarioCadastrarDTO() {
@@ -36,7 +36,7 @@ public class UsuarioCadastrarDTO {
         this.password = password;
         this.profileImage = profileImage;
         this.coverImage = coverImage;
-        this.nascimento = nascimento;
+        this.criacao = nascimento;
     }
 
     public String getName() {
@@ -79,12 +79,12 @@ public class UsuarioCadastrarDTO {
         this.coverImage = coverImage;
     }
 
-    public LocalDate getNascimento() {
-        return nascimento;
+    public LocalDate getCriacao() {
+        return criacao;
     }
 
-    public void setNascimento(LocalDate nascimento) {
-        this.nascimento = nascimento;
+    public void setCriacao(LocalDate criacao) {
+        this.criacao = criacao;
     }
 
     public boolean isStatus() {

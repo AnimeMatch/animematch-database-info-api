@@ -3,6 +3,8 @@ package animatch.app.service.usuario.dto;
 import animatch.app.domain.usuario.Usuario;
 import animatch.app.service.usuario.autenticacao.dto.UsuarioTokenDTO;
 
+import java.time.LocalDate;
+
 public class UsuarioMapper {
     public static Usuario of(UsuarioCadastrarDTO usuarioDTO){
         Usuario usuario = new Usuario();
@@ -12,7 +14,7 @@ public class UsuarioMapper {
         usuario.setPassword(usuarioDTO.getPassword());
         usuario.setCoverImage(usuarioDTO.getCoverImage());
         usuario.setProfileImage(usuarioDTO.getProfileImage());
-        usuario.setCriacao(usuarioDTO.getNascimento());
+        usuario.setCriacao(LocalDate.now());
 
         return usuario;
     }

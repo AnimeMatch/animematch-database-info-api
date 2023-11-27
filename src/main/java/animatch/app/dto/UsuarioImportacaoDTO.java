@@ -1,36 +1,33 @@
 package animatch.app.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Past;
+import animatch.app.domain.usuario.Usuario;
 
 import java.time.LocalDate;
 
-public class UsuarioCsvDTO {
+public class UsuarioImportacaoDTO {
     private int id;
     private String name;
+    private String genero;
     private String email;
-    private String password;
+    private LocalDate criacao;
     private String profileImage;
     private String coverImage;
-    private LocalDate criacao;
-    private boolean status = true;
-    private String genero;
-    private Integer quantidade = 0;
+    private boolean status;
+    private Integer quantidade;
 
-    public UsuarioCsvDTO() {
+    public UsuarioImportacaoDTO() {
     }
 
-    public UsuarioCsvDTO(int id, String name, String email, String password, String profileImage, String coverImage, LocalDate criacao, boolean status, String genero) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.profileImage = profileImage;
-        this.coverImage = coverImage;
-        this.criacao = criacao;
-        this.status = status;
-        this.genero = genero;
+    public UsuarioImportacaoDTO(Usuario usuario) {
+        this.id = usuario.getId();
+        this.name = usuario.getName();
+        this.genero = usuario.getGenero();
+        this.email = usuario.getEmail();
+        this.criacao = usuario.getCriacao();
+        this.profileImage = usuario.getProfileImage();
+        this.coverImage = usuario.getCoverImage();
+        this.status = usuario.isStatus();
+        this.quantidade = 0;
     }
 
     public int getId() {
@@ -49,6 +46,14 @@ public class UsuarioCsvDTO {
         this.name = name;
     }
 
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -57,12 +62,12 @@ public class UsuarioCsvDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public LocalDate getCriacao() {
+        return criacao;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCriacao(LocalDate criacao) {
+        this.criacao = criacao;
     }
 
     public String getProfileImage() {
@@ -81,28 +86,12 @@ public class UsuarioCsvDTO {
         this.coverImage = coverImage;
     }
 
-    public LocalDate getCriacao() {
-        return criacao;
-    }
-
-    public void setCriacao(LocalDate criacao) {
-        this.criacao = criacao;
-    }
-
     public boolean isStatus() {
         return status;
     }
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
     }
 
     public Integer getQuantidade() {
