@@ -90,7 +90,7 @@ public class AnimeController {
             var cont = 0;
             for (Comentario comentario : comentarios
             ) {
-                var userComentario = usuarioRepository.findUserByIdDtoSimples(comentario.getIdUsuario());
+                var userComentario = usuarioRepository.findUserByEmailDtoSimples(comentario.getEmailUsuario());
                 comentariosDtos.get(cont++).setUsuarioSimplesDto(userComentario);
             }
         } else {

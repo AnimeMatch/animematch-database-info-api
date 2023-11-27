@@ -26,6 +26,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
             """)
     UsuarioSimplesDto findUserByIdDtoSimples(int idUser);
 
+    @Query("""
+            select new animatch.app.dto.UsuarioSimplesDto(u.name,u.email,u.profileImage)
+            from Usuario u
+            where u.email = ?1
+            """)
+    UsuarioSimplesDto findUserByEmailDtoSimples(String email);
+
     Usuario findUserById(int id);
     @Query("""
             select count(l.id)

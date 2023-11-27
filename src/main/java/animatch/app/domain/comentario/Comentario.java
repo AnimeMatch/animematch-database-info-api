@@ -23,6 +23,7 @@ public class Comentario {
     private String texto;
 
     @ManyToOne
+    @JsonIgnore
     @Schema(description = "Tópico ao qual o anime pertence", example = "1")
     private Topico topico;
     @ManyToOne
@@ -34,7 +35,7 @@ public class Comentario {
     private LocalDate dataComentario = LocalDate.now();
 
     @NotNull
-    private int idUsuario;
+    private String emailUsuario;
 
     private int idAnimeApi;
 
@@ -94,12 +95,12 @@ public class Comentario {
         this.dataComentario = dataComentario;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public String getEmailUsuario() {
+        return emailUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setEmailUsuario(String emailUsuario) {
+        this.emailUsuario = emailUsuario;
     }
 
     public int getIdAnimeApi() {

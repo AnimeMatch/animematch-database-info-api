@@ -34,6 +34,15 @@ public class ComentarioController {
         return ResponseEntity.status(201).build();
     }
 
+    @PostMapping("/anime/{idAnime}")
+    public ResponseEntity<Comentario> criarComentarioAnime(@PathVariable int idAnime, @RequestBody @Valid Comentario comentario) {
+        var topico = topicoRepository.findTopicoById(9999);
+        comentario.setTopico(topico);
+        comentario.setIdAnimeApi(idAnime);
+        comentarioRepository.save(comentario);
+        return ResponseEntity.status(201).build();
+    }
+
     @PostMapping("/{idComentarioPai}/comentar_comentario")
     public ResponseEntity<Comentario> criarComentarioFilho(@PathVariable int idComentarioPai, @RequestBody @Valid Comentario comentario) {
         Comentario comentarioPai = new Comentario();
@@ -86,9 +95,9 @@ public class ComentarioController {
         List<Comentario> comentarios;
         if (comentarioRepository.existsById(idComentario)) {
             comentarios = comentarioRepository.findByComentarioPaiId(idComentario);
-            if (comentarios.isEmpty()){
+            if (comentarios.isEmpty()) {
                 comentarioRepository.deleteById(idComentario);
-            }else{
+            } else {
                 comentarioRepository.deleteAll(comentarios);
                 comentarioRepository.deleteById(idComentario);
             }
