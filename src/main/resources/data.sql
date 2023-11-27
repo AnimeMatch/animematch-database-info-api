@@ -17,7 +17,7 @@ insert into anime(id_api, nome, nota_media, imagem, likes) values
 (158927, 'Spy x Family', 80.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b158927-lfO85WVguYgc.png', 130);
 
 insert into lista(user_id_id, name) values
-(1, 'Favoritos'),
+(1, 'Favoritos') ,
 (1, 'Dropados'),
 (1, 'Assistidos'),
 (1, 'Em andamento'),

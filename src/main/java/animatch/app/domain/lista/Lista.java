@@ -27,7 +27,6 @@ public class Lista {
     @Schema(description = "Nome da lista", example = "Favoritos")
     private String name;
 
-    @NotNull
     @Size(min=1, max=250)
     @Schema(description = "Nome da lista", example = "Favoritos")
     private String descricao;
