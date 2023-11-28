@@ -49,12 +49,6 @@ insert into anime_lista(anime_id_id, lista_id_id) values
 (4, 12);
 
 
---
---insert into usuario(name, email, password, profile_image, cover_image, criacao, status, genero) values ('Leonardo', 'anime@email.com', '$2a$10$vRFsyEX99Q97nrzsg9GSNuDnTYNJ7VCHYG8E9AQAtH050xarNiPKC', 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx113415-bbBWj4pEFseh.jpg', 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx113415-bbBWj4pEFseh.jpg', '2023-10-28', true, 'M');
---insert into anime(id_api,nota_media) values (1235,5.5);
---insert into anime(id_api,nota_media) values (158927,5.5);
---insert into anime(id_api,nota_media) values (345,5.5);
-
 insert into topico(id,titulo,id_anime,usuario_id) values (9999,'Default','9999',1);
 insert into topico(titulo,id_anime,usuario_id) values ('Spy fmaily season 2','158927',2);
 insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api) values ('Anime top de maiss!',1,'2023-11-27','lucas@email.com',158927);
@@ -62,3 +56,9 @@ insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_ap
 insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api) values ('Legall',1,'2023-11-27','lucas@email.com',158927);
 insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api) values ('Top',1,'2023-11-27','lucas@email.com',158927);
 insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api) values ('Muito ruim',1,'2023-11-27','lucas@email.com',158927);
+
+--
+--insert into usuario(name, email, password, profile_image, cover_image, criacao, status, genero) values ('Leonardo', 'anime@email.com', '$2a$10$vRFsyEX99Q97nrzsg9GSNuDnTYNJ7VCHYG8E9AQAtH050xarNiPKC', 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx113415-bbBWj4pEFseh.jpg', 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx113415-bbBWj4pEFseh.jpg', '2023-10-28', true, 'M');
+--insert into anime(id_api,nota_media) values (1235,5.5);
+--insert into anime(id_api,nota_media) values (158927,5.5);
+--insert into anime(id_api,nota_media) values (345,5.5);
