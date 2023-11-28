@@ -4,6 +4,7 @@ import animatch.app.domain.comentario.Comentario;
 import animatch.app.domain.comentario.repository.ComentarioRepository;
 import animatch.app.domain.topico.Topico;
 import animatch.app.domain.topico.repository.TopicoRepository;
+import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.dto.ComentarioSimplesDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class ComentarioController {
 
     @Autowired
     private TopicoRepository topicoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @PostMapping("/{idTopico}")
     public ResponseEntity<Comentario> criarComentario(@PathVariable int idTopico, @RequestBody @Valid Comentario comentario) {
@@ -58,12 +62,51 @@ public class ComentarioController {
         return ResponseEntity.status(201).build();
     }
 
+    @PatchMapping("/like/{idComentario}")
+    public ResponseEntity darLike(@PathVariable int idComentario) {
+        if (comentarioRepository.existsById(idComentario)) {
+            var comentario = comentarioRepository.findComentarioById(idComentario);
+            var like = comentario.getQtdLikes();
+            like++;
+            comentario.setQtdLikes(like);
+            comentarioRepository.save(comentario);
+        } else {
+            ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(200).build();
+    }
+
+    @PatchMapping("/deslike/{idComentario}")
+    public ResponseEntity darDeslike(@PathVariable int idComentario) {
+        if (comentarioRepository.existsById(idComentario)) {
+            var comentario = comentarioRepository.findComentarioById(idComentario);
+            var deslike = comentario.getQtdDeslikes();
+            deslike++;
+            comentario.setQtdDeslikes(deslike);
+            comentarioRepository.save(comentario);
+        } else {
+            ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(200).build();
+    }
+
     @GetMapping("/{idComentario}/lista_comentarios_filhos")
     public ResponseEntity<List<ComentarioSimplesDTO>> getListaComentariosFilhos(@PathVariable int idComentario) {
-        List<ComentarioSimplesDTO> comentarioSimplesDTOS;
-        comentarioSimplesDTOS = comentarioRepository.findBySimplesComentarioPaiId(idComentario);
+        List<ComentarioSimplesDTO> comentariosDtos;
 
-        return comentarioSimplesDTOS.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(comentarioSimplesDTOS);
+        comentariosDtos = comentarioRepository.findBySimplesComentarioPaiId(idComentario);
+        var comentarios = comentarioRepository.findByComentarioPaiId(idComentario);
+        var cont = 0;
+        for (Comentario comentario : comentarios
+        ) {
+            var userComentario = usuarioRepository.findUserByEmailDtoSimples(comentario.getEmailUsuario());
+            var qtdComentariosFilhos = comentarioRepository.countByComentarioPaiId(comentario.getId());
+            comentariosDtos.get(cont).setUsuarioSimplesDto(userComentario);
+            comentariosDtos.get(cont).setQtdComentariosFilhos(qtdComentariosFilhos);
+            cont++;
+        }
+
+        return comentariosDtos.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(comentariosDtos);
     }
 
     @GetMapping("/{idComentario}")

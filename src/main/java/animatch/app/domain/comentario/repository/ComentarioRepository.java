@@ -14,39 +14,44 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
 
     List<Comentario> findByComentarioPaiId(int idComentario);
 
+    int countByComentarioPaiId(int idComentario);
+
     @Query("""
-        select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto)
-        from Comentario c
-        where c.comentarioPai.id = :idComentario
-    """)
+                select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario,c.qtdLikes,c.qtdDeslikes)
+                from Comentario c
+                where c.comentarioPai.id = :idComentario
+            """)
     List<ComentarioSimplesDTO> findBySimplesComentarioPaiId(int idComentario);
 
     @Query("""
-        select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario)
-        from Comentario c
-        where c.topico.id = :idTopico and c.comentarioPai = null
-    """)
+                select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario,c.qtdLikes,c.qtdDeslikes)
+                from Comentario c
+                where c.topico.id = :idTopico and c.comentarioPai = null
+            """)
     List<ComentarioSimplesDTO> findAllComentariosByTopico(int idTopico);
 
     @Query("""
-        select c
-        from Comentario c
-        where c.topico.id = :idTopico and c.comentarioPai = null
-    """)
+                select c
+                from Comentario c
+                where c.topico.id = :idTopico and c.comentarioPai = null
+            """)
     List<Comentario> findByTopicoIdAComentarioPai(int idTopico);
+
     List<Comentario> findByTopicoId(int idComentario);
-    List<Comentario> findByIdAnimeApiAndComentarioPai(int idComentario,Comentario comentario);
+
+    List<Comentario> findByIdAnimeApiAndComentarioPai(int idComentario, Comentario comentario);
+
     @Query("""
-        select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario)
-        from Comentario c
-        where c.idAnimeApi = :idTopico and c.comentarioPai = null
-    """)
+                select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario,c.qtdLikes,c.qtdDeslikes)
+                from Comentario c
+                where c.idAnimeApi = :idTopico and c.comentarioPai = null
+            """)
     List<ComentarioSimplesDTO> findAllComentariosByIdAnimeApi(int idTopico);
 
     @Query("""
-        select new animatch.app.dto.ComentarioCompletoDTO(c.id,c.texto,c.topico,c.comentarioPai)
-        from Comentario c
-        where c.id = :idComentario
-    """)
+                select new animatch.app.dto.ComentarioCompletoDTO(c.id,c.texto,c.topico,c.comentarioPai)
+                from Comentario c
+                where c.id = :idComentario
+            """)
     ComentarioCompletoDTO findByComentarioCompletoId(int idComentario);
 }

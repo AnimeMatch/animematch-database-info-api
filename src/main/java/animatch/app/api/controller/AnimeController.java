@@ -88,7 +88,10 @@ public class AnimeController {
         for (Comentario comentario : comentarios
         ) {
             var userComentario = usuarioRepository.findUserByEmailDtoSimples(comentario.getEmailUsuario());
-            comentariosDtos.get(cont++).setUsuarioSimplesDto(userComentario);
+            var qtdComentariosFilhos = comentarioRepository.countByComentarioPaiId(comentario.getId());
+            comentariosDtos.get(cont).setUsuarioSimplesDto(userComentario);
+            comentariosDtos.get(cont).setQtdComentariosFilhos(qtdComentariosFilhos);
+            cont++;
         }
         if (comentariosDtos.isEmpty()) {
             return ResponseEntity.status(204).body(comentariosDtos);
