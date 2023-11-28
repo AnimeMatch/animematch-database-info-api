@@ -89,7 +89,7 @@ public class AnimeListaController {
     public ResponseEntity esvaziarFila() {
         while (!filaObj.isEmpty()){
            var obj = repository.save(filaObj.poll());
-            pilhaObj.push(obj);
+           pilhaObj.push(obj);
         }
         return ResponseEntity.status(201).build();
     }
