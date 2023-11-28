@@ -84,9 +84,9 @@ public class AnimeListaService {
         return lista;
     }
 
-    public List<AnimeLista> animeListaPorUsuario(int userId){
-        usuarioService.verificarUsuarioExiste(userId);
-        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserId(userId);
+    public List<AnimeLista> animeListaPorUsuario(String email){
+        usuarioService.verificarUsuarioExistePorEmail(email);
+        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByEmail(email);
         List<AnimeLista> dados = new ArrayList<>();
         for (AnimeListaInfoDTO a: animes) {
             AnimeLista anime = new AnimeLista(a.getAnimeId(), a.getListaId());
@@ -96,11 +96,11 @@ public class AnimeListaService {
         return dados;
     }
 
-    public List<AnimeLista> animeListaPorUsuarioPaginado(int userId, int paginacao){
-        usuarioService.verificarUsuarioExiste(userId);
+    public List<AnimeLista> animeListaPorUsuarioPaginado(String email, int paginacao){
+        usuarioService.verificarUsuarioExistePorEmail(email);
         Pageable pageable = PageRequest.of(0, paginacao);
-        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByUserIdPaginacao(
-                userId,
+        List<AnimeListaInfoDTO> animes = repository.findAllAnimeListaInfoByEmailPaginacao(
+                email,
                 pageable);
         List<AnimeLista> dados = new ArrayList<>();
         for (AnimeListaInfoDTO a: animes) {

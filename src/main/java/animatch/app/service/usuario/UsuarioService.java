@@ -56,6 +56,12 @@ public class UsuarioService {
         }
     }
 
+    public void verificarUsuarioExistePorEmail(String email) {
+        if (!repository.existsByEmail(email)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+    }
+
     public ResponseEntity<Usuario> criar(UsuarioCadastrarDTO usuarioCadastrarDTO) {
         final Usuario novoUsuario = UsuarioMapper.of(usuarioCadastrarDTO);
         if (this.repository.existsByEmail(novoUsuario.getEmail())) {
@@ -152,4 +158,8 @@ public class UsuarioService {
         GerenciadorArquivoTxt.gravaArquivoTxt(usersDto, "usuarios");
     }
 
+    public Usuario findUserByEmail(String email){
+        this.verificarUsuarioExistePorEmail(email);
+        return repository.findUserByEmail(email);
+    }
 }
