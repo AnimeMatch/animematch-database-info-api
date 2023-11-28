@@ -39,6 +39,7 @@ public class Lista {
     }
 
     public Lista(String name) {
+        this.name = name;
     }
 
     public int getId() {
