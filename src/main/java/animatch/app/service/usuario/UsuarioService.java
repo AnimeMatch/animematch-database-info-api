@@ -72,7 +72,13 @@ public class UsuarioService {
         novoUsuario.setPassword(senhaCriptografada);
 
         repository.save(novoUsuario);
-        listaService.adicionarListasDefault(novoUsuario.getId());
+        try {
+            listaService.adicionarListasDefault(novoUsuario.getId());
+        } catch (IllegalStateException e){
+            throw e;
+        } catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao criar listas default para o usuário");
+        }
         return ResponseEntity.status(201).body(novoUsuario);
     }
 
@@ -120,7 +126,7 @@ public class UsuarioService {
             final Authentication newAuthentication = this.authenticationManager.authenticate(newCredentials);
 
             final String newToken = gerenciadorTokenJwt.generateToken(newAuthentication);
-            listaService.adicionarListasDefault(usuarioAtualizar.getId());
+//            listaService.adicionarListasDefault(usuarioAtualizar.getId());
             return ResponseEntity.status(200).body(UsuarioMapper.of(usuarioMapeado, newToken));
 
         } else {
