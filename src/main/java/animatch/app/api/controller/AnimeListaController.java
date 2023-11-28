@@ -43,14 +43,14 @@ public class AnimeListaController {
     }
 
     @GetMapping("/animes-e-listas-do-usuario")
-    public ResponseEntity<List<AnimeLista>> getAnimesLista(@RequestParam int userId){
-        List<AnimeLista> animes = service.animeListaPorUsuario(userId);
+    public ResponseEntity<List<AnimeLista>> getAnimesLista(@RequestParam String email){
+        List<AnimeLista> animes = service.animeListaPorUsuario(email);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 
     @GetMapping("/animes-e-listas-do-usuario-paginado")
-    public ResponseEntity<List<AnimeLista>> getAnimesListaPaginacao(@RequestParam int userId, @RequestParam int paginacao){
-        List<AnimeLista> animes = service.animeListaPorUsuarioPaginado(userId, paginacao);
+    public ResponseEntity<List<AnimeLista>> getAnimesListaPaginacao(@RequestParam String email, @RequestParam int paginacao){
+        List<AnimeLista> animes = service.animeListaPorUsuarioPaginado(email, paginacao);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
 

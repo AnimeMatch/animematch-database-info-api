@@ -28,4 +28,18 @@ public interface ListaRepository extends JpaRepository<Lista,Integer> {
     Lista findListaById(int id);
 
     Lista findById(int listaId);
+
+    @Query("""
+            select new animatch.app.service.lista.dto.ListaInfoDTO(l.id, l.name)
+            from Lista l
+            where l.userId.email = ?1
+            """)
+    List<ListaInfoDTO> findAllListaInfoByEmail(String email);
+
+    @Query("""
+            select count(l)
+            from Lista l
+            where l.userId.email = ?1
+            """)
+    boolean existsByEmail(String email);
 }

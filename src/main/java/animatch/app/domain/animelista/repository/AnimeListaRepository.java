@@ -86,4 +86,19 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
             DELETE FROM AnimeLista a WHERE a.animeId.id = ?1
             """)
     void deleteAllByAnimeId(int animeId);
+
+    @Query("""
+        select new animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
+        from AnimeLista a
+        join a.listaId Lista
+        where Lista.userId.email = ?1
+            """)
+    List<AnimeListaInfoDTO> findAllAnimeListaInfoByEmail(String email);
+
+    @Query("""
+        select new animatch.app.service.AnimeLista.dto.AnimeListaInfoDTO(a.animeId, a.listaId)
+        from AnimeLista a
+        where a.listaId.userId.email = ?1
+    """)
+    List<AnimeListaInfoDTO> findAllAnimeListaInfoByEmailPaginacao(String email, Pageable paginacao);
 }

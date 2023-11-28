@@ -41,13 +41,19 @@ public class ListaService {
         addList(idUsuario, "Em andamento");
     }
 
-    public List<ListaInfoDTO> listasPorUsuario(int usuarioId){
-        this.verificarUsuarioExiste(usuarioId);
-        return repository.findAllListaInfoByUserId(usuarioId);
+    public List<ListaInfoDTO> listasPorUsuario(String email){
+        this.verificarUsuarioExistePorEmail(email);
+        return repository.findAllListaInfoByEmail(email);
     }
 
     public void verificarUsuarioExiste(int userId){
         if (!usuarioRepository.existsById(userId)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+    }
+
+    public void verificarUsuarioExistePorEmail(String email) {
+        if (!repository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
         }
     }

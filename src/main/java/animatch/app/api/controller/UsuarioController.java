@@ -43,10 +43,6 @@ public class UsuarioController {
     @Autowired
     private ListaController listController;
 
-    public Usuario getUserById(int userId) {
-        return repository.findUserById(userId);
-    }
-
     @Operation(summary = "Recebe todos os usuários cadastrados")
     @GetMapping("/")
     public ResponseEntity<List<Usuario>> getAll() {
@@ -54,11 +50,11 @@ public class UsuarioController {
         return users.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(users);
     }
 
-    @Operation(summary = "Busca um usuário pelo id")
+    @Operation(summary = "Busca um usuário pelo email")
     @GetMapping("/user")
-    public ResponseEntity<Usuario> fingUserById(@RequestParam int id) {
-        Usuario user = repository.findUserById(id);
-        return user != null ? ResponseEntity.status(200).body(user) : ResponseEntity.status(404).build();
+    public ResponseEntity<Usuario> fingUserById(@RequestParam String email) {
+        Usuario user = service.findUserByEmail(email);
+        return ResponseEntity.status(200).body(user);
     }
 
     @Operation(summary = "Informações em arquivo .csv")
@@ -109,8 +105,8 @@ public class UsuarioController {
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody UsuarioLoginDTO u) {
-        ResponseEntity resposta = service.autenticar(u);
+    public ResponseEntity login(@RequestBody UsuarioLoginDTO usuarioLogin) {
+        ResponseEntity resposta = service.autenticar(usuarioLogin);
         return ResponseEntity.status(resposta.getStatusCode()).body(resposta.getBody());
     }
 
@@ -135,10 +131,10 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    @DeleteMapping("/{userId}")
-    public ResponseEntity deleteUsuario(@PathVariable int userId) {
-        if (repository.existsById(userId)) {
-            Usuario user = this.getUserById(userId);
+    @DeleteMapping("/")
+    public ResponseEntity deleteUsuario(@RequestParam String email) {
+        if (repository.existsByEmail(email)) {
+            Usuario user = repository.findUserByEmail(email);
             user.setStatus(false);
             repository.save(user);
             return ResponseEntity.status(200).build();

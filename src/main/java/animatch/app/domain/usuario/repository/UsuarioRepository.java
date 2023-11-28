@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
     public boolean existsByEmail(String email);
+    Usuario findUserByEmail(String email);
 
     public boolean existsByPassword(String password);
 

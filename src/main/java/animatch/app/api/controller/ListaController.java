@@ -38,8 +38,8 @@ public class ListaController {
     }
 
     @GetMapping("/listas-usuario")
-    public ResponseEntity<List<ListaInfoDTO>> getListsByUserId(@RequestParam Integer userId){
-        List<ListaInfoDTO> listas =  service.listasPorUsuario(userId);
+    public ResponseEntity<List<ListaInfoDTO>> getListsByUserId(@RequestParam String email){
+        List<ListaInfoDTO> listas =  service.listasPorUsuario(email);
         return listas.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(listas);
     }
 
