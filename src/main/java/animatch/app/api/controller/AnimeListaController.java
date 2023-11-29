@@ -87,11 +87,12 @@ public class AnimeListaController {
 
     @PostMapping("/esvaziar-fila-de-espera")
     public ResponseEntity esvaziarFila() {
+        var fila = filaObj;
         while (!filaObj.isEmpty()){
            var obj = repository.save(filaObj.poll());
            pilhaObj.push(obj);
         }
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.status(201).body(fila);
     }
 
     @GetMapping("/exibir-anime-pilha")

@@ -39,8 +39,14 @@ public class ListaController {
 
     @GetMapping("/listas-usuario")
     public ResponseEntity<List<ListaInfoDTO>> getListsByUserId(@RequestParam String email){
-        List<ListaInfoDTO> listas =  service.listasPorUsuario(email);
+        List<ListaInfoDTO> listas = service.listasPorUsuario(email);
         return listas.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(listas);
+    }
+
+    @GetMapping("/favorito")
+    public ResponseEntity<ListaInfoDTO> getListFavoritos(@RequestParam String email){
+        ListaInfoDTO listas = service.listaFavorito(email);
+        return ResponseEntity.status(200).body(listas);
     }
 
     @PostMapping("/new")

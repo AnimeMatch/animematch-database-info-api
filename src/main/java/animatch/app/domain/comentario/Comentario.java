@@ -39,6 +39,10 @@ public class Comentario {
 
     private int idAnimeApi;
 
+    private int qtdLikes;
+
+    private int qtdDeslikes;
+
     public int getId() {
         return id;
     }
@@ -109,5 +113,21 @@ public class Comentario {
 
     public void setIdAnimeApi(int idAnimeApi) {
         this.idAnimeApi = idAnimeApi;
+    }
+
+    public int getQtdLikes() {
+        return qtdLikes;
+    }
+
+    public void setQtdLikes(int qtdLikes) {
+        this.qtdLikes = qtdLikes;
+    }
+
+    public int getQtdDeslikes() {
+        return qtdDeslikes;
+    }
+
+    public void setQtdDeslikes(int qtdDeslikes) {
+        this.qtdDeslikes = qtdDeslikes;
     }
 }

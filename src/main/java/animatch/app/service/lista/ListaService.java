@@ -46,6 +46,15 @@ public class ListaService {
         return repository.findAllListaInfoByEmail(email);
     }
 
+    public ListaInfoDTO listaFavorito(String email) {
+        this.verificarUsuarioExistePorEmail(email);
+        try {
+            return repository.findListaFavoritoByEmail(email);
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
     public void verificarUsuarioExiste(int userId){
         if (!usuarioRepository.existsById(userId)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
@@ -53,7 +62,7 @@ public class ListaService {
     }
 
     public void verificarUsuarioExistePorEmail(String email) {
-        if (!repository.existsByEmail(email)) {
+        if (!usuarioRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
         }
     }

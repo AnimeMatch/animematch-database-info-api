@@ -2,20 +2,17 @@ package animatch.app.api.controller;
 
 import animatch.app.domain.anime.Anime;
 import animatch.app.domain.anime.repository.AnimeRepository;
-import animatch.app.service.Anime.dto.AnimeDadosComplementaresDto;
-import animatch.app.service.Anime.dto.AnimeIdDto;
-import animatch.app.service.Anime.AnimeService;
 import animatch.app.domain.comentario.Comentario;
 import animatch.app.domain.comentario.repository.ComentarioRepository;
 import animatch.app.domain.topico.repository.TopicoRepository;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.dto.ComentarioSimplesDTO;
+import animatch.app.service.Anime.AnimeService;
+import animatch.app.service.Anime.dto.AnimeDadosComplementaresDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -56,7 +53,7 @@ public class AnimeController {
     }
 
     @GetMapping("/dados-complementares")
-    public  ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestParam int id){
+    public ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestParam int id) {
         return ResponseEntity.status(200).body(service.dadosComplementares(id));
     }
 
@@ -67,13 +64,13 @@ public class AnimeController {
     }
 
     @PatchMapping("/like")
-    public ResponseEntity darLike(@RequestParam int idApi){
+    public ResponseEntity darLike(@RequestParam int idApi) {
         HttpStatus status = service.darLike(idApi);
         return ResponseEntity.status(status).build();
     }
 
     @DeleteMapping("/{animeId}")
-    public ResponseEntity deleteAnime(@PathVariable int animeId){
+    public ResponseEntity deleteAnime(@PathVariable int animeId) {
         if (repository.existsById(animeId)) {
             service.deleteAnime(animeId);
             return ResponseEntity.status(200).build();
@@ -84,17 +81,17 @@ public class AnimeController {
     @GetMapping("/comentarios-anime/{animeId}")
     public ResponseEntity<List<ComentarioSimplesDTO>> getComentarios(@PathVariable int animeId) {
         List<ComentarioSimplesDTO> comentariosDtos;
-        if (repository.existsByIdApi(animeId)) {
-            comentariosDtos = comentarioRepository.findAllComentariosByIdAnimeApi(animeId);
-            var comentarios = comentarioRepository.findByIdAnimeApiAndComentarioPai(animeId,null);
-            var cont = 0;
-            for (Comentario comentario : comentarios
-            ) {
-                var userComentario = usuarioRepository.findUserByEmailDtoSimples(comentario.getEmailUsuario());
-                comentariosDtos.get(cont++).setUsuarioSimplesDto(userComentario);
-            }
-        } else {
-            return ResponseEntity.status(404).build();
+
+        comentariosDtos = comentarioRepository.findAllComentariosByIdAnimeApi(animeId);
+        var comentarios = comentarioRepository.findByIdAnimeApiAndComentarioPai(animeId, null);
+        var cont = 0;
+        for (Comentario comentario : comentarios
+        ) {
+            var userComentario = usuarioRepository.findUserByEmailDtoSimples(comentario.getEmailUsuario());
+            var qtdComentariosFilhos = comentarioRepository.countByComentarioPaiId(comentario.getId());
+            comentariosDtos.get(cont).setUsuarioSimplesDto(userComentario);
+            comentariosDtos.get(cont).setQtdComentariosFilhos(qtdComentariosFilhos);
+            cont++;
         }
         if (comentariosDtos.isEmpty()) {
             return ResponseEntity.status(204).body(comentariosDtos);
