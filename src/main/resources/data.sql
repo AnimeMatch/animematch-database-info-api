@@ -14,6 +14,7 @@ insert into anime(id_api, nome, nota_media, imagem, likes) values
 (113415, 'JUJUTSU KAISEN', 88.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx113415-bbBWj4pEFseh.jpg', 540),
 (158927, 'Yu-Gi-Oh', 67.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b158927-lfO85WVguYgc.png', 32),
 (158927, 'Dragon ball', 72.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b158927-lfO85WVguYgc.png', 307),
+(101922, 'Kimetsu no Yaiba', 72.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101922-PEn1CTc93blC.jpg', 307),
 (158927, 'Spy x Family', 80.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b158927-lfO85WVguYgc.png', 130);
 
 insert into lista(user_id_id, name) values
@@ -33,8 +34,15 @@ insert into lista(user_id_id, name) values
 
 insert into anime_lista(anime_id_id, lista_id_id) values
 (1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
 (1, 2),
 (2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
 (2, 3),
 (2, 4),
 (3, 4),
