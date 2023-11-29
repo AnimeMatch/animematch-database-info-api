@@ -37,9 +37,9 @@ public interface ListaRepository extends JpaRepository<Lista,Integer> {
     List<ListaInfoDTO> findAllListaInfoByEmail(String email);
 
     @Query("""
-            select count(l)
+            select new animatch.app.service.lista.dto.ListaInfoDTO(l.id, l.name)
             from Lista l
-            where l.userId.email = ?1
+            where l.userId.email = ?1 and l.name = 'Favoritos'
             """)
-    boolean existsByEmail(String email);
+    ListaInfoDTO findListaFavoritoByEmail(String email);
 }
