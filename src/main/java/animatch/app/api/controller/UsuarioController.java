@@ -52,7 +52,7 @@ public class UsuarioController {
 
     @Operation(summary = "Busca um usuário pelo email")
     @GetMapping("/user")
-    public ResponseEntity<Usuario> fingUserById(@RequestParam String email) {
+    public ResponseEntity<Usuario> findUserById(@RequestParam String email) {
         Usuario user = service.findUserByEmail(email);
         return ResponseEntity.status(200).body(user);
     }
