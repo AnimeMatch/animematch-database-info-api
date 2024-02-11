@@ -16,7 +16,7 @@ public class AnimeLista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
-    private int AnimeListaId;
+    private int animeListaId;
     @NotNull
     @ManyToOne
     @Schema(description = "Anime cadastrado no banco", example = "1")
@@ -35,12 +35,18 @@ public class AnimeLista {
         this.listaId = listaId;
     }
 
+    public AnimeLista(int animeListaId, Anime animeId, Lista listaId) {
+        this.animeListaId = animeListaId;
+        this.animeId = animeId;
+        this.listaId = listaId;
+    }
+
     public int getAnimeListaId() {
-        return AnimeListaId;
+        return animeListaId;
     }
 
     public void setAnimeListaId(int animeListaId) {
-        AnimeListaId = animeListaId;
+        this.animeListaId = animeListaId;
     }
 
     public Anime getAnimeId() {
