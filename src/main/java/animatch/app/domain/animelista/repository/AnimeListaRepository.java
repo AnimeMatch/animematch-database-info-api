@@ -32,7 +32,7 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
         """)
     List<Anime> findAllInfo();
     @Query("""
-        select a.animeId
+        select new animatch.app.service.AnimeLista.dto.AnimesIdInfoDTO()
         from AnimeLista a
         where a.listaId.id = ?1
     """)

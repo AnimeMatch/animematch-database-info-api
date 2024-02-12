@@ -100,7 +100,9 @@ public class AnimeListaService {
     }
 
     public List<Anime> receberAnimesDeUmaLista(int listaId){
+
         return repository.findAllAnimeInfoByListaId(listaId);
+
     }
 
     public ListaObj<Anime> receberAnimesDeUmaListaVetor(int listaId){
