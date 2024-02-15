@@ -96,6 +96,14 @@ public interface AnimeListaRepository extends JpaRepository<AnimeLista,Integer> 
     List<AnimeLista> findAllAnimeListaInfoByEmail(String email);
 
     @Query("""
+    select new animatch.app.domain.animelista.AnimeLista(a.animeListaId, a.animeId, a.listaId)
+    from AnimeLista a
+    where a.listaId.id = ?1
+""")
+    List<AnimeLista> findAllAnimeWithAssociativeId(int listaId);
+
+
+    @Query("""
         select new animatch.app.domain.animelista.AnimeLista(a.animeListaId, a.animeId, a.listaId)
         from AnimeLista a
         where a.listaId.userId.email = ?1

@@ -103,6 +103,10 @@ public class AnimeListaService {
         return repository.findAllAnimeInfoByListaId(listaId);
     }
 
+    public List<AnimeLista> animesWithAssociativeId(int listaID){
+        return repository.findAllAnimeWithAssociativeId(listaID);
+    }
+
     public ListaObj<Anime> receberAnimesDeUmaListaVetor(int listaId){
         this.verificarListaExiste(listaId);
         List<Anime> animes = repository.findAllAnimeInfoByListaId(listaId);
