@@ -59,6 +59,12 @@ public class AnimeListaController {
         List<Anime> animes = service.receberAnimesDeUmaLista(listaId);
         return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
     }
+
+    @GetMapping("/animes-da-lista-id-associativo")
+    public ResponseEntity<List<AnimeLista>> getAnimeListaWithAssociativeId(@RequestParam int listaId) {
+        List<AnimeLista> animes = service.animesWithAssociativeId(listaId);
+        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
+    }
 //    public ResponseEntity<Anime[]> getAnimeLista(@RequestParam int listaId) {
 //        ListaObj<Anime> animes = service.receberAnimesDeUmaLista(listaId);
 //        return animes.getTamanho() == 0 ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes.getLista());
