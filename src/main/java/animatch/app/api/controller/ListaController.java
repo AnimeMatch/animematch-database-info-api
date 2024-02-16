@@ -1,14 +1,11 @@
 package animatch.app.api.controller;
 
 import animatch.app.domain.lista.Lista;
-import animatch.app.domain.animelista.repository.AnimeListaRepository;
+import animatch.app.domain.midialista.repository.MidiaListaRepository;
 import animatch.app.domain.lista.repository.ListaRepository;
-import animatch.app.domain.usuario.Usuario;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.service.lista.dto.ListaInfoDTO;
 import animatch.app.service.lista.ListaService;
-import animatch.app.service.lista.dto.UserViews;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +23,7 @@ public class ListaController {
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
-    private AnimeListaRepository animeListaRepository;
+    private MidiaListaRepository midiaListaRepository;
 
     @GetMapping("/")
     public ResponseEntity<List<ListaInfoDTO>> getLists(){
@@ -70,7 +67,7 @@ public class ListaController {
     @DeleteMapping("/")
     public ResponseEntity deleteList(@RequestParam int listaId){
         if (listRepository.existsById(listaId)){
-            animeListaRepository.deleteAllByListaId(listaId);
+            midiaListaRepository.deleteAllByListaId(listaId);
             listRepository.deleteById(listaId);
             return ResponseEntity.status(200).build();
         }

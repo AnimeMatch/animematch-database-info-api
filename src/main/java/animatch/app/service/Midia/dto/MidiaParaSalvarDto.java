@@ -1,25 +1,20 @@
-package animatch.app.service.AnimeLista.dto;
+package animatch.app.service.Midia.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
 
-public class AnimesIdInfoDTO {
-    private int id;
+public class MidiaParaSalvarDto {
     private int idApi;
     private String nome;
     private double notaMedia;
     private String imagem;
-    private int likes;
 
-    public AnimesIdInfoDTO() {
+    public MidiaParaSalvarDto() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public MidiaParaSalvarDto(int idApi, String nome, double notaMedia, String imagem) {
+        this.idApi = idApi;
+        this.nome = nome;
+        this.notaMedia = notaMedia;
+        this.imagem = imagem;
     }
 
     public int getIdApi() {
@@ -52,13 +47,5 @@ public class AnimesIdInfoDTO {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
     }
 }

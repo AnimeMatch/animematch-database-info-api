@@ -1,12 +1,12 @@
-package animatch.app.service.Anime.dto;
+package animatch.app.service.Midia.dto;
 
-public class AnimeLikesDto {
+public class MidiaLikesDto {
     private int likes;
 
-    public AnimeLikesDto() {
+    public MidiaLikesDto() {
     }
 
-    public AnimeLikesDto(int likes) {
+    public MidiaLikesDto(int likes) {
         this.likes = likes;
     }
 

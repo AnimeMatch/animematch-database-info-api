@@ -1,4 +1,4 @@
-package animatch.app.domain.anime;
+package animatch.app.domain.midia;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @Entity
-public class Anime {
+public class Midia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
@@ -31,10 +31,10 @@ public class Anime {
     @Schema(description = "Quantidade de likes do anime", example = "10")
     private int likes;
 
-    public Anime() {
+    public Midia() {
     }
 
-    public Anime(int idApi, String nome, double notaMedia, String imagem) {
+    public Midia(int idApi, String nome, double notaMedia, String imagem) {
         this.idApi = idApi;
         this.nome = nome;
         this.notaMedia = notaMedia;

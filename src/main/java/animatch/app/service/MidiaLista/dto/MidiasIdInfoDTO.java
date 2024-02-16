@@ -1,20 +1,22 @@
-package animatch.app.service.Anime.dto;
+package animatch.app.service.MidiaLista.dto;
 
-
-public class AnimeParaSalvarDto {
+public class MidiasIdInfoDTO {
+    private int id;
     private int idApi;
     private String nome;
     private double notaMedia;
     private String imagem;
+    private int likes;
 
-    public AnimeParaSalvarDto() {
+    public MidiasIdInfoDTO() {
     }
 
-    public AnimeParaSalvarDto(int idApi, String nome, double notaMedia, String imagem) {
-        this.idApi = idApi;
-        this.nome = nome;
-        this.notaMedia = notaMedia;
-        this.imagem = imagem;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIdApi() {
@@ -47,5 +49,13 @@ public class AnimeParaSalvarDto {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }

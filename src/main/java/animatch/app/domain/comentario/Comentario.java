@@ -37,7 +37,7 @@ public class Comentario {
     @NotNull
     private String emailUsuario;
 
-    private int idAnimeApi;
+    private int idMidiaApi;
 
     private int qtdLikes;
 
@@ -107,12 +107,12 @@ public class Comentario {
         this.emailUsuario = emailUsuario;
     }
 
-    public int getIdAnimeApi() {
-        return idAnimeApi;
+    public int getIdMidiaApi() {
+        return idMidiaApi;
     }
 
-    public void setIdAnimeApi(int idAnimeApi) {
-        this.idAnimeApi = idAnimeApi;
+    public void setIdMidiaApi(int idMidiaApi) {
+        this.idMidiaApi = idMidiaApi;
     }
 
     public int getQtdLikes() {

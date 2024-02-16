@@ -38,11 +38,11 @@ public class ComentarioController {
         return ResponseEntity.status(201).build();
     }
 
-    @PostMapping("/anime/{idAnime}")
-    public ResponseEntity<Comentario> criarComentarioAnime(@PathVariable int idAnime, @RequestBody @Valid Comentario comentario) {
+    @PostMapping("/midia/{idMidia}")
+    public ResponseEntity<Comentario> criarComentarioMidia(@PathVariable int idMidia, @RequestBody @Valid Comentario comentario) {
         var topico = topicoRepository.findTopicoById(9999);
         comentario.setTopico(topico);
-        comentario.setIdAnimeApi(idAnime);
+        comentario.setIdMidiaApi(idMidia);
         comentarioRepository.save(comentario);
         return ResponseEntity.status(201).build();
     }
