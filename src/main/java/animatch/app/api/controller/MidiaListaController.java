@@ -70,6 +70,13 @@ public class MidiaListaController {
         return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
     }
 
+
+    @GetMapping("/midias-da-lista-id-associativo")
+    public ResponseEntity<List<MidiaLista>> getMidiaListaWithAssociativeId(@RequestParam int listaId) {
+        List<MidiaLista> midias = service.animesWithAssociativeId(listaId);
+        return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
+    }
+
     @PostMapping("/")
     public ResponseEntity AdicionarMidiaLista(@RequestParam int idApi, @RequestParam int idLista) {
         service.salvarMidiaLista(idApi, idLista);
