@@ -101,6 +101,10 @@ public class MidiaListaService {
 
     }
 
+    public List<MidiaLista> animesWithAssociativeId(int listaID){
+        return repository.findAllMidiaWithAssociativeId(listaID);
+    }
+
     public ListaObj<Midia> receberMidiasDeUmaListaVetor(int listaId){
         this.verificarListaExiste(listaId);
         List<Midia> midias = repository.findAllMidiaInfoByListaId(listaId);

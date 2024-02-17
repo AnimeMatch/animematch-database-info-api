@@ -1,6 +1,7 @@
 package animatch.app.domain.midia.repository;
 
 import animatch.app.domain.midia.Midia;
+import animatch.app.domain.midialista.MidiaLista;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

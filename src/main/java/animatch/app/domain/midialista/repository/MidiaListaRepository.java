@@ -97,4 +97,11 @@ public interface MidiaListaRepository extends JpaRepository<MidiaLista,Integer> 
         where a.listaId.userId.email = ?1
     """)
     List<MidiaLista> findAllMidiaListaInfoByEmailPaginacao(String email, Pageable paginacao);
+
+    @Query("""
+    select new animatch.app.domain.midialista.MidiaLista(a.midiaListaId, a.midiaId, a.listaId)
+    from MidiaLista a
+    where a.listaId.id = ?1
+""")
+    List<MidiaLista> findAllMidiaWithAssociativeId(int listaId);
 }
