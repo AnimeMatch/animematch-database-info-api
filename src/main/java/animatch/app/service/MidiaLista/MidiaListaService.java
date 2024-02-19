@@ -47,7 +47,7 @@ public class MidiaListaService {
             salvarMidiaListaNoBanco(idApi, idLista);
         } else {
             try{
-                midiaService.salvarMidia(idApi);
+                midiaService.adicionarAoBanco(idApi);
                 salvarMidiaListaNoBanco(idApi, idLista);
             } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao busca midia de id %d".formatted(idApi));

@@ -64,7 +64,8 @@ public class MidiaService {
                     midiaRequested.getIdApi(),
                     midiaRequested.getNome(),
                     midiaRequested.getNotaMedia(),
-                    midiaRequested.getImagem()
+                    midiaRequested.getImagem(),
+                    midiaRequested.getTipo()
             );
             return midia;
         } catch (Exception e) {
@@ -73,6 +74,14 @@ public class MidiaService {
     }
 
     public void salvarMidia(int idApi) {
+        if (repository.existsByIdApi(idApi)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Midia já adicionada");
+        }else{
+            adicionarAoBanco(idApi);
+        }
+    }
+
+    public void adicionarAoBanco(int idApi){
         Midia midiaToSave = construirMidia(idApi);
         repository.save(midiaToSave);
     }

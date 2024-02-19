@@ -31,14 +31,18 @@ public class Midia {
     @Schema(description = "Quantidade de likes do anime", example = "10")
     private int likes;
 
+    @Schema(description = "Tipo de midia \"ANIME\" ou \"MANGA\"", example = "ANIME")
+    private String tipo;
+
     public Midia() {
     }
 
-    public Midia(int idApi, String nome, double notaMedia, String imagem) {
+    public Midia(int idApi, String nome, double notaMedia, String imagem, String tipo) {
         this.idApi = idApi;
         this.nome = nome;
         this.notaMedia = notaMedia;
         this.imagem = imagem;
+        this.tipo = tipo;
         this.likes = 0;
     }
 
@@ -92,5 +96,26 @@ public class Midia {
 
     public void somarLikes(){
         this.likes++;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        return "Midia{" +
+                "id=" + id +
+                ", idApi=" + idApi +
+                ", nome='" + nome + '\'' +
+                ", notaMedia=" + notaMedia +
+                ", imagem='" + imagem + '\'' +
+                ", likes=" + likes +
+                ", tipo='" + tipo + '\'' +
+                '}';
     }
 }

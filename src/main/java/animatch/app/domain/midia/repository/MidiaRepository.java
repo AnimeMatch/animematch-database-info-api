@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MidiaRepository extends JpaRepository<Midia, Integer> {
+    List<Midia> findAll();
     Midia findByIdApi(int idApi);
     Midia findById(int id);
 
@@ -38,7 +39,7 @@ public interface MidiaRepository extends JpaRepository<Midia, Integer> {
                 """)
     Integer qtdAssistido(Integer id);
 
-    List<Midia> findAllByOrderByLikesDesc();
+    List<Midia> findAllByTipoOrderByLikesDesc(String tipo);
 
     List<Midia> findAllByOrderByNotaMediaDesc();
 

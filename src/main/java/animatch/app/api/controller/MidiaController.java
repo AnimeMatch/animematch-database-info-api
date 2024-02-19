@@ -37,18 +37,20 @@ public class MidiaController {
     @GetMapping("/")
     public ResponseEntity<List<Midia>> getInstance() {
         List<Midia> midias = repository.findAll();
+        System.out.println(midias);
         return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
     }
 
     @GetMapping("/ordenados-pela-nota")
     public ResponseEntity<List<Midia>> getOrdenadosPelaNota() {
         List<Midia> midias = service.ordenarPelaNota();
+        System.out.println(midias);
         return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
     }
 
     @GetMapping("/mais-likes")
-    public ResponseEntity<List<Midia>> getMaisLikes() {
-        List<Midia> midias = repository.findAllByOrderByLikesDesc();
+    public ResponseEntity<List<Midia>> getMaisLikes(@RequestParam String tipo) {
+        List<Midia> midias = repository.findAllByTipoOrderByLikesDesc(tipo);
         return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
     }
 

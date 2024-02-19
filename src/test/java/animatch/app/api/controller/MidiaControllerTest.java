@@ -92,9 +92,9 @@ class MidiaControllerTest {
 
     @Test
     void getMaisLikes_ReturnsEmptyList_Returns204() {
-        when(midiaRepository.findAllByOrderByLikesDesc()).thenReturn(Collections.emptyList());
+        when(midiaRepository.findAllByTipoOrderByLikesDesc("ANIME")).thenReturn(Collections.emptyList());
 
-        ResponseEntity<List<Midia>> responseEntity = midiaController.getMaisLikes();
+        ResponseEntity<List<Midia>> responseEntity = midiaController.getMaisLikes("ANIME");
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
@@ -102,9 +102,9 @@ class MidiaControllerTest {
     @Test
     void getMaisLikes_ReturnsNonEmptyList_Returns200() {
         List<Midia> midiaList = Arrays.asList(new Midia(), new Midia());
-        when(midiaRepository.findAllByOrderByLikesDesc()).thenReturn(midiaList);
+        when(midiaRepository.findAllByTipoOrderByLikesDesc("ANIME")).thenReturn(midiaList);
 
-        ResponseEntity<List<Midia>> responseEntity = midiaController.getMaisLikes();
+        ResponseEntity<List<Midia>> responseEntity = midiaController.getMaisLikes("ANIME");
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(midiaList, responseEntity.getBody());
