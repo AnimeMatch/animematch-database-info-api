@@ -83,6 +83,12 @@ public class MidiaListaController {
         return ResponseEntity.status(201).build();
     }
 
+    @PostMapping("/adiciona-favorito")
+    public ResponseEntity AdicionarFavorito(@RequestParam int idApi, @RequestParam String email) {
+        ResponseEntity res = service.adicionarFavorito(idApi, email);
+        return ResponseEntity.status(res.getStatusCode()).build();
+    }
+
     @PostMapping("/adicionar-midia-fila-espera")
     public ResponseEntity adicionarMidiaFila(@RequestBody @Valid MidiaLista midiaLista) {
         if (filaObj.isFull()) {

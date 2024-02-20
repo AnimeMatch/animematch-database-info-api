@@ -7,12 +7,14 @@ import animatch.app.domain.midialista.repository.MidiaListaRepository;
 import animatch.app.domain.lista.repository.ListaRepository;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.service.Midia.MidiaService;
+import animatch.app.service.lista.dto.ListaInfoDTO;
 import animatch.app.service.usuario.UsuarioService;
 import animatch.app.utils.ListaObj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -129,6 +131,18 @@ public class MidiaListaService {
             lista.adiciona(midias.get(i));
         }
         return lista;
+    }
+
+    public ResponseEntity adicionarFavorito(int idApi, String email){
+        try {
+            if (!repository.existsFavorito(idApi, email)) {
+                this.salvarMidiaLista(idApi, repository.findListaFavoritoByEmail(email).getId());
+                return ResponseEntity.status(200).build();
+            }
+            return ResponseEntity.status(409).build();
+        } catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "%s".formatted(e));
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import animatch.app.domain.lista.Lista;
 import animatch.app.domain.midia.Midia;
 import animatch.app.domain.midialista.MidiaLista;
 import animatch.app.service.MidiaLista.dto.MidiaListaInfoDTO;
+import animatch.app.service.lista.dto.ListaInfoDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -104,4 +105,20 @@ public interface MidiaListaRepository extends JpaRepository<MidiaLista,Integer> 
     where a.listaId.id = ?1
 """)
     List<MidiaLista> findAllMidiaWithAssociativeId(int listaId);
+
+    @Query("""
+            select case when count(a.midiaId) > 0 then true else false end
+            from MidiaLista a
+            join a.listaId l
+            where l.userId.email = ?1 and l.name = 'Favoritos' and a.midiaId = ?2
+            """)
+    boolean existsFavorito(int idApi, String email);
+
+    @Query("""
+            select new animatch.app.service.lista.dto.ListaInfoDTO(l.id, l.name)
+            from Lista l
+            where l.userId.email = ?1 and l.name = 'Favoritos'
+            """)
+    ListaInfoDTO findListaFavoritoByEmail(String email);
+
 }
