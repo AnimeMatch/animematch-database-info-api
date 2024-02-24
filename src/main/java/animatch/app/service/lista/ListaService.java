@@ -41,6 +41,12 @@ public class ListaService {
         addList(idUsuario, "Em progresso");
         addList(idUsuario, "Completo");
         addList(idUsuario, "Dropado");
+        addList(idUsuario, "Favoritos-manga");
+        addList(idUsuario, "No plano-manga");
+        addList(idUsuario, "Em espera-manga");
+        addList(idUsuario, "Em progresso-manga");
+        addList(idUsuario, "Completo-manga");
+        addList(idUsuario, "Dropado-manga");
     }
 
     public List<ListaInfoDTO> listasPorUsuario(String email){
