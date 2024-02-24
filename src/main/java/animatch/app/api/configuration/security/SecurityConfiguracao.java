@@ -32,7 +32,7 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfiguracao {
 //    private static final String ORIGENS_PERMITIDAS = "*";
-private static final AntPathRequestMatcher ORIGENS_PERMITIDAS = new AntPathRequestMatcher("/**");
+    private static final AntPathRequestMatcher ORIGENS_PERMITIDAS = new AntPathRequestMatcher("/**");
     @Autowired
     private AutenticacaoService autenticacaoService;
     @Autowired

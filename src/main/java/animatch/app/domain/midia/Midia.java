@@ -1,4 +1,4 @@
-package animatch.app.domain.anime;
+package animatch.app.domain.midia;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @Entity
-public class Anime {
+public class Midia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
@@ -31,14 +31,18 @@ public class Anime {
     @Schema(description = "Quantidade de likes do anime", example = "10")
     private int likes;
 
-    public Anime() {
+    @Schema(description = "Tipo de midia \"ANIME\" ou \"MANGA\"", example = "ANIME")
+    private String tipo;
+
+    public Midia() {
     }
 
-    public Anime(int idApi, String nome, double notaMedia, String imagem) {
+    public Midia(int idApi, String nome, double notaMedia, String imagem, String tipo) {
         this.idApi = idApi;
         this.nome = nome;
         this.notaMedia = notaMedia;
         this.imagem = imagem;
+        this.tipo = tipo;
         this.likes = 0;
     }
 
@@ -92,5 +96,26 @@ public class Anime {
 
     public void somarLikes(){
         this.likes++;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    @Override
+    public String toString() {
+        return "Midia{" +
+                "id=" + id +
+                ", idApi=" + idApi +
+                ", nome='" + nome + '\'' +
+                ", notaMedia=" + notaMedia +
+                ", imagem='" + imagem + '\'' +
+                ", likes=" + likes +
+                ", tipo='" + tipo + '\'' +
+                '}';
     }
 }

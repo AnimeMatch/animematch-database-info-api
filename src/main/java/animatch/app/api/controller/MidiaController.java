@@ -1,14 +1,14 @@
 package animatch.app.api.controller;
 
-import animatch.app.domain.anime.Anime;
-import animatch.app.domain.anime.repository.AnimeRepository;
+import animatch.app.domain.midia.Midia;
+import animatch.app.domain.midia.repository.MidiaRepository;
 import animatch.app.domain.comentario.Comentario;
 import animatch.app.domain.comentario.repository.ComentarioRepository;
 import animatch.app.domain.topico.repository.TopicoRepository;
 import animatch.app.domain.usuario.repository.UsuarioRepository;
 import animatch.app.dto.ComentarioSimplesDTO;
-import animatch.app.service.Anime.AnimeService;
-import animatch.app.service.Anime.dto.AnimeDadosComplementaresDto;
+import animatch.app.service.Midia.MidiaService;
+import animatch.app.service.Midia.dto.MidiaDadosComplementaresDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/anime")
-public class AnimeController {
+@RequestMapping("/midia")
+public class MidiaController {
     @Autowired
-    private AnimeRepository repository;
+    private MidiaRepository repository;
 
     @Autowired
-    private AnimeService service;
+    private MidiaService service;
 
     @Autowired
     private TopicoRepository topicoRepository;
@@ -35,31 +35,33 @@ public class AnimeController {
     private UsuarioRepository usuarioRepository;
 
     @GetMapping("/")
-    public ResponseEntity<List<Anime>> getInstance() {
-        List<Anime> animes = repository.findAll();
-        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
+    public ResponseEntity<List<Midia>> getInstance() {
+        List<Midia> midias = repository.findAll();
+        System.out.println(midias);
+        return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
     }
 
     @GetMapping("/ordenados-pela-nota")
-    public ResponseEntity<List<Anime>> getOrdenadosPelaNota() {
-        List<Anime> animes = service.ordenarPelaNota();
-        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
+    public ResponseEntity<List<Midia>> getOrdenadosPelaNota() {
+        List<Midia> midias = service.ordenarPelaNota();
+        System.out.println(midias);
+        return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
     }
 
     @GetMapping("/mais-likes")
-    public ResponseEntity<List<Anime>> getMaisLikes() {
-        List<Anime> animes = repository.findAllByOrderByLikesDesc();
-        return animes.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(animes);
+    public ResponseEntity<List<Midia>> getMaisLikes(@RequestParam String tipo) {
+        List<Midia> midias = repository.findAllByTipoOrderByLikesDesc(tipo);
+        return midias.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(midias);
     }
 
     @GetMapping("/dados-complementares")
-    public ResponseEntity<AnimeDadosComplementaresDto> dadosComplementares(@RequestParam int id) {
+    public ResponseEntity<MidiaDadosComplementaresDto> dadosComplementares(@RequestParam int id) {
         return ResponseEntity.status(200).body(service.dadosComplementares(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity postAnimes(@RequestParam int idApi) {
-        service.salvarAnime(idApi);
+    public ResponseEntity postMidias(@RequestParam int idApi) {
+        service.salvarMidia(idApi);
         return ResponseEntity.status(200).build();
     }
 
@@ -69,21 +71,21 @@ public class AnimeController {
         return ResponseEntity.status(status).build();
     }
 
-    @DeleteMapping("/{animeId}")
-    public ResponseEntity deleteAnime(@PathVariable int animeId) {
-        if (repository.existsById(animeId)) {
-            service.deleteAnime(animeId);
+    @DeleteMapping("/{midiaId}")
+    public ResponseEntity deleteMidia(@PathVariable int midiaId) {
+        if (repository.existsById(midiaId)) {
+            service.deleteMidia(midiaId);
             return ResponseEntity.status(200).build();
         }
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/comentarios-anime/{animeId}")
-    public ResponseEntity<List<ComentarioSimplesDTO>> getComentarios(@PathVariable int animeId) {
+    @GetMapping("/comentarios-midia/{midiaId}")
+    public ResponseEntity<List<ComentarioSimplesDTO>> getComentarios(@PathVariable int midiaId) {
         List<ComentarioSimplesDTO> comentariosDtos;
 
-        comentariosDtos = comentarioRepository.findAllComentariosByIdAnimeApi(animeId);
-        var comentarios = comentarioRepository.findByIdAnimeApiAndComentarioPai(animeId, null);
+        comentariosDtos = comentarioRepository.findAllComentariosByIdMidiaApi(midiaId);
+        var comentarios = comentarioRepository.findByIdMidiaApiAndComentarioPai(midiaId, null);
         var cont = 0;
         for (Comentario comentario : comentarios
         ) {

@@ -1,9 +1,9 @@
-package animatch.app.service.Anime.dto;
+package animatch.app.service.Midia.dto;
 
-public class AnimeIdDto {
+public class MidiaIdDto {
     private Integer id;
 
-    public AnimeIdDto() {
+    public MidiaIdDto() {
     }
 
     public int getId() {

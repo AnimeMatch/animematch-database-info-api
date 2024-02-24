@@ -3,15 +3,15 @@ package animatch.app.service.lista.dto;
 public class ListaComQtdDTO {
     private int id;
     private String name;
-    private int qtdAnimes;
+    private int qtdMidias;
 
     public ListaComQtdDTO() {
     }
 
-    public ListaComQtdDTO(int id, String name, int qtdAnimes) {
+    public ListaComQtdDTO(int id, String name, int qtdMidias) {
         this.id = id;
         this.name = name;
-        this.qtdAnimes = qtdAnimes;
+        this.qtdMidias = qtdMidias;
     }
 
     public int getId() {
@@ -22,7 +22,7 @@ public class ListaComQtdDTO {
         return name;
     }
 
-    public int getQtdAnimes() {
-        return qtdAnimes;
+    public int getQtdMidias() {
+        return qtdMidias;
     }
 }

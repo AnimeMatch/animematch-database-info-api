@@ -1,14 +1,14 @@
-package animatch.app.service.Anime.dto;
+package animatch.app.service.Midia.dto;
 
-public class AnimeDadosComplementaresDto {
+public class MidiaDadosComplementaresDto {
     private int like;
     private int deslike;
     private int view;
 
-    public AnimeDadosComplementaresDto() {
+    public MidiaDadosComplementaresDto() {
     }
 
-    public AnimeDadosComplementaresDto(int like, int deslike, int view) {
+    public MidiaDadosComplementaresDto(int like, int deslike, int view) {
         this.like = like;
         this.deslike = deslike;
         this.view = view;

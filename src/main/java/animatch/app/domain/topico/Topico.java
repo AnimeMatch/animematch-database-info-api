@@ -18,7 +18,7 @@ public class Topico {
     @Schema(description = "Titulo do tópico", example = "Meu anime favorito")
     private String titulo;
     @NotBlank
-    private String idAnime;
+    private String idMidia;
     @ManyToOne
     @NotNull
     private Usuario usuario;
@@ -39,12 +39,12 @@ public class Topico {
         this.titulo = titulo;
     }
 
-    public String getIdAnime() {
-        return idAnime;
+    public String getIdMidia() {
+        return idMidia;
     }
 
-    public void setIdAnime(String idAnime) {
-        this.idAnime = idAnime;
+    public void setIdMidia(String idMidia) {
+        this.idMidia = idMidia;
     }
 
     public Usuario getUsuario() {
