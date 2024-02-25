@@ -27,23 +27,36 @@ public class Lista {
     @Schema(description = "Nome da lista", example = "Favoritos")
     private String name;
 
+
+    @Schema(description = "Tipo da lista", example = "1 = anime , 2 = manga")
+    private int type;
+
     @Size(min=1, max=250)
     @Schema(description = "Nome da lista", example = "Favoritos")
     private String descricao;
 
     public Lista() {
     }
-    public Lista(String name, String descricao) {
+    public Lista(String name, String descricao, int type) {
         this.name = name;
         this.descricao = descricao;
+        this.type = type;
     }
 
-    public Lista(String name) {
-        this.name = name;
+    public Lista(String name, int type) {
+        this.name = name; this.type = type;
     }
 
     public int getId() {
         return id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public Usuario getUserId() {

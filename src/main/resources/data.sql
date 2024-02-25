@@ -17,20 +17,20 @@ insert into midia(id_api, nome, nota_media, imagem, likes, tipo) values
 (101922, 'Kimetsu no Yaiba', 72.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101922-PEn1CTc93blC.jpg', 307, 'ANIME'),
 (158927, 'Spy x Family', 80.0, 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b158927-lfO85WVguYgc.png', 130, 'ANIME');
 
-insert into lista(user_id_id, name) values
-(1, 'Favoritos') ,
-(1, 'Dropados'),
-(1, 'Assistidos'),
-(1, 'Em andamento'),
-(2, 'Favoritos'),
-(2, 'Dropados'),
-(2, 'Assistidos'),
-(2, 'Em andamento'),
-(1, 'Melhores shonen'),
-(1, 'Meus favoritos'),
-(2, 'Um dia assistirei'),
-(3, 'Lista única'),
-(2, 'Animes antigos');
+insert into lista(user_id_id, name, type) values
+(1, 'Favoritos', 1) ,
+(1, 'Dropados', 1),
+(1, 'Assistidos', 1),
+(1, 'Em andamento', 1),
+(2, 'Favoritos', 1),
+(2, 'Dropados', 1),
+(2, 'Assistidos', 1),
+(2, 'Em andamento', 1),
+(1, 'Melhores shonen', 1),
+(1, 'Meus favoritos', 1),
+(2, 'Um dia assistirei', 1),
+(3, 'Lista única', 1),
+(2, 'Animes antigos', 1);
 
 insert into anime_lista(anime_id_id, lista_id_id) values
 (1, 1),

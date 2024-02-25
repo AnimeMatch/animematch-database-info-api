@@ -19,8 +19,8 @@ public class ListaService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    public Lista addList(int aniUserId, String name){
-        Lista newList = new Lista(name);
+    public Lista addList(int aniUserId, String name, int type){
+        Lista newList = new Lista(name, type);
         newList.setUserId(usuarioRepository.findUserById(aniUserId));
         repository.save(newList);
         return newList;
@@ -35,18 +35,18 @@ public class ListaService {
     }
 
     public void adicionarListasDefault(int idUsuario){
-        addList(idUsuario, "Favoritos");
-        addList(idUsuario, "No plano");
-        addList(idUsuario, "Em espera");
-        addList(idUsuario, "Em progresso");
-        addList(idUsuario, "Completo");
-        addList(idUsuario, "Dropado");
-        addList(idUsuario, "Favoritos-manga");
-        addList(idUsuario, "No plano-manga");
-        addList(idUsuario, "Em espera-manga");
-        addList(idUsuario, "Em progresso-manga");
-        addList(idUsuario, "Completo-manga");
-        addList(idUsuario, "Dropado-manga");
+        addList(idUsuario, "Favoritos", 1);
+        addList(idUsuario, "No plano", 1);
+        addList(idUsuario, "Em espera", 1);
+        addList(idUsuario, "Em progresso", 1);
+        addList(idUsuario, "Completo", 1);
+        addList(idUsuario, "Dropado", 1);
+        addList(idUsuario, "Favoritos", 2);
+        addList(idUsuario, "No plano", 2);
+        addList(idUsuario, "Em espera", 2);
+        addList(idUsuario, "Em progresso", 2);
+        addList(idUsuario, "Completo", 2);
+        addList(idUsuario, "Dropado", 2);
     }
 
     public List<ListaInfoDTO> listasPorUsuario(String email){
