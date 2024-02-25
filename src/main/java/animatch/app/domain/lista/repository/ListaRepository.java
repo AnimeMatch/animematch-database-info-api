@@ -30,7 +30,7 @@ public interface ListaRepository extends JpaRepository<Lista,Integer> {
     Lista findById(int listaId);
 
     @Query("""
-            select new animatch.app.service.lista.dto.ListaInfoDTO(l.id, l.name)
+            select new animatch.app.service.lista.dto.ListaInfoDTO(l.id, l.name, l.type)
             from Lista l
             where l.userId.email = ?1
             """)
