@@ -54,10 +54,10 @@ public class ListaService {
         return repository.findAllListaInfoByEmail(email);
     }
 
-    public ListaInfoDTO listaFavorito(String email) {
+    public ListaInfoDTO listaFavorito(String email, int type) {
         this.verificarUsuarioExistePorEmail(email);
         try {
-            return repository.findListaFavoritoByEmail(email);
+            return repository.findListaFavoritoByEmail(email, type);
         } catch (Exception e){
             throw e;
         }

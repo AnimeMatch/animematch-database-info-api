@@ -3,7 +3,6 @@ package animatch.app.service.lista.dto;
 public class ListaInfoDTO {
     private int id;
     private String name;
-
     private int type;
 
     public ListaInfoDTO(int id, String name, int type) {

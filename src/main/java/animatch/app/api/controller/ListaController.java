@@ -41,8 +41,8 @@ public class ListaController {
     }
 
     @GetMapping("/favorito")
-    public ResponseEntity<ListaInfoDTO> getListFavoritos(@RequestParam String email){
-        ListaInfoDTO listas = service.listaFavorito(email);
+    public ResponseEntity<ListaInfoDTO> getListFavoritos(@RequestParam String email, @RequestParam int type){
+        ListaInfoDTO listas = service.listaFavorito(email, type);
         return ResponseEntity.status(200).body(listas);
     }
 
