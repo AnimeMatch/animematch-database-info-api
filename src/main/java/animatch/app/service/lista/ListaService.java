@@ -36,9 +36,17 @@ public class ListaService {
 
     public void adicionarListasDefault(int idUsuario){
         addList(idUsuario, "Favoritos");
-        addList(idUsuario, "Dropados");
-        addList(idUsuario, "Assistidos");
-        addList(idUsuario, "Em andamento");
+        addList(idUsuario, "No plano");
+        addList(idUsuario, "Em espera");
+        addList(idUsuario, "Em progresso");
+        addList(idUsuario, "Completo");
+        addList(idUsuario, "Dropado");
+        addList(idUsuario, "Favoritos-manga");
+        addList(idUsuario, "No plano-manga");
+        addList(idUsuario, "Em espera-manga");
+        addList(idUsuario, "Em progresso-manga");
+        addList(idUsuario, "Completo-manga");
+        addList(idUsuario, "Dropado-manga");
     }
 
     public List<ListaInfoDTO> listasPorUsuario(String email){

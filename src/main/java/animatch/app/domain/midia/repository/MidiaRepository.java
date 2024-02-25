@@ -1,45 +1,47 @@
-package animatch.app.domain.anime.repository;
+package animatch.app.domain.midia.repository;
 
-import animatch.app.domain.anime.Anime;
+import animatch.app.domain.midia.Midia;
+import animatch.app.domain.midialista.MidiaLista;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface AnimeRepository extends JpaRepository<Anime, Integer> {
-    Anime findByIdApi(int idApi);
-    Anime findById(int id);
+public interface MidiaRepository extends JpaRepository<Midia, Integer> {
+    List<Midia> findAll();
+    Midia findByIdApi(int idApi);
+    Midia findById(int id);
 
     Boolean existsByIdApi(int idApi);
 
     @Query("""
             SELECT COUNT(al)
-            FROM AnimeLista al
-            JOIN al.animeId a
+            FROM MidiaLista al
+            JOIN al.midiaId a
             JOIN al.listaId l
             WHERE a.id = ?1 AND l.id = 2
                 """)
-    Integer qtdDeslikesAnime(Integer id);
+    Integer qtdDeslikesMidia(Integer id);
 
     @Query("""
             SELECT SUM(a.likes)
-            from Anime a
+            from Midia a
             where a.id = ?1
                     """)
-    Integer qtdLikesAnime(Integer id);
+    Integer qtdLikesMidia(Integer id);
 
     @Query("""
             SELECT COUNT(al)
-            FROM AnimeLista al
-            JOIN al.animeId a
+            FROM MidiaLista al
+            JOIN al.midiaId a
             JOIN al.listaId l
             WHERE a.id = ?1 AND l.id = 3
                 """)
     Integer qtdAssistido(Integer id);
 
-    List<Anime> findAllByOrderByLikesDesc();
+    List<Midia> findAllByTipoOrderByLikesDesc(String tipo);
 
-    List<Anime> findAllByOrderByNotaMediaDesc();
+    List<Midia> findAllByOrderByNotaMediaDesc();
 
     boolean existsByIdApi(Integer integer);
 }
