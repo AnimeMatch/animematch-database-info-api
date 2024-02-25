@@ -32,7 +32,7 @@ insert into lista(user_id_id, name, type) values
 (3, 'Lista única', 1),
 (2, 'Animes antigos', 1);
 
-insert into anime_lista(anime_id_id, lista_id_id) values
+insert into midia_lista(midia_id_id, lista_id_id) values
 (1, 1),
 (2, 1),
 (3, 1),
@@ -55,16 +55,6 @@ insert into anime_lista(anime_id_id, lista_id_id) values
 (3, 8),
 (4, 8),
 (4, 12);
-
-
-insert into topico(id,titulo,id_anime,usuario_id) values (9999,'Default','9999',1);
-insert into topico(titulo,id_anime,usuario_id) values ('Spy fmaily season 2','158927',2);
-insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api,qtd_likes,qtd_deslikes) values ('Anime top de maiss!',1,'2023-11-27','lucas@email.com',158927,10,5);
-insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api,qtd_likes,qtd_deslikes) values ('Gostei muitoo!',1,'2023-11-27','lucas@email.com',158927,1,2);
-insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api,qtd_likes,qtd_deslikes) values ('Legall',1,'2023-11-27','lucas@email.com',158927,9,12);
-insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api,qtd_likes,qtd_deslikes) values ('Top',1,'2023-11-27','lucas@email.com',158927,14,5);
-insert into comentario(texto,topico_id,data_comentario,email_usuario,id_anime_api,qtd_likes,qtd_deslikes) values ('Muito ruim',1,'2023-11-27','lucas@email.com',158927,1,20);
-
 --
 --insert into usuario(name, email, password, profile_image, cover_image, criacao, status, genero) values ('Leonardo', 'anime@email.com', '$2a$10$vRFsyEX99Q97nrzsg9GSNuDnTYNJ7VCHYG8E9AQAtH050xarNiPKC', 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx113415-bbBWj4pEFseh.jpg', 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx113415-bbBWj4pEFseh.jpg', '2023-10-28', true, 'M');
 --insert into anime(id_api,nota_media) values (1235,5.5);

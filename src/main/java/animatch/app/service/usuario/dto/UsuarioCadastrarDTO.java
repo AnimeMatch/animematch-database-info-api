@@ -27,7 +27,7 @@ public class UsuarioCadastrarDTO {
     private LocalDate criacao;
     private boolean status = true;
     private String genero = "Não definido";
-    private String bio = "";
+    private String bio = " ";
 
     public UsuarioCadastrarDTO() {
     }
