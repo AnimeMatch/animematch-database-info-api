@@ -26,6 +26,8 @@ public class UsuarioCadastrarDTO {
     @Schema(description = "Data de criação da conta", example = "2023-01-01")
     private LocalDate criacao;
     private boolean status = true;
+    private String genero = "Não definido";
+    private String bio = "";
 
     public UsuarioCadastrarDTO() {
     }
@@ -93,5 +95,21 @@ public class UsuarioCadastrarDTO {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

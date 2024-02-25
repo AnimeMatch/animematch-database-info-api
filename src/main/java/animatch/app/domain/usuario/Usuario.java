@@ -40,11 +40,14 @@ public class Usuario {
     @Size(min=1, max=45)
     @Schema(description = "Genero de orintação sexual", example = "masculino")
     private String genero;
+    @Size(min=1, max=250)
+    @Schema(description = "bio do usuário", example = "masculino")
+    private String bio;
 
     public Usuario() {
     }
 
-    public Usuario(int id, String name, String email, String password, String profileImage, String coverImage, LocalDate criacao, boolean status, String genero) {
+    public Usuario(int id, String name, String email, String password, String profileImage, String coverImage, LocalDate criacao, boolean status, String genero, String bio) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -54,7 +57,9 @@ public class Usuario {
         this.criacao = criacao;
         this.status = status;
         this.genero = genero;
+        this.bio = bio;
     }
+
 
     public int getId() {
         return id;
@@ -128,4 +133,13 @@ public class Usuario {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
 }
