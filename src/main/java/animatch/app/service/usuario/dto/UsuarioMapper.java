@@ -15,6 +15,8 @@ public class UsuarioMapper {
         usuario.setCoverImage(usuarioDTO.getCoverImage());
         usuario.setProfileImage(usuarioDTO.getProfileImage());
         usuario.setCriacao(LocalDate.now());
+        usuario.setGenero(usuarioDTO.getGenero());
+        usuario.setBio(usuarioDTO.getBio());
 
         return usuario;
     }
@@ -49,7 +51,8 @@ public class UsuarioMapper {
                 usuarioAnterior.getCoverImage(),
                 usuarioAnterior.getCriacao(),
                 usuarioAnterior.isStatus(),
-                usuarioAnterior.getGenero()
+                usuarioAnterior.getGenero(),
+                usuarioAnterior.getBio()
         );
         if (usuarioAtualizacao.getName() != null) {
             usuarioRetorno.setName(usuarioAtualizacao.getName());
