@@ -46,10 +46,10 @@ public class ListaController {
         return ResponseEntity.status(200).body(listas);
     }
 
-    @PostMapping("/new")
-    public  ResponseEntity newList(@RequestBody @Valid Lista listReceived){
-        service.adicionarObjLista(listReceived);
-        return ResponseEntity.status(200).build();
+    @PostMapping("/")
+    public  ResponseEntity newList(@RequestParam int aniUserId,@RequestParam String name,@RequestParam int type){
+        service.addList(aniUserId,name,type);
+        return ResponseEntity.status(201).build();
     }
 
     @PutMapping("/nome")
