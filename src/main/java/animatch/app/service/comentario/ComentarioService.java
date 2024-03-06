@@ -36,16 +36,6 @@ public class ComentarioService {
         return ResponseEntity.status(201).build();
     }
 
-
-    public ResponseEntity<Comentario> criarComentarioMidia(int idApi, Comentario comentario) {
-        var topico = topicoRepository.findTopicoById(9999);
-        comentario.setTopico(topico);
-        comentario.setIdMidiaApi(idApi);
-        comentarioRepository.save(comentario);
-        return ResponseEntity.status(201).build();
-    }
-
-
     public ResponseEntity<Comentario> criarComentarioFilho(int idComentarioPai, Comentario comentario) {
         Comentario comentarioPai = new Comentario();
         if (comentarioRepository.existsById(idComentarioPai)) {

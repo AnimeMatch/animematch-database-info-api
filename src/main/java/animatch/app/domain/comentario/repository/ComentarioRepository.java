@@ -39,14 +39,14 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
 
     List<Comentario> findByTopicoId(int idComentario);
 
-    List<Comentario> findByIdMidiaApiAndComentarioPai(int idComentario, Comentario comentario);
-
-    @Query("""
-                select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario,c.qtdLikes,c.qtdDeslikes)
-                from Comentario c
-                where c.idMidiaApi = :idTopico and c.comentarioPai = null
-            """)
-    List<ComentarioSimplesDTO> findAllComentariosByIdMidiaApi(int idTopico);
+//    List<Comentario> findByIdMidiaApiAndComentarioPai(int idComentario, Comentario comentario);
+//
+//    @Query("""
+//                select new animatch.app.dto.ComentarioSimplesDTO(c.id,c.texto,c.dataComentario,c.qtdLikes,c.qtdDeslikes)
+//                from Comentario c
+//                where c.idMidiaApi = :idTopico and c.comentarioPai = null
+//            """)
+//    List<ComentarioSimplesDTO> findAllComentariosByIdMidiaApi(int idTopico);
 
     @Query("""
                 select new animatch.app.dto.ComentarioCompletoDTO(c.id,c.texto,c.topico,c.comentarioPai)
