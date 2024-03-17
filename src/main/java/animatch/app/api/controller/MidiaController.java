@@ -80,25 +80,25 @@ public class MidiaController {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/comentarios-midia/{midiaId}")
-    public ResponseEntity<List<ComentarioSimplesDTO>> getComentarios(@PathVariable int midiaId) {
-        List<ComentarioSimplesDTO> comentariosDtos;
-
-        comentariosDtos = comentarioRepository.findAllComentariosByIdMidiaApi(midiaId);
-        var comentarios = comentarioRepository.findByIdMidiaApiAndComentarioPai(midiaId, null);
-        var cont = 0;
-        for (Comentario comentario : comentarios
-        ) {
-            var userComentario = usuarioRepository.findUserByEmailDtoSimples(comentario.getEmailUsuario());
-            var qtdComentariosFilhos = comentarioRepository.countByComentarioPaiId(comentario.getId());
-            comentariosDtos.get(cont).setUsuarioSimplesDto(userComentario);
-            comentariosDtos.get(cont).setQtdComentariosFilhos(qtdComentariosFilhos);
-            cont++;
-        }
-        if (comentariosDtos.isEmpty()) {
-            return ResponseEntity.status(204).body(comentariosDtos);
-        }
-        return ResponseEntity.status(200).body(comentariosDtos);
-    }
+//    @GetMapping("/comentarios-midia/{midiaId}")
+//    public ResponseEntity<List<ComentarioSimplesDTO>> getComentarios(@PathVariable int midiaId) {
+//        List<ComentarioSimplesDTO> comentariosDtos;
+//
+//        comentariosDtos = comentarioRepository.findAllComentariosByIdMidiaApi(midiaId);
+//        var comentarios = comentarioRepository.findByIdMidiaApiAndComentarioPai(midiaId, null);
+//        var cont = 0;
+//        for (Comentario comentario : comentarios
+//        ) {
+//            var userComentario = usuarioRepository.findUserByEmailDtoSimples(comentario.getEmailUsuario());
+//            var qtdComentariosFilhos = comentarioRepository.countByComentarioPaiId(comentario.getId());
+//            comentariosDtos.get(cont).setUsuarioSimplesDto(userComentario);
+//            comentariosDtos.get(cont).setQtdComentariosFilhos(qtdComentariosFilhos);
+//            cont++;
+//        }
+//        if (comentariosDtos.isEmpty()) {
+//            return ResponseEntity.status(204).body(comentariosDtos);
+//        }
+//        return ResponseEntity.status(200).body(comentariosDtos);
+//    }
 }
 
