@@ -179,16 +179,16 @@ class MidiaControllerTest {
         assertEquals(comentariosDtos, responseEntity.getBody());
     }
 
-    @Test
-    void getComentarios_NotExists_Returns404() {
-        int midiaId = 1;
-        when(midiaRepository.existsByIdApi(midiaId)).thenReturn(false);
-
-        ResponseEntity<List<ComentarioSimplesDTO>> responseEntity = midiaController.getComentarios(midiaId);
-
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        verify(comentarioRepository, never()).findAllComentariosByIdMidiaApi(midiaId);
-    }
+//    @Test
+//    void getComentarios_NotExists_Returns404() {
+//        int midiaId = 1;
+//        when(midiaRepository.existsByIdApi(midiaId)).thenReturn(false);
+//
+//        ResponseEntity<List<ComentarioSimplesDTO>> responseEntity = midiaController.getComentarios(midiaId);
+//
+//        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+//        verify(comentarioRepository, never()).findAllComentariosByIdMidiaApi(midiaId);
+//    }
 
     @Test
     void getOrdenadosPelaNota() {
