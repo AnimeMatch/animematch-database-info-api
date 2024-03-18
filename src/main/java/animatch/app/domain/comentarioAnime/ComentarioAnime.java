@@ -1,6 +1,6 @@
-package animatch.app.domain.comentario;
+package animatch.app.domain.comentarioAnime;
 
-import animatch.app.domain.topico.Topico;
+import animatch.app.domain.comentario.Comentario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Entity
-public class Comentario {
+public class ComentarioAnime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Identificador único", example = "1")
@@ -21,21 +21,17 @@ public class Comentario {
     @Size(min = 5, max = 250)
     @Schema(description = "Conteúdo do comentário", example = "Melhor episódio que eu vi!")
     private String texto;
-
-    @ManyToOne
-    @JsonIgnore
-    @Schema(description = "Tópico ao qual o anime pertence", example = "1")
-    private Topico topico;
     @ManyToOne
     @JsonIgnore
     @Schema(description = "Comentário pai", example = "1")
-    private Comentario comentarioPai;
-
+    private ComentarioAnime comentarioAnimePai;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate dataComentario = LocalDate.now();
+    private LocalDate dataComentarioAnime = LocalDate.now();
 
     @NotNull
     private String emailUsuario;
+
+    private int idMidiaApi;
 
     private int qtdLikes;
 
@@ -57,44 +53,29 @@ public class Comentario {
         this.texto = texto;
     }
 
-    public Topico getTopico() {
-        return topico;
-    }
-
-    public void setTopico(Topico topico) {
-        this.topico = topico;
-    }
-
-    public Comentario getComentario() {
-        return comentarioPai;
-    }
-
-    public void setComentario(Comentario comentario) {
-        this.comentarioPai = comentario;
-    }
-
-    public Comentario getComentarioPai() {
-        return comentarioPai;
-    }
-
-    public void setComentarioPai(Comentario comentarioPai) {
-        this.comentarioPai = comentarioPai;
-    }
 
     public LocalDate getDateComentario() {
-        return dataComentario;
+        return dataComentarioAnime;
     }
 
     public void setDateComentario(LocalDate dateComentario) {
-        this.dataComentario = dateComentario;
+        this.dataComentarioAnime = dateComentario;
+    }
+
+    public ComentarioAnime getComentarioPai() {
+        return comentarioAnimePai;
+    }
+
+    public void setComentarioPai(ComentarioAnime comentarioPai) {
+        this.comentarioAnimePai = comentarioPai;
     }
 
     public LocalDate getDataComentario() {
-        return dataComentario;
+        return dataComentarioAnime;
     }
 
-    public void setDataComentario(LocalDate dataComentario) {
-        this.dataComentario = dataComentario;
+    public void setDataComentario(LocalDate dataComentarioAnime) {
+        this.dataComentarioAnime = dataComentarioAnime;
     }
 
     public String getEmailUsuario() {
@@ -103,6 +84,14 @@ public class Comentario {
 
     public void setEmailUsuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
+    }
+
+    public int getIdMidiaApi() {
+        return idMidiaApi;
+    }
+
+    public void setIdMidiaApi(int idMidiaApi) {
+        this.idMidiaApi = idMidiaApi;
     }
 
     public int getQtdLikes() {
@@ -120,4 +109,5 @@ public class Comentario {
     public void setQtdDeslikes(int qtdDeslikes) {
         this.qtdDeslikes = qtdDeslikes;
     }
+
 }
