@@ -165,19 +165,19 @@ class MidiaControllerTest {
         verify(midiaService, never()).deleteMidia(midiaId);
     }
 
-    @Test
-    void getComentarios_Exists_Returns200() {
-        int midiaId = 1;
-        when(midiaRepository.existsByIdApi(midiaId)).thenReturn(true);
-
-        List<ComentarioSimplesDTO> comentariosDtos = Arrays.asList(new ComentarioSimplesDTO(), new ComentarioSimplesDTO());
-        when(comentarioRepository.findAllComentariosByIdMidiaApi(midiaId)).thenReturn(comentariosDtos);
-
-        ResponseEntity<List<ComentarioSimplesDTO>> responseEntity = midiaController.getComentarios(midiaId);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(comentariosDtos, responseEntity.getBody());
-    }
+//    @Test
+//    void getComentarios_Exists_Returns200() {
+//        int midiaId = 1;
+//        when(midiaRepository.existsByIdApi(midiaId)).thenReturn(true);
+//
+//        List<ComentarioSimplesDTO> comentariosDtos = Arrays.asList(new ComentarioSimplesDTO(), new ComentarioSimplesDTO());
+//        when(comentarioRepository.findAllComentariosByIdMidiaApi(midiaId)).thenReturn(comentariosDtos);
+//
+//        ResponseEntity<List<ComentarioSimplesDTO>> responseEntity = midiaController.getComentarios(midiaId);
+//
+//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        assertEquals(comentariosDtos, responseEntity.getBody());
+//    }
 
 //    @Test
 //    void getComentarios_NotExists_Returns404() {

@@ -74,6 +74,10 @@ public class UsuarioMapper {
             usuarioRetorno.setGenero(usuarioAtualizacao.getGenero());
         }
 
+        if (usuarioAtualizacao.getBio() != null) {
+            usuarioRetorno.setBio(usuarioAtualizacao.getBio());
+        }
+
         return usuarioRetorno;
     }
 

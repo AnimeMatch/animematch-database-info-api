@@ -15,6 +15,7 @@ public class UsuarioAtualizarDto {
     private String profileImage;
     private String coverImage;
     private String genero;
+    private String bio;
 
     public UsuarioAtualizarDto() {
     }
@@ -65,5 +66,13 @@ public class UsuarioAtualizarDto {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
