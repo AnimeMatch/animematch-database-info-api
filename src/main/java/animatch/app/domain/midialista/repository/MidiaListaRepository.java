@@ -42,6 +42,8 @@ public interface MidiaListaRepository extends JpaRepository<MidiaLista,Integer> 
     """)
     List<Midia> findAllMidiaPaginadoInfoByListaId(int listaId, Pageable paginacao);
 
+    Boolean existsMidiaListaByListaIdAndMidiaId(Lista listaId, Midia midiaId);
+
     @Query("""
         select new animatch.app.service.MidiaLista.dto.MidiaListaInfoDTO(a.midiaId, a.listaId)
         from MidiaLista a

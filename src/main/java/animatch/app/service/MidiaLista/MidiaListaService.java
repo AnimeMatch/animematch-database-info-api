@@ -60,10 +60,13 @@ public class MidiaListaService {
     public void salvarMidiaListaNoBanco(int idApi, int idLista){
         this.verificarListaExiste(idLista);
         try {
+            if(!midiaListaRepository.existsMidiaListaByListaIdAndMidiaId(listaRepository.findListaById(idLista),midiaRepository.findByIdApi(idApi))){
             MidiaLista midiaLista = new MidiaLista(
                     midiaRepository.findByIdApi(idApi),
                     listaRepository.findListaById(idLista));
             midiaListaRepository.save(midiaLista);
+
+            }
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao adicionar midia a uma lista");
         }
