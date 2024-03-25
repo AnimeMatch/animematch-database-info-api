@@ -1,6 +1,5 @@
 package animatch.app.domain.comentarioAnime;
 
-import animatch.app.domain.comentario.Comentario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -30,7 +29,6 @@ public class ComentarioAnime {
 
     @NotNull
     private String emailUsuario;
-
     private int idMidiaApi;
 
     private int qtdLikes;
