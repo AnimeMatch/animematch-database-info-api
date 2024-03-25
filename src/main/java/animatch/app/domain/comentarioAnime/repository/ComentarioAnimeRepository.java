@@ -14,6 +14,8 @@ public interface ComentarioAnimeRepository extends JpaRepository<ComentarioAnime
 
     List<ComentarioAnime> findByComentarioAnimePaiId(int idComentario);
 
+    List<ComentarioAnime> findComentarioAnimeByIdMidiaApi(int idMidiaApi);
+
     int countByComentarioAnimePaiId(int idComentario);
 
     @Query("""
